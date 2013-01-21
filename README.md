@@ -10,3 +10,7 @@ Team members
 * Nick Otter		  otternq@gmail.com
 * Sean Heagerty		  heag7943@vandals.uidaho.edu
 * Brett Papineau	  papi2108@vandals.uidaho.edu
+
+Other Info
+==========
+* class webstie: http://www2.cs.uidaho.edu/~cs480d/
