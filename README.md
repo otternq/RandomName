@@ -1,7 +1,7 @@
-Munchkin
+Random Name
 ========
 
-A class project for CS480 at the University of Idaho to create a computer version of the Munchkin card game
+A class project for CS480 at the University of Idaho to create an Android Application to select a random name from a set of lists
 
 Team members
 ============
