@@ -22,5 +22,6 @@ Other Info
 
 Resources
 ---------
+- [ActionBar Sherlock](http://actionbarsherlock.com/) - Provides ActionBar support for Android Versions < 3.0 (API 11)
 - [jUnit Eclipse Tutorial](http://www.vogella.com/articles/JUnit/article.html)
 - [Android Text to Speech Tutorial](http://www.androidhive.info/2012/01/android-text-to-speech-tutorial/)
