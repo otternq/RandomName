@@ -1,5 +1,6 @@
 package com.nickotter.randomname;
 
+
 import com.nickotter.randomname.SectionsPagerAdapter;
 
 import android.os.Bundle;
