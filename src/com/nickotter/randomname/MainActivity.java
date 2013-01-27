@@ -85,7 +85,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 					.setTabListener(this));
 		}
 		
-	}
+	}//END void onCreate
 	
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 
@@ -122,14 +122,14 @@ public class MainActivity extends SherlockFragmentActivity implements
 	    }
 
 	    return true;
-	}
+	}//END boolean onMenuItemSelected
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getSupportMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
-	}
+	}//END boolean onCreateOptionsMenu
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
@@ -137,16 +137,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
 		mViewPager.setCurrentItem(tab.getPosition());
-	}
+	}//END void onTabSelected
 
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-	}
+	}//END void onTabUnselected
 
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-	}
+	}//END void onTabReselected
 
-}
+}//END class MainActivity

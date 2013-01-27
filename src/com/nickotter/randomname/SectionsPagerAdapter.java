@@ -19,7 +19,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	public SectionsPagerAdapter(FragmentManager fm, Context c) {
 		super(fm);
 		this.context = c;
-	}
+	}//END Constructor
 
 	@Override
 	public Fragment getItem(int position) {
@@ -35,13 +35,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		DBList fragment = new DBList();
 		
 		return fragment;
-	}
+	}//END Fragment getItem
 
 	@Override
 	public int getCount() {
 		// Show 3 total pages.
 		return 6;
-	}
+	}//END int getCount
 
 	@Override
 	public CharSequence getPageTitle(int position) {
@@ -61,5 +61,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 			return context.getString(R.string.title_section3).toUpperCase();
 		}
 		return null;
-	}
-}
+	}//END CharSequence getPageTitle
+	
+}//END class SectionsPagerAdapter

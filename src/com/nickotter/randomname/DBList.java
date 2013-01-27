@@ -24,6 +24,7 @@ TextToSpeech.OnInitListener {
 	
 	
 	String[] countries = new String[] {
+		"Holomshek",
         "India",
         "Pakistan",
         "Sri Lanka",
@@ -40,7 +41,7 @@ TextToSpeech.OnInitListener {
 		super.onCreate(savedInstanceState);
 		
 		tts = new TextToSpeech(getActivity(), this);
-	}
+	}//END void onCreate
 	 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ TextToSpeech.OnInitListener {
         setListAdapter(adapter);
  
         return super.onCreateView(inflater, container, savedInstanceState);
-    }
+    }//END View onCreateView
 	
 	@Override
     public void onDestroy() {
@@ -61,14 +62,14 @@ TextToSpeech.OnInitListener {
             tts.shutdown();
         }
         super.onDestroy();
-    }
+    }//END void onDestroy
 	
 	@Override 
     public void onListItemClick(ListView l, View v, int position, long id) {
         Log.v(LOGTAG, "You clicked on item number " + position);
         Log.v(LOGTAG, "The selected item is: " + this.countries[position]);
         speakOut(this.countries[position]);
-    }
+    }//END void onListItemClick
 
 	@Override
     public void onInit(int status) {
@@ -80,21 +81,19 @@ TextToSpeech.OnInitListener {
             if (result == TextToSpeech.LANG_MISSING_DATA
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
-            } else {
-                speakOut("Hello");
             }
  
         } else {
             Log.e("TTS", "Initilization Failed!");
         }
  
-    }
+    }//END void onInit
 	
 	
 	private void speakOut(String text) {
  
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-    }
+    }//END void speakOut
 	
 
-}
+}//END class DBList
