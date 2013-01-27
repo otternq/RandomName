@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,12 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends SherlockFragmentActivity implements
 		ActionBar.TabListener {
+	
+	final String LOGTAG = "MainActivity";
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -81,6 +85,43 @@ public class MainActivity extends SherlockFragmentActivity implements
 					.setTabListener(this));
 		}
 		
+	}
+	
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+
+	    int itemId = item.getItemId();
+	    switch (itemId) {
+	    	case android.R.id.home:
+
+	        // Toast.makeText(this, "home pressed", Toast.LENGTH_LONG).show();
+	        break;
+	        
+	    	case R.id.menu_random:
+    			Log.v(LOGTAG, "onOptionsItemSelected: Clicked Random");
+    			break;
+    			
+	    	case R.id.menu_add_item:
+	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add item");
+	    		
+	    		break;
+	    		
+	    	case R.id.menu_add_list:
+	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add List");
+	    		
+	    		break;
+	    		
+	    	case R.id.menu_settings:
+	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Settings");
+	    		
+	    		break;
+    			
+	        default:
+	        	Log.v(LOGTAG, "onOptionsItemSelected: failed to identify what was clicked");
+	        break;
+
+	    }
+
+	    return true;
 	}
 
 	@Override

@@ -17,7 +17,7 @@
         android:title="@string/menu_add_item" />
     
     <item
-        android:id="@+id/menu_refresh"
+        android:id="@+id/menu_random"
         android:showAsAction="always|withText"
         android:title="@string/menu_random" />
 
