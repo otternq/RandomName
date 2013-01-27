@@ -1,23 +1,22 @@
 package com.nickotter.randomname;
 
-public class Item {
-	
+public class List {
 	private int _id;
-	private int _listID;
 	private String text;
+	private int _groupID;
 	
-	public Item(int id, int listID, String text){
+	public List(int id, int groupID, String text){
 		this._id = id;
-		this._listID = listID;
 		this.text = text;
+		this._groupID = groupID;
 	}
 	
 	public int getID(){
 		return this._id;
 	}
 	
-	public int getListId(){
-		return this._listID;
+	public int getGroupID(){
+		return this._groupID;
 	}
 	
 	public String getText(){
