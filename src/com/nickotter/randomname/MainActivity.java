@@ -52,6 +52,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
 		//INSERT RANDOM COMMENT
+		//Sean INSERT RANDOM COMMENT!!!
         
 		actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
