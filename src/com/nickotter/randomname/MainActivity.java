@@ -54,8 +54,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		//INSERT RANDOM COMMENT
 		//Sean INSERT RANDOM COMMENT!!!
         
-		actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
