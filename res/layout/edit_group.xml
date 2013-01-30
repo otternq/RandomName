@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.10"
         android:ems="10"
-        android:text="List Name" android:inputType="text">
+        android:inputType="text"
+        android:text="Group Name" >
 
         <requestFocus />
     </EditText>
