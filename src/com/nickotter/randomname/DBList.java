@@ -124,7 +124,7 @@ TextToSpeech.OnInitListener {
     			
     			break;
     			
-	    	case R.id.menu_add_item:
+	    	/*case R.id.menu_add_item:
 	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add item");
 	    		
 	    		break;
@@ -137,7 +137,7 @@ TextToSpeech.OnInitListener {
 	    	case R.id.menu_settings:
 	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Settings");
 	    		
-	    		break;
+	    		break;*/
     			
 	        default:
 	        	Log.v(LOGTAG, "onOptionsItemSelected: failed to identify what was clicked");
