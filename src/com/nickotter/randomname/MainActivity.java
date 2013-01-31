@@ -90,7 +90,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		
 	}//END void onCreate
 	
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	/*public boolean onMenuItemSelected(int featureId, MenuItem item) {
 
 	    int itemId = item.getItemId();
 	    switch (itemId) {
@@ -125,14 +125,14 @@ public class MainActivity extends SherlockFragmentActivity implements
 	    }
 
 	    return true;
-	}//END boolean onMenuItemSelected
+	}//END boolean onMenuItemSelected*/
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getSupportMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
-	}//END boolean onCreateOptionsMenu
+	}//END boolean onCreateOptionsMenu*/
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
