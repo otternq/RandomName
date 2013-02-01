@@ -10,11 +10,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Sqlite extends SQLiteOpenHelper {
 	
-	//Database name for items
+	//Database version
 	
 	private static final int DATABASE_ITEM_VERSION = 1;
 	
-	//Database name for groups
+	//Database name for groups, lists, items
 	private static final String DATABASE_ITEM = "itemManager";
 	
 	private static final String DATABASE_GROUP = "groupManager";
