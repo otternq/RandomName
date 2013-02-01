@@ -24,4 +24,20 @@ public class DatabaseController {
 		sqLiteHelper.close();
 	}
 	
+	public void addItem(){}
+	
+	public void updateItem(){}
+	
+	public void deleteItem(){}
+	
+	public void addGroup(){}
+	
+	public void updateGroup(){}
+	
+	public void deleteGroup(){}
+	
+	public void addList(){}
+	
+	public void updateList(){}
+	
 }
