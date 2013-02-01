@@ -26,10 +26,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		// getItem is called to instantiate the fragment for the given page.
 		// Return a DummySectionFragment (defined as a static inner class
 		// below) with the page number as its lone argument.
-		Fragment fragment = new DummySectionFragment();
+		
+		/*Fragment fragment = new DummySectionFragment();
 		Bundle args = new Bundle();
 		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-		fragment.setArguments(args);
+		fragment.setArguments(args);*/
+		
+		DBList fragment = new DBList();
+		
 		return fragment;
 	}
 
