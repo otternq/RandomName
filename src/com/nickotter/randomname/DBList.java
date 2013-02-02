@@ -31,7 +31,7 @@ TextToSpeech.OnInitListener {
 	String[][] groupMembers = new String[][] {
 			{
 				"Grant Boomer",
-				"Alex cochrane",
+				"Alex Cochrane",
 				"Tanis Lopez",
 				"Santiago Pina Ros"
 			},

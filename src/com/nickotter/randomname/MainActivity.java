@@ -3,6 +3,7 @@ package com.nickotter.randomname;
 
 import com.nickotter.randomname.SectionsPagerAdapter;
 
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -26,6 +27,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		ActionBar.TabListener {
 	
 	final String LOGTAG = "MainActivity";
+	
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -87,6 +89,9 @@ public class MainActivity extends SherlockFragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
+		//set audio controls to media
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		
 	}//END void onCreate
 	
