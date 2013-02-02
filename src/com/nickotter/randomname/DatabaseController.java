@@ -1,10 +1,16 @@
 package com.nickotter.randomname;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 public class DatabaseController {
+	
+	private static final String ITEM_ID = "id";
+	private static final String ITEM_NAME = "name";
+	private static final String DATABASE_ITEM = "itemManager";
+	
 	private Context context;
 	private SQLiteDatabase database;
 	private Sqlite sqLiteHelper;
@@ -24,9 +30,22 @@ public class DatabaseController {
 		sqLiteHelper.close();
 	}
 	
-	public void addItem(){}
+	public ContentValues createContentValue(int id, String text){
+		ContentValues values = new ContentValues();
+		values.put(ITEM_ID, id);
+		values.put(ITEM_NAME, text);
+		return values;
+	}
 	
-	public void updateItem(){}
+	public void addItem(int id, String text){
+		ContentValues setupValues = createContentValue(id, text);
+		database.insert(DATABASE_ITEM, null, setupValues);
+	}
+	
+	public void updateItem(int id, String text){
+		ContentValues updateValues = createContentValue(id, text);
+		database.update(DATABASE_ITEM, updateValues, ITEM_ID + "=" + id, null);
+	}
 	
 	public void deleteItem(){}
 	

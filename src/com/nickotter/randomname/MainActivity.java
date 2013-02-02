@@ -46,6 +46,9 @@ public class MainActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Sqlite db = new Sqlite(this);
+		db.addItem(1, "testing");
 
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
