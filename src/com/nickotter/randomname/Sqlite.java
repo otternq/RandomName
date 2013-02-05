@@ -15,7 +15,7 @@ public class Sqlite extends SQLiteOpenHelper {
 	
 	private static final int DATABASE_ITEM_VERSION = 1;
 	
-	private static final String DATABASE_NAME = "data";
+	private static final String DATABASE_NAME = "data.db";
 	
 	//Database name for groups, lists, items
 	private static final String DATABASE_ITEM = "itemManager";
