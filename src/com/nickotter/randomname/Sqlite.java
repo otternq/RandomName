@@ -25,12 +25,14 @@ public class Sqlite extends SQLiteOpenHelper {
 	
 	public static final String ITEM_ID = "id";
 	public static final String ITEM_NAME = "name";
+	public static final String ITEM_LIST_ID = "listID";
 
 	public static final String	GROUP_ID = "id";
 	public static final String GROUP_NAME = "name";
 	
 	public static final String	LIST_ID = "id";
 	public static final String LIST_NAME = "name";
+	public static final String LIST_GROUP_ID = "groupID";
 	
 	
 	String CREATE_ITEM_TABLE = "CREATE TABLE " + DATABASE_ITEM + "("
@@ -40,7 +42,9 @@ public class Sqlite extends SQLiteOpenHelper {
     		+ GROUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + GROUP_NAME + " TEXT," + ")";
     
     String CREATE_LIST_TABLE = "CREATE TABLE " + DATABASE_LIST + "("
-    		+ LIST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + LIST_NAME + " TEXT," + ")";
+    		+ LIST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
+    		+ LIST_GROUP_ID + " INTEGER," 
+    		+ LIST_NAME + " TEXT," + ")";
 	
 	public Sqlite(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_ITEM_VERSION);
@@ -51,19 +55,15 @@ public class Sqlite extends SQLiteOpenHelper {
         
         db.execSQL(CREATE_ITEM_TABLE);
         
-      //  db.execSQL(CREATE_GROUP_TABLE);
+        db.execSQL(CREATE_GROUP_TABLE);
         
-       // db.execSQL(CREATE_LIST_TABLE);
+        db.execSQL(CREATE_LIST_TABLE);
     }
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + DATABASE_ITEM);
- 
-        // Create tables again
         onCreate(db);
-		
 	}
 	
 	

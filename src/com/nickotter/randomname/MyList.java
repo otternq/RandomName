@@ -1,11 +1,11 @@
 package com.nickotter.randomname;
 
-public class List {
+public class MyList {
 	private int _id;
 	private String name;
 	private int _groupID;
 	
-	public List(int id, int groupID, String text){
+	public MyList(int id, int groupID, String text){
 		this._id = id;
 		this.name = text;
 		this._groupID = groupID;

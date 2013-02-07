@@ -4,12 +4,12 @@ public class Item {
 	
 	private long _id;
 	private int _listID;
-	private String text;
+	private String name;
 	
 	public Item(long id, int listID, String text){
 		this._id = id;
 		this._listID = listID;
-		this.text = text;
+		this.name = text;
 	}
 	
 	public long getID(){
@@ -20,7 +20,7 @@ public class Item {
 		return this._listID;
 	}
 	
-	public String getText(){
-		return this.text;
+	public String getName(){
+		return this.name;
 	}
 }
