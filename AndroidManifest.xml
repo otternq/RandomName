@@ -28,6 +28,7 @@
         
         <activity
             android:name="com.nickotter.randomname.AddGroup"
+            android:label="Add Group"
             android:uiOptions="splitActionBarWhenNarrow"
             android:screenOrientation="portrait" >
             
