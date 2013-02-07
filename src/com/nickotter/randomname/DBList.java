@@ -10,6 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 //import android.support.v4.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -123,6 +124,10 @@ TextToSpeech.OnInitListener {
     			speakOut(this.groupMembers[position][i1]);
     			
     			break;
+    		
+	    	case R.id.demobutton:
+	    		Intent i = new Intent(getActivity(), AddGroup.class);
+	    		startActivity(i); 
     			
 	    	/*case R.id.menu_add_item:
 	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add item");
