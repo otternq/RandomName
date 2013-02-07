@@ -45,16 +45,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 	 */
 	ViewPager mViewPager;
 	
-	SQLiteOpenHelper dbhelper;
-	SQLiteDatabase database;
+	CRUD databaseCRUD;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		dbhelper = new Sqlite(this);
-		database = dbhelper.getWritableDatabase();
+		databaseCRUD = new CRUD(this);
+		
+		createGroups();
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
@@ -160,6 +160,26 @@ public class MainActivity extends SherlockFragmentActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}//END void onTabReselected
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		databaseCRUD.open();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		databaseCRUD.close();
+	}
+	
+	public void createGroups(){
+		Group g1 = new Group(1, "CS480");
+		Group g2 = new Group(2, "CS481");
+		
+		databaseCRUD.add_group(g1);
+		databaseCRUD.add_group(g2);
+	}
 
 }//END class MainActivity
 

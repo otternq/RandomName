@@ -3,18 +3,18 @@ package com.nickotter.randomname;
 public class Group {
 	
 	private int _id;
-	private String text;
+	private String name;
 	
 	public Group(int id, String text){
 		this._id = id;
-		this.text = text;
+		this.name = text;
 	}
 	
 	public int getID(){
 		return this._id;
 	}
 	
-	public String getText(){
-		return this.text;
+	public String getName(){
+		return this.name;
 	}
 }
