@@ -207,8 +207,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		
 		
 		Log.v(LOGTAG, "\tcreating groups start");
-		Group g1 = new Group(1, "CS480");
-		Group g2 = new Group(2, "CS481");
+		Group g1 = new Group("CS480");
+		Group g2 = new Group("CS481");
 		Log.v(LOGTAG, "\tcreating groups end");
 		
 		MyList l1 = new MyList(1, g1.getID(), "List 1");
@@ -219,8 +219,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		
 		Log.v(LOGTAG, "Adding Groups");
 		databaseCRUD.add_group(g1);
-		databaseCRUD.add_group(g2);
+		Log.v(LOGTAG, "Group 1 now has id="+ g1.getID());
 		
+		databaseCRUD.add_group(g2);
+		Log.v(LOGTAG, "Group 2 now has id="+ g2.getID());
 		
 		Log.v(LOGTAG, "Adding Lists");
 		databaseCRUD.add_list(g1, l1);
@@ -247,12 +249,20 @@ public class MainActivity extends SherlockFragmentActivity implements
 		
 		
 		Log.v(LOGTAG, "Query Group");
+		List<MyList> tempList = databaseCRUD.query_list(g1);
 		
+		Log.v(LOGTAG, "\t There are "+ tempList.size() + " items in temp");
 		
-		List<MyList> temp = databaseCRUD.query_list(g1);
-		
-		for(MyList t : temp) {
-			Log.v(LOGTAG, t.getName());
+		for(MyList t : tempList) {
+			Log.v(LOGTAG, t.getName() + " is a part of group " + t.getGroupID());
+			
+			Log.v(LOGTAG, "\t\t querying for list items");
+			List<Item> tempItem = databaseCRUD.query_item(t);
+			
+			Log.v(LOGTAG, "\t\t There are " + tempItem.size() + " items in the list");
+			for(Item tI : tempItem) {
+				Log.v(LOGTAG, "\t\t\t" + "item name="+ tI.getName());
+			}
 		}
 		
 		
