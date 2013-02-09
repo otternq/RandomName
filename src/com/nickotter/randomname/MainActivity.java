@@ -4,6 +4,8 @@ package com.nickotter.randomname;
 
 import com.nickotter.randomname.SectionsPagerAdapter;
 
+import java.util.List;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -51,6 +53,9 @@ public class MainActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
+		this.deleteDatabase(Sqlite.DATABASE_NAME);
 
 		Log.v(LOGTAG, "Initializing CRUB object");
 		databaseCRUD = new CRUD(this);
@@ -196,15 +201,64 @@ public class MainActivity extends SherlockFragmentActivity implements
 	public void createGroups() {
 		Log.v(LOGTAG, "createGroups e");
 		
+//		Log.v(LOGTAG, "deleting data for " + Sqlite.DATABASE_ITEM);
+//		databaseCRUD.destroyTable(Sqlite.DATABASE_ITEM);
+		
+		
+		
 		Log.v(LOGTAG, "\tcreating groups start");
 		Group g1 = new Group(1, "CS480");
 		Group g2 = new Group(2, "CS481");
 		Log.v(LOGTAG, "\tcreating groups end");
 		
+		MyList l1 = new MyList(1, g1.getID(), "List 1");
+		MyList l2 = new MyList(2, g1.getID(), "List 2");
+		MyList l3 = new MyList(3, g1.getID(), "List 3");
+		MyList l4 = new MyList(4, g1.getID(), "List 4");
+		MyList l5 = new MyList(5, g1.getID(), "List 5");
+		
+		Log.v(LOGTAG, "Adding Groups");
 		databaseCRUD.add_group(g1);
 		databaseCRUD.add_group(g2);
 		
+		
+		Log.v(LOGTAG, "Adding Lists");
+		databaseCRUD.add_list(g1, l1);
+		databaseCRUD.add_list(g1, l2);
+		databaseCRUD.add_list(g1, l3);
+		databaseCRUD.add_list(g1, l4);
+		databaseCRUD.add_list(g1, l5);
+		
+		Log.v(LOGTAG, "Adding Items");
+		Item i1 = new Item(1, l1.getID(), "Item 1");
+		Item i2 = new Item(2, l1.getID(), "Item 2");
+		Item i3 = new Item(3, l1.getID(), "Item 3");
+		Item i4 = new Item(4, l1.getID(), "Item 4");
+		Item i5 = new Item(5, l1.getID(), "Item 5");
+		
+		databaseCRUD.add_item(l1, i1);
+		databaseCRUD.add_item(l1, i2);
+		databaseCRUD.add_item(l1, i3);
+		databaseCRUD.add_item(l1, i4);
+		databaseCRUD.add_item(l1, i5);
+		
+		
+		
+		
+		
+		Log.v(LOGTAG, "Query Group");
+		
+		
+		List<MyList> temp = databaseCRUD.query_list(g1);
+		
+		for(MyList t : temp) {
+			Log.v(LOGTAG, t.getName());
+		}
+		
+		
 		Log.v(LOGTAG, "createGroups x");
+		
+		
 	}
 
 }//END class MainActivity

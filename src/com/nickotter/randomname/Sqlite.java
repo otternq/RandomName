@@ -14,7 +14,7 @@ public class Sqlite extends SQLiteOpenHelper {
 	
 	private static final int DATABASE_ITEM_VERSION = 1;
 	
-	private static final String DATABASE_NAME = "group.db";
+	public static final String DATABASE_NAME = "group.db";
 	
 	//Database name for groups, lists, items
 	public static final String DATABASE_ITEM = "itemManager";
@@ -45,7 +45,9 @@ public class Sqlite extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 		
 		String CREATE_ITEM_TABLE = "CREATE TABLE " + DATABASE_ITEM + "("
-	            + ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ITEM_NAME + " TEXT" + ")";
+	            + ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
+	            + ITEM_LIST_ID + " INTEGER,"
+				+ ITEM_NAME + " TEXT" + ")";
 
 	    String CREATE_GROUP_TABLE = "CREATE TABLE " + DATABASE_GROUP + "("
 	    		+ GROUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + GROUP_NAME + " TEXT" + ")";
@@ -67,6 +69,10 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DATABASE_ITEM);
         onCreate(db);
 	}
+	
+//	public void destroyTable(String table) {
+//		db.execSQL("DROP TABLE IF EXISTS " + table);
+//	}
 	
 	
 }
