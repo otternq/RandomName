@@ -5,11 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CRUD {
+	
+	private String LOGTAG = "CRUD";
+	
 	SQLiteOpenHelper dbhelper;
 	SQLiteDatabase database;
 	
@@ -50,10 +54,18 @@ public class CRUD {
 	}
 	
 	public void add_group(Group group){
+		Log.v(LOGTAG, "add_group e");
+		
+		Log.v(LOGTAG, "\tinitializing values");
 		ContentValues values = new ContentValues();
+		
+		Log.v(LOGTAG, "\tadding provided group name to values");
 		values.put(Sqlite.GROUP_NAME, group.getName());
+		
+		Log.v(LOGTAG, "\tinserting values into database table=" + Sqlite.DATABASE_GROUP);
 		database.insert(Sqlite.DATABASE_GROUP, null, values);
 		
+		Log.v(LOGTAG, "add_group x");
 	}
 	
 	public void add_list(Group group, MyList list){

@@ -45,16 +45,23 @@ public class MainActivity extends SherlockFragmentActivity implements
 	 */
 	ViewPager mViewPager;
 	
-	CRUD databaseCRUD;
+	CRUD databaseCRUD = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		Log.v(LOGTAG, "Initializing CRUB object");
 		databaseCRUD = new CRUD(this);
 		
+		Log.v(LOGTAG, "opening database connection in CRUD object");
+		databaseCRUD.open();
+		
+		Log.v(LOGTAG, "Calling createGroups from onCreate");
 		createGroups();
+		
+		Log.v(LOGTAG, "Loading actionbar");
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
@@ -163,22 +170,41 @@ public class MainActivity extends SherlockFragmentActivity implements
 	
 	@Override
 	protected void onResume() {
+		Log.v(LOGTAG, "onResuem e");
+		
 		super.onResume();
 		databaseCRUD.open();
+		
+		Log.v(LOGTAG, "onResume x");
 	}
 	
 	@Override
 	protected void onPause() {
+		Log.v(LOGTAG, "onPause e");
+		
 		super.onPause();
-		databaseCRUD.close();
+		
+		if (databaseCRUD != null) {
+			databaseCRUD.close();
+		} else {
+			Log.v(LOGTAG, "\tdatabaseCRUD is null");
+		}
+		
+		Log.v(LOGTAG, "onPause x");
 	}
 	
-	public void createGroups(){
+	public void createGroups() {
+		Log.v(LOGTAG, "createGroups e");
+		
+		Log.v(LOGTAG, "\tcreating groups start");
 		Group g1 = new Group(1, "CS480");
 		Group g2 = new Group(2, "CS481");
+		Log.v(LOGTAG, "\tcreating groups end");
 		
 		databaseCRUD.add_group(g1);
 		databaseCRUD.add_group(g2);
+		
+		Log.v(LOGTAG, "createGroups x");
 	}
 
 }//END class MainActivity

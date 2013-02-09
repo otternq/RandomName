@@ -2,8 +2,8 @@ package com.nickotter.randomname;
 
 public class Group {
 	
-	private int _id;
-	private String name;
+	private int _id = 0;
+	private String name = null;
 	
 	public Group(int id, String text){
 		this._id = id;

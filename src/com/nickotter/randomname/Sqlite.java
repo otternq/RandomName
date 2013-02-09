@@ -46,7 +46,7 @@ public class Sqlite extends SQLiteOpenHelper {
 		
 		String CREATE_ITEM_TABLE = "CREATE TABLE " + DATABASE_ITEM + "("
 	            + ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ITEM_NAME + " TEXT" + ")";
-	    
+
 	    String CREATE_GROUP_TABLE = "CREATE TABLE " + DATABASE_GROUP + "("
 	    		+ GROUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + GROUP_NAME + " TEXT" + ")";
 	    
