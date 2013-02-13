@@ -1,13 +1,37 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/behindMenuScroll" >
 
-    <LinearLayout style="@style/behindMenuScrollContent"
+    <LinearLayout
+        style="@style/behindMenuScrollContent"
+        android:layout_height="wrap_content"
         android:paddingTop="25dp" >
+        
+		<TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
-            android:id="@+id/behind_btn"
-            style="@style/behindMenuItemLabel"
-            android:text="BUTTON" />
+		<TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+        <ToggleButton
+            android:id="@+id/toggleButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton" />
+        
+		<ToggleButton
+            android:id="@+id/toggleButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton" />
+
         <TextView
             style="@style/behindMenuItemLabel"
             android:text="Item0" />
@@ -41,9 +65,11 @@
         <TextView
             style="@style/behindMenuItemLabel"
             android:text="Item10" />
+
         <TextView
             style="@style/behindMenuItemLabel"
             android:text="Item11" />
+
         <TextView
             style="@style/behindMenuItemLabel"
             android:text="Item12" />
@@ -81,5 +107,5 @@
             style="@style/behindMenuItemLabel"
             android:text="Item23" />
         
-    </LinearLayout>
+    </LinearLayout>    
 </ScrollView>
