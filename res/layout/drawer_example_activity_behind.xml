@@ -5,32 +5,60 @@
         style="@style/behindMenuScrollContent"
         android:layout_height="wrap_content"
         android:paddingTop="25dp" >
-        
-		<TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		<TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-		
-        <ToggleButton
-            android:id="@+id/toggleButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
-        
-		<ToggleButton
-            android:id="@+id/toggleButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+        <GridLayout
+            android:layout_width="231dp"
+            android:layout_height="105dp"
+            android:columnCount="1" >
+
+            <TextView
+                android:id="@+id/textView1"
+                style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="center|top"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_row="0"
+                android:text="@string/exclusitivity"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16sp" />
+
+            <ToggleButton
+                android:id="@+id/toggleButton2"
+                style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="left|top"
+                android:layout_row="0"
+                android:text="ToggleButton" />
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="22dp"
+                android:layout_row="0"
+                android:text="@string/shaker"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16sp" />
+
+            <ToggleButton
+                android:id="@+id/toggleButton2"
+                style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="left|bottom"
+                android:layout_row="0"
+                android:text="ToggleButton" />
+
+        </GridLayout>
 
         <TextView
             style="@style/behindMenuItemLabel"

@@ -8,6 +8,7 @@ import com.navdrawer.SimpleSideDrawer;
 
 import android.app.ExpandableListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
@@ -15,25 +16,54 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View.OnClickListener;
  
-public class DrawerTestMainActivity extends Activity {
+public class DrawerTestMainActivity extends Activity 
+{
 
 	
     private SimpleSideDrawer mNav;
     
+    CRUD databaseCRUD = null;
+    
     
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) 
+    {
+    	
+    	
+    	//load activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_example_activity_main);
+        
+        
+        //Setup Database
+        //Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
+		this.deleteDatabase(Sqlite.DATABASE_NAME);
+		//Log.v(LOGTAG, "Initializing CRUD object");
+		databaseCRUD = new CRUD(this);
+		//Log.v(LOGTAG, "opening database connection in CRUD object");
+		databaseCRUD.open();
+		
+		//Setup Sidedrawer
         mNav = new SimpleSideDrawer(this);
         mNav.setBehindContentView(R.layout.drawer_example_activity_behind);
-        findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
-            @Override 
-            public void onClick(View v) {
-                mNav.toggleDrawer();
-            }
-        });
-    }
+        findViewById(R.id.btn).setOnClickListener
+        (new OnClickListener() 
+        	{
+            	@Override 
+            	public void onClick(View v) 
+            	{
+            		mNav.toggleDrawer();
+            	};
+        	}   
+        );
+        
+        //Create expandable groups/lists
+        createGroupList();
+        
+        //SimpleExpandableListAdapter ea = new SimpleExpandableListAdapter(null, null, 0, null, null, null, 0, null, null);
+        
+}
+    
    /* public void onCreate(Bundle savedInstanceState) {
         try{
              super.onCreate(savedInstanceState);
@@ -57,23 +87,51 @@ public class DrawerTestMainActivity extends Activity {
             System.out.println("Errrr +++ " + e.getMessage());
         }
     }
- 
-    //Creating the Hashmap for the row
+ */
+    //Creating rows (groups)
     @SuppressWarnings("unchecked")
-    private List<HashMap<String, String>> createGroupList() {
-          ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
-          for( int i = 0 ; i < 15 ; ++i ) { // 15 groups........
-            HashMap<String, String> m = new HashMap<String, String>();
-            m.put( "Group Item","Group Item " + i ); // the key and it's value.
-            result.add( m );
-          }
-          return (List<HashMap<String, String>>)result;
+    //    private List<HashMap<String, String>> createGroupList()
+    private void createGroupList() 
+    {
+          Group g1 = new Group("CS 480");
+          Group g2 = new Group("CS 481");
+          Group g3 = new Group("CS 482");
+    	
+          databaseCRUD.add_group(g1);
+          databaseCRUD.add_group(g2);
+          databaseCRUD.add_group(g3);
+          
+          //mNav.put("Group Item", g1.getName());
+          //result.add(m);
+    	
+  		  MyList l1 = new MyList(1, g1.getID(), "List 1");
+  		  MyList l2 = new MyList(2, g1.getID(), "List 2");
+  		  MyList l3 = new MyList(3, g1.getID(), "List 3");
+  		  MyList l4 = new MyList(4, g2.getID(), "List 1");
+  		  MyList l5 = new MyList(5, g2.getID(), "List 2");
+  		  
+  		  databaseCRUD.add_list(g1, l1);
+  		  databaseCRUD.add_list(g1, l2);
+  		  databaseCRUD.add_list(g1, l3);
+  		  databaseCRUD.add_list(g2, l4);
+  		  databaseCRUD.add_list(g2, l5);
+    	
+    	/*ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
+          for( int i = 0 ; i < 15 ; ++i ) 
+          { // 15 groups........
+        	  HashMap<String, String> m = new HashMap<String, String>();
+        	  m.put( "Group Item","Group Item " + i ); // the key and it's value.
+        	  result.add( m );
+          }*/
+         
     }
- 
-    // creatin the HashMap for the children
+    /*
+    //creating children (lists)
     @SuppressWarnings("unchecked")
-    private List<ArrayList<HashMap<String, String>>> createChildList() {
- 
+    private void createChildList() 
+    {
+
+		
         ArrayList<ArrayList<HashMap<String, String>>> result = new ArrayList<ArrayList<HashMap<String, String>>>();
         for( int i = 0 ; i < 15 ; ++i ) { // this -15 is the number of groups(Here it's fifteen)
           // each group need each HashMap-Here for each group we have 3 subgroups 
@@ -85,8 +143,9 @@ public class DrawerTestMainActivity extends Activity {
           }
          result.add( secList );
         }
-        return result;
     }
+    
+    
     public void  onContentChanged  () {
         System.out.println("onContentChanged");
         super.onContentChanged();

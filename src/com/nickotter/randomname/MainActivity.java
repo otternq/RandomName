@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -57,7 +56,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
 		this.deleteDatabase(Sqlite.DATABASE_NAME);
 
-		Log.v(LOGTAG, "Initializing CRUB object");
+		Log.v(LOGTAG, "Initializing CRUD object");
 		databaseCRUD = new CRUD(this);
 		
 		Log.v(LOGTAG, "opening database connection in CRUD object");
