@@ -7,8 +7,8 @@
         android:paddingTop="25dp" >
 
         <GridLayout
-            android:layout_width="231dp"
-            android:layout_height="105dp"
+            android:layout_width="fill_parent"
+            android:layout_height="130dp"
             android:columnCount="1" >
 
             <TextView
@@ -18,22 +18,26 @@
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:layout_gravity="center|top"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="12dp"
                 android:layout_row="0"
                 android:text="@string/exclusitivity"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ToggleButton
-                android:id="@+id/toggleButton2"
+                android:id="@+id/toggleExclusion"
                 style="@style/behindMenuItemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:layout_gravity="left|top"
                 android:layout_row="0"
-                android:text="ToggleButton" />
+                android:minHeight="40dip"
+                android:minWidth="48dip"
+                android:text="@string/toggleT"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -41,22 +45,53 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
-                android:layout_gravity="right|bottom"
-                android:layout_marginBottom="22dp"
+                android:layout_gravity="center|center"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="14dp"
+                android:layout_row="0"
+                android:text="@string/verbalization"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="14sp" />
+
+            <ToggleButton
+                android:id="@+id/toggleVerbalize"
+                style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="left|center"
+                android:layout_row="0"
+                android:minHeight="40dip"
+                android:minWidth="48dip"
+                android:text="@string/toggleV"
+                android:textSize="14sp" />
+            
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="18dp"
+                android:layout_marginLeft="40dp"
                 android:layout_row="0"
                 android:text="@string/shaker"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ToggleButton
-                android:id="@+id/toggleButton2"
+                android:id="@+id/toggleShaker"
                 style="@style/behindMenuItemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:layout_gravity="left|bottom"
                 android:layout_row="0"
-                android:text="ToggleButton" />
+                android:minHeight="40dip"
+                android:minWidth="48dip"
+                android:text="@string/toggleS"
+                android:textSize="14sp" />
 
         </GridLayout>
 

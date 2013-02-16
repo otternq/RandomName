@@ -46,6 +46,8 @@ public class DrawerTestMainActivity extends Activity
 		//Setup Sidedrawer
         mNav = new SimpleSideDrawer(this);
         mNav.setBehindContentView(R.layout.drawer_example_activity_behind);
+        
+        //Open drawer key listener
         findViewById(R.id.btn).setOnClickListener
         (new OnClickListener() 
         	{
@@ -57,10 +59,59 @@ public class DrawerTestMainActivity extends Activity
         	}   
         );
         
+        //Exclusion toggle listener
+        findViewById(R.id.toggleExclusion).setOnClickListener
+        (new OnClickListener() 
+        	{
+            	@Override 
+            	public void onClick(View v) 
+            	{
+            		//databaseCRUD.exclusionShift();
+            	};
+        	}   
+        );
+        
+        //Verbalizer toggle listener
+        findViewById(R.id.toggleVerbalize).setOnClickListener
+        (new OnClickListener() 
+        	{
+            	@Override 
+            	public void onClick(View v) 
+            	{
+            		//databaseCRUD.verbalShift();
+            	};
+        	}   
+        );
+        
+        //Shake randomizer toggle listener
+        findViewById(R.id.toggleShaker).setOnClickListener
+        (new OnClickListener() 
+        	{
+            	@Override 
+            	public void onClick(View v) 
+            	{
+            		//databaseCRUD.shakeShift();
+            	};
+        	}   
+        );
+        
         //Create expandable groups/lists
         createGroupList();
         
-        //SimpleExpandableListAdapter ea = new SimpleExpandableListAdapter(null, null, 0, null, null, null, 0, null, null);
+        
+        //Prototype for the expanded list
+        /*SimpleExpandableListAdapter expandGroupList = new SimpleExpandableListAdapter(
+         * 		drawer_example_activity_behind, //associated activity
+         * 		createGroupList(),				//hash map for groups
+         * 		R.layout.group_row,				//Group XML 
+         * 		databaseCRUD.getGroups(),		//Get group string id
+         * 		databaseCRUD.getGroupIDs(), 	//get groups integer id's
+         * 		createChildList(),				//hash map for lists(children) 
+         * 		R.layout.child_row,				//List(child) XML 
+         * 		databaseCRUD.getLists(group),	//String id's of lists 
+         * 		databaseCRUD.getListIDs(group),	//integer id's of lists 
+         * );
+         */
         
 }
     
@@ -150,6 +201,7 @@ public class DrawerTestMainActivity extends Activity
         System.out.println("onContentChanged");
         super.onContentChanged();
     }
+    
     // This function is called on each child click 
     public boolean onChildClick( ExpandableListView parent, View v, int groupPosition,int childPosition,long id) {
         System.out.println("Inside onChildClick at groupPosition = " + groupPosition +" Child clicked at position " + childPosition);
