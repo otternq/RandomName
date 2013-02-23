@@ -84,18 +84,28 @@ public class CRUD {
 	}
 	
 	public List<Item> query_item(MyList list){
+		Log.v(LOGTAG, "query_item e");
+		
+		Log.v(LOGTAG, "initializing List<item>");
 		List<Item> items = new ArrayList<Item>();
 		
+		Log.v(LOGTAG, "creating cursor from database.query()");
 		Cursor cursor = database.query(Sqlite.DATABASE_ITEM, ITEM_COLUMNS, "listID = " + list.getID(), null, null, null, null);
 		
+		Log.v(LOGTAG, "checking that the cursor is not empty");
 		if(cursor.getCount() > 0 ){
+			
+			Log.v(LOGTAG, "iterating through cursor");
 			while(cursor.moveToNext()){
+				
+				Log.v(LOGTAG, "initializing item to be added to list");
 				Item item = new Item(
 					cursor.getColumnIndex(Sqlite.ITEM_ID),
 					cursor.getColumnIndex(Sqlite.ITEM_LIST_ID),
 					cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME))
 						);
 				
+				Log.v(LOGTAG, "Adding item to list");
 				items.add(item);
 				
 			}
@@ -103,6 +113,7 @@ public class CRUD {
 			Log.v(LOGTAG, "\t query_item cursor is empty");
 		}
 		
+		Log.v(LOGTAG, "query_item x");
 		return items;
 		
 	}

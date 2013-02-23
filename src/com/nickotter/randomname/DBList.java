@@ -1,5 +1,6 @@
 package com.nickotter.randomname;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -17,9 +18,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.speech.tts.TextToSpeech;
+
+import com.nickotter.randomname.MyList;
+import com.nickotter.randomname.CRUD;
+import com.nickotter.randomname.ItemListAdapter;
 
 public class DBList extends SherlockListFragment implements
 TextToSpeech.OnInitListener {
@@ -27,6 +33,8 @@ TextToSpeech.OnInitListener {
 	final String LOGTAG = "DBList";
 	
 	private TextToSpeech tts;
+	
+	private CRUD databaseCRUD;
 	
 	
 	String[][] groupMembers = new String[][] {
@@ -58,7 +66,10 @@ TextToSpeech.OnInitListener {
 	private int position = 0;
 	
 	DBList(int position) {
+		Log.v(LOGTAG, "DBList e");
 		this.position = position;
+		
+		Log.v(LOGTAG, "DBList x");
 	}
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,12 +82,31 @@ TextToSpeech.OnInitListener {
 	 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    /** Creating an array adapter to store the list of countries **/
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1,groupMembers[position]);
- 
+		Log.v(LOGTAG, "onCreateView e");
+		
+		Log.v(LOGTAG, "\t initializing CRUD");
+		this.databaseCRUD = new CRUD(getActivity());
+		this.databaseCRUD.open();
+		
+		/** Creating an array adapter to store the list of countries **/
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1,groupMembers[position]);
+		
+		Log.v(LOGTAG, "\tcreating dumy list item for query");
+		MyList listItem = new MyList(1, 1, "Test");
+		
+		Log.v(LOGTAG, "\tquerying for items with list id = " + listItem.getID());
+		List<Item> items = databaseCRUD.query_item(listItem);
+		
+		Log.v(LOGTAG, "\tusing ItemListAdapter to bring List<items> to listview");
+		ListAdapter adapter = new ItemListAdapter(inflater.getContext(), items);
+		
         /** Setting the list adapter for the ListFragment */
+		Log.v(LOGTAG, "\tsetting list adapter");
         setListAdapter(adapter);
  
+        this.databaseCRUD.close();
+        
+        Log.v(LOGTAG, "onCreateView x, returning super");
         return super.onCreateView(inflater, container, savedInstanceState);
     }//END View onCreateView
 	
