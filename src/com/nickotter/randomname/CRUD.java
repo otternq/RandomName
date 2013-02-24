@@ -59,7 +59,7 @@ public class CRUD {
 		Log.v(LOGTAG, "\tinitializing values");
 		ContentValues values = new ContentValues();
 		
-		Log.v(LOGTAG, "\tadding provided group name to values");
+		Log.v(LOGTAG, "\tadding provided group name: " + group.getName() + " to values");
 		values.put(Sqlite.GROUP_NAME, group.getName());
 		
 		Log.v(LOGTAG, "\tinserting values into database table=" + Sqlite.DATABASE_GROUP);

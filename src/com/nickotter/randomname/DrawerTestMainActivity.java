@@ -101,9 +101,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         );
         
         
-        //Create expandable groups/lists
-        //createGroupList();
-        
+        //Create fake database
         Log.v(LOGTAG, "Initializing fake database");
         Group g1 = new Group("CS 480");
         Group g2 = new Group("CS 481");
@@ -113,9 +111,6 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         databaseCRUD.add_group(g2);
         databaseCRUD.add_group(g3);
         Log.v(LOGTAG, "Groups initialized");
-        
-        //mNav.put("Group Item", g1.getName());
-        //result.add(m);
   	
 		MyList l1 = new MyList(1, g1.getID(), "List 1");
 		MyList l2 = new MyList(2, g1.getID(), "List 2");
