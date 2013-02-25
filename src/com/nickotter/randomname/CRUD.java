@@ -54,12 +54,12 @@ public class CRUD {
 	}
 	
 	public void add_group(Group group){
-		Log.v(LOGTAG, "add_group e");
+		Log.v(LOGTAG, "add_group function start");
 		
-		Log.v(LOGTAG, "\tinitializing values");
+		Log.v(LOGTAG, "\tInitializing values");
 		ContentValues values = new ContentValues();
 		
-		Log.v(LOGTAG, "\tadding provided group name: " + group.getName() + " to values");
+		Log.v(LOGTAG, "\tAdding provided group name: " + group.getName() + " to values");
 		values.put(Sqlite.GROUP_NAME, group.getName());
 		
 		Log.v(LOGTAG, "\tinserting values into database table=" + Sqlite.DATABASE_GROUP);
@@ -68,19 +68,21 @@ public class CRUD {
 		
 		Log.v(LOGTAG, "\tlast insert id=" + lastId);
 		
-		Log.v(LOGTAG, "add_group x");
+		Log.v(LOGTAG, "add_group function end");
 	}
 	
 	public void add_list(Group group, MyList list){
-		Log.v(LOGTAG, "add_list e");
+		Log.v(LOGTAG, "add_list function start");
 		ContentValues values = new ContentValues();
+		Log.v(LOGTAG, "\tList name added: " + list.getName() + "\n\tIncluded ID: " + list.getID());
 		values.put(Sqlite.LIST_NAME, list.getName());
+		
 		values.put(Sqlite.LIST_GROUP_ID, group.getID());
 		
 		Log.v(LOGTAG, "inserting with group_id=" + group.getID());
 		database.insert(Sqlite.DATABASE_LIST, null, values);
 		
-		Log.v(LOGTAG, "add_list x");
+		Log.v(LOGTAG, "add_list function end");
 	}
 	
 	public List<Item> query_item(MyList list){
@@ -152,16 +154,20 @@ public class CRUD {
 	public List<Group> query_group(){
 		List<Group> groups = new ArrayList<Group>();
 		
+		Log.v(LOGTAG, "query_group function start");
 		Cursor cursor = database.query(Sqlite.DATABASE_GROUP, GROUP_COLUMNS, null, null, null, null, null);
 		
 		if(cursor.getCount() > 0){
 			while(cursor.moveToNext()){
-				Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_ID)));
+				Log.v(LOGTAG, "Group name and id respectively: " + cursor.getColumnIndex(Sqlite.GROUP_NAME) + " && " + cursor.getColumnIndex(Sqlite.GROUP_ID));
+				Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
 				g.setId(cursor.getColumnIndex(Sqlite.GROUP_ID));
 				
 				groups.add(g);
 			}
 		}
+		
+		Log.v(LOGTAG, "query_group function end");
 		return groups;
 	}
 	

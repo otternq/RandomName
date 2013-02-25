@@ -176,6 +176,16 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     {    	
 		  ArrayList<HashMap<String, String>> groups = new ArrayList<HashMap<String, String>>();
 		  
+		  
+		  
+		  /* Working generated lists
+          for( int i = 0 ; i < 3 ; ++i ) { // 3 groups........
+              HashMap<String, String> m = new HashMap<String, String>();
+              m.put( "Group Item","Group Item " + i ); // the key and it's value.
+              groups.add( m );
+            }*/
+		  
+		  
 		  Log.v(LOGTAG, "Group fetch");
 		  List<Group> gList = databaseCRUD.query_group();
 		  Log.v(LOGTAG, "\t There are " + gList.size() + " groups fetched");
@@ -190,23 +200,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
 		  }
 		  Log.v(LOGTAG, "Groups added");
 		  
-		  return groups;    	
-    	/*
-		List<MyList> tempList = databaseCRUD.query_list(g1);
-		
-		Log.v(LOGTAG, "\t There are "+ tempList.size() + " items in temp");
-		
-		for(MyList t : tempList) {
-			Log.v(LOGTAG, t.getName() + " is a part of group " + t.getGroupID());
-			
-			Log.v(LOGTAG, "\t\t querying for list items");
-			List<Item> tempItem = databaseCRUD.query_item(t);
-			
-			Log.v(LOGTAG, "\t\t There are " + tempItem.size() + " items in the list");
-			for(Item tI : tempItem) {
-				Log.v(LOGTAG, "\t\t\t" + "item name="+ tI.getName());
-			}
-		}*/
+		  return groups;
     }
     
     
@@ -215,6 +209,19 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     {
     	ArrayList<ArrayList<HashMap<String, String>>> lists = new ArrayList<ArrayList<HashMap<String, String>>>();
     	
+    	
+    	/* Working generated tables
+        for( int i = 0 ; i < 3 ; ++i ) { // this 3 is the number of groups
+          //each group need each HashMap-Here for each group we have 3 subgroups 
+          ArrayList<HashMap<String, String>> secList = new ArrayList<HashMap<String, String>>();
+          for( int n = 0 ; n < 3 ; n++ ) {
+            HashMap<String, String> child = new HashMap<String, String>();
+            child.put( "Sub Item", "Sub Item " + n );
+            secList.add( child );
+          }
+         lists.add( secList );
+        }*/
+    	   	
     	Log.v(LOGTAG, "re-Querying groups to fetch lists");
     	List<Group> gList = databaseCRUD.query_group();
     	
@@ -226,7 +233,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     		
     		for(MyList l: lList)
     		{
-        			Log.v(LOGTAG, "Current List being added to Hashmap" + l.getName());
+        			Log.v(LOGTAG, "Current List being added to Hashmap" + l.getName() + "\n\t Under group: " + g.getName());
         		    HashMap<String, String> child = new HashMap<String, String>();
         		    child.put(l.getName(), Integer.toString(l.getID()));
         		    secList.add(child);
