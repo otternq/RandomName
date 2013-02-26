@@ -33,6 +33,18 @@ public class CRUD {
 		Sqlite.LIST_ID,
 		Sqlite.LIST_NAME
 	};
+	
+	private static final String[] SHAKE_COLUMN = {
+		Sqlite.SHAKE_SHIFT
+	};
+	
+	private static final String[] VERBAL_COLUMN = {
+		Sqlite.VERBAL_SHIFT
+	};
+	
+	private static final String[] EXCLUSION_COLUMN = {
+		Sqlite.EXCLUSION_SHIFT
+	};
 
 	public CRUD(Context context){
 		dbhelper = new Sqlite(context);
@@ -175,6 +187,20 @@ public class CRUD {
 	}
 	
 	public void delete_group(){
+		
+	}
+	
+	public void toggle_Shake(){
+		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, SHAKE_COLUMN, null, null, null, null, null);
+	}
+	
+	public void toggle_Verbal(){
+		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, VERBAL_COLUMN, null, null, null, null, null);
+		
+	}
+	
+	public void toggle_Exclusion(){
+		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, EXCLUSION_COLUMN, null, null, null, null, null);
 		
 	}
 

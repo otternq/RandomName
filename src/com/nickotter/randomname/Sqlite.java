@@ -23,6 +23,12 @@ public class Sqlite extends SQLiteOpenHelper {
 	
 	public static final String DATABASE_LIST = "listManager";
 	
+	public static final String DATABASE_SHIFT = "shiftManager";
+	
+	public static final String SHAKE_SHIFT = "shakeShift";
+	public static final String VERBAL_SHIFT = "verbalShift";
+	public static final String EXCLUSION_SHIFT = "exclusionShift";
+	
 	public static final String ITEM_ID = "id";
 	public static final String ITEM_NAME = "itemName";
 	public static final String ITEM_LIST_ID = "listID";
@@ -56,13 +62,19 @@ public class Sqlite extends SQLiteOpenHelper {
 	    		+ LIST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
 	    		+ LIST_GROUP_ID + " INTEGER," 
 	    		+ LIST_NAME + " TEXT" + ")";
+	    
+	    String CREATE_SHIFT_TABLE = "CREATE TABLE" + DATABASE_SHIFT + "("
+	    		+ SHAKE_SHIFT + " BOOLEAN," + VERBAL_SHIFT + " BOOLEAN," + EXCLUSION_SHIFT + " BOOLEAN" +
+	    		")";
         
         db.execSQL(CREATE_ITEM_TABLE);
         
         db.execSQL(CREATE_GROUP_TABLE);
         
         db.execSQL(CREATE_LIST_TABLE);
-    }
+        
+        db.execSQL(CREATE_SHIFT_TABLE);
+     }
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
