@@ -95,80 +95,17 @@
 
         </GridLayout>
 
+        <!--
         <TextView
             style="@style/behindMenuItemLabel"
             android:text="Item0" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item1" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item2" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item3" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item4" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item5" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item6" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item7" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item8" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item9" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item10" />
+  		-->
 
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item11" />
-
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item12" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item13" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item14" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item15" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item16" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item17" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item18" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item19" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item20" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item21" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item22" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item23" />
+        <ExpandableListView
+            android:id="@android:id/list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </ExpandableListView>
         
     </LinearLayout>    
 </ScrollView>
