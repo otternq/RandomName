@@ -171,9 +171,9 @@ public class CRUD {
 		
 		if(cursor.getCount() > 0){
 			while(cursor.moveToNext()){
-				Log.v(LOGTAG, "Group name and id respectively: " + cursor.getColumnIndex(Sqlite.GROUP_NAME) + " && " + cursor.getColumnIndex(Sqlite.GROUP_ID));
+				Log.v(LOGTAG, "Group name and id respectively: " + cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)) + " && " + cursor.getInt(cursor.getColumnIndex(Sqlite.GROUP_ID)));
 				Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
-				g.setId(cursor.getColumnIndex(Sqlite.GROUP_ID));
+				g.setId(cursor.getInt(cursor.getColumnIndex(Sqlite.GROUP_ID)));
 				
 				groups.add(g);
 			}

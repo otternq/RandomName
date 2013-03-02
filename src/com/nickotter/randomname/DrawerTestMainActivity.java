@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.TextView;
+import android.widget.ListView;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View.OnClickListener;
@@ -127,25 +129,22 @@ public class DrawerTestMainActivity extends ExpandableListActivity
 		databaseCRUD.add_list(g3, l6);
         Log.v(LOGTAG, "Lists added");
         
-		//SimpleExpandableListAdapter egl = new SimpleExpandableListAdapter()
         //Prototype for the expanded list
         SimpleExpandableListAdapter expandGroupList = new SimpleExpandableListAdapter(
-        		this, //associated context
+        		this, 							//associated context
           		createGroupList(),				//hash map for groups
           		R.layout.group_row,				//Group XML 
-          		new String[] {"Group Item"},		//Get group string id
-          		new int[] {R.id.row_name}, 	//get groups integer id's
+          		new String[] {"Group Item"},	//Get group string id
+          		new int[] {R.id.row_name}, 		//get groups integer id's
           		createChildList(),				//hash map for lists(children) 
           		R.layout.child_row,				//List(child) XML 
-          		new String[] {"Sub Item"},	//String id's of lists 
-          		new int[] {R.id.grp_child}	//integer id's of lists 
+          		new String[] {"Sub Item"},		//String id's of lists 
+          		new int[] {R.id.grp_child}		//integer id's of lists 
         );
         
+        //ListView mlv=(ListView)findViewById(R.id.listView1);
+        //mlv.setListAdapter(expandGroupList);
         setListAdapter(expandGroupList);
-		//databaseCRUD.query_group();
-        
-        //Instead of grouplist() and childlist() we could use a database function that returns arraylists similar 
-        //to what is already implemented querygroups() querylists() 
 }
     
    /* public void onCreate(Bundle savedInstanceState) {
@@ -175,8 +174,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     private ArrayList<HashMap<String, String>> createGroupList()
     {    	
 		  ArrayList<HashMap<String, String>> groups = new ArrayList<HashMap<String, String>>();
-		  
-		  
+		    
 		  
 		  /* Working generated lists
           for( int i = 0 ; i < 3 ; ++i ) { // 3 groups........
@@ -186,6 +184,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
             }*/
 		  
 		  
+		  // working on button listeners
 		  Log.v(LOGTAG, "Group fetch");
 		  List<Group> gList = databaseCRUD.query_group();
 		  Log.v(LOGTAG, "\t There are " + gList.size() + " groups fetched");
@@ -195,9 +194,10 @@ public class DrawerTestMainActivity extends ExpandableListActivity
 		  {
 			  Log.v(LOGTAG, "Group name: " + t.getName() + "\n\t Contains ID: " + t.getID());
 			  HashMap<String, String> m = new HashMap<String, String>();
-			  m.put(t.getName(), Integer.toString(t.getID()));
-			  groups.add(m);		  
-		  }
+			  m.put( "Group Item", t.getName().toString());
+			  //			  m.put(t.getName(), Integer.toString(t.getID()));
+			  groups.add(m);
+		  }//
 		  Log.v(LOGTAG, "Groups added");
 		  
 		  return groups;
@@ -210,7 +210,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     	ArrayList<ArrayList<HashMap<String, String>>> lists = new ArrayList<ArrayList<HashMap<String, String>>>();
     	
     	
-    	/* Working generated tables
+    	/*Working generated tables
         for( int i = 0 ; i < 3 ; ++i ) { // this 3 is the number of groups
           //each group need each HashMap-Here for each group we have 3 subgroups 
           ArrayList<HashMap<String, String>> secList = new ArrayList<HashMap<String, String>>();
@@ -221,7 +221,9 @@ public class DrawerTestMainActivity extends ExpandableListActivity
           }
          lists.add( secList );
         }*/
-    	   	
+    	
+    	
+    	//temp comment out to fix the button listeners
     	Log.v(LOGTAG, "re-Querying groups to fetch lists");
     	List<Group> gList = databaseCRUD.query_group();
     	
@@ -233,99 +235,23 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     		
     		for(MyList l: lList)
     		{
-        			Log.v(LOGTAG, "Current List being added to Hashmap" + l.getName() + "\n\t Under group: " + g.getName());
+        			Log.v(LOGTAG, "Current List being added to Hashmap: " + l.getName() + "\n\t Under group: " + g.getName());
         		    HashMap<String, String> child = new HashMap<String, String>();
-        		    child.put(l.getName(), Integer.toString(l.getID()));
+        		    child.put( "Sub Item", l.getName().toString());
+        		    //": " + Integer.toString(l.getID())
         		    secList.add(child);
     		}
     		lists.add(secList);	
-    	}
+    	}//
     	Log.v(LOGTAG, "Lists added underneath the Groups");
-
-    	/* Prototype
-		  ArrayList<ArrayList<HashMap<String, String>>> lists = new ArrayList<ArrayList<HashMap<String, String>>>();
-		  for(int i=0; i<3; ++i)
-		  {
-			  ArrayList<HashMap<String, String>> secList = new ArrayList<HashMap<String, String>>();
-			  for(int j=0; j<2; j++)
-			  {
-				  HashMap<String, String> child = new HashMap<String, String>();
-				  child.put("List" + j, "List: " + j);
-				  secList.add(child);	  
-			  }
-			  lists.add(secList);
-		  } end prototype */	
 		  		  
 		return lists;
     	
     	
     }
-    //Creating rows (groups)
-    @SuppressWarnings("unchecked")
-    //    private List<HashMap<String, String>> createGroupList()
+
     
     /*
-    private void createGroupList() 
-    {  		  
-  		  //databaseCRUD.query_group()
-  		  
-  		  ArrayList<HashMap<String, String>> groups = new ArrayList<HashMap<String, String>>();
-  		  for(int i=0; i<3; ++i)
-  		  {
-  	  		  HashMap<String, String> m = new HashMap<String, String>();
-  	  		  m.put("Group", "Group: " + i);
-  	  		  groups.add(m);  			  
-  		  }
-  		  
-  		  ArrayList<ArrayList<HashMap<String, String>>> lists = new ArrayList<ArrayList<HashMap<String, String>>>();
-  		  for(int i=0; i<3; ++i)
-  		  {
-  			  ArrayList<HashMap<String, String>> secList = new ArrayList<HashMap<String, String>>();
-  			  for(int j=0; j<2; j++)
-  			  {
-  				  HashMap<String, String> child = new HashMap<String, String>();
-  				  child.put("List" + j, "List: " + j);
-  				  secList.add(child);	  
-  			  }
-  			  lists.add(secList);
-  		  }
-
-  		  
-  		  
-    	
-    	/*ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
-          for( int i = 0 ; i < 15 ; ++i ) 
-          { // 15 groups........
-        	  HashMap<String, String> m = new HashMap<String, String>();
-        	  m.put( "Group Item","Group Item " + i ); // the key and it's value.
-        	  result.add( m );
-          }
-         
-    }
-    
-    */
-    
-    /*
-    //creating children (lists)
-    @SuppressWarnings("unchecked")
-    private void createChildList() 
-    {
-
-		
-        ArrayList<ArrayList<HashMap<String, String>>> result = new ArrayList<ArrayList<HashMap<String, String>>>();
-        for( int i = 0 ; i < 15 ; ++i ) { // this -15 is the number of groups(Here it's fifteen)
-          // each group need each HashMap-Here for each group we have 3 subgroups 
-          ArrayList<HashMap<String, String>> secList = new ArrayList<HashMap<String, String>>();
-          for( int n = 0 ; n < 3 ; n++ ) {
-            HashMap<String, String> child = new HashMap<String, String>();
-            child.put( "Sub Item", "Sub Item " + n );
-            secList.add( child );
-          }
-         result.add( secList );
-        }
-    }
-    
-    
     public void  onContentChanged  () {
         System.out.println("onContentChanged");
         super.onContentChanged();
@@ -335,18 +261,22 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     // This function is called on each child click 
     public boolean onChildClick( ExpandableListView parent, View v, int groupPosition,int childPosition,long id) 
     {
-        System.out.println("Inside onChildClick at groupPosition = " + groupPosition +" Child clicked at position " + childPosition);
+    	Log.v(LOGTAG, "Childname: " + ((TextView) v.findViewById(R.id.grp_child)).getText());
+        //Log.v(LOGTAG, "ChildClick in groupName: " + ((TextView) v.findViewById(R.id.row_name)).getText() + "\n\tGroup Pos: "+ groupPosition);
+    	Log.v(LOGTAG, "\n\t\tChild position selected: " + childPosition);
         return true;
     }
-    /*
+    
  
-    // This function is called on expansion of the group
-    public void  onGroupExpand  (int groupPosition) {
+    //This function is called on expansion of the group
+    public void  onGroupExpand(int groupPosition) {
         try{
-             System.out.println("Group expanding Listener => groupPosition = " + groupPosition);
+        	//View v = (View)findViewById(R.id.expandableListView2);
+        	//Log.v(LOGTAG, "Groupname: " + ((TextView) v.findViewById(R.id.row_name)).getText());
+            Log.v(LOGTAG, "Group expanding Listener => groupPosition = " + groupPosition);
         }catch(Exception e){
-            System.out.println(" groupPosition Errrr +++ " + e.getMessage());
+            Log.v(LOGTAG, " groupPosition Errrr +++ " + e.getMessage());
         }
     }
-    */
+    
 }
