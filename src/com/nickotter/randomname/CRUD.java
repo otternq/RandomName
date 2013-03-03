@@ -183,28 +183,49 @@ public class CRUD {
 		return groups;
 	}
 	
-	public void update_item(){
+	public void update_item(Item item){
+		ContentValues values = new ContentValues();
+		values.put(Sqlite.ITEM_NAME, item.getName());
 		
+		database.update(Sqlite.DATABASE_ITEM, values, Sqlite.ITEM_ID + "= ?", new String[]{
+				String.valueOf(item.getID())
+		});
 	}
 	
-	public void update_group(){
+	public void update_group(Group group){
+		ContentValues values = new ContentValues();
+		values.put(Sqlite.GROUP_NAME, group.getName());
 		
+		database.update(Sqlite.DATABASE_GROUP, values, Sqlite.GROUP_ID + "= ?", new String[]{
+				String.valueOf(group.getID())
+		});
 	}
 	
-	public void update_list(){
+	public void update_list(MyList list){
+		ContentValues values = new ContentValues();
+		values.put(Sqlite.LIST_NAME, list.getName());
 		
+		database.update(Sqlite.DATABASE_LIST, values, Sqlite.LIST_ID + "= ?", new String[]{
+				String.valueOf(list.getID())
+		});
 	}
 	
-	public void delete_item(){
-		
+	public void delete_item(Item item){
+		database.delete(Sqlite.DATABASE_ITEM, Sqlite.ITEM_ID + "= ? ", new String[]{
+				String.valueOf(item.getID())
+		});
 	}
 	
-	public void delete_list(){
-		
+	public void delete_list(MyList list){
+		database.delete(Sqlite.DATABASE_LIST, Sqlite.LIST_ID + "= ? ", new String[]{
+				String.valueOf(list.getID())
+		});
 	}
 	
-	public void delete_group(){
-		
+	public void delete_group(Group group){
+		database.delete(Sqlite.DATABASE_GROUP, Sqlite.GROUP_ID + "= ? ", new String[]{
+				String.valueOf(group.getID())
+		});
 	}
 	
 	public void toggle_Shake(){

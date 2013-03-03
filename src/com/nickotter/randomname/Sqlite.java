@@ -28,6 +28,7 @@ public class Sqlite extends SQLiteOpenHelper {
 	public static final String SHAKE_SHIFT = "shakeShift";
 	public static final String VERBAL_SHIFT = "verbalShift";
 	public static final String EXCLUSION_SHIFT = "exclusionShift";
+	public static final String SHIFT_ID = "exclusionShift";
 	
 	public static final String ITEM_ID = "id";
 	public static final String ITEM_NAME = "itemName";
@@ -63,9 +64,9 @@ public class Sqlite extends SQLiteOpenHelper {
 	    		+ LIST_GROUP_ID + " INTEGER," 
 	    		+ LIST_NAME + " TEXT" + ")";
 	    
-	    String CREATE_SHIFT_TABLE = "CREATE TABLE" + DATABASE_SHIFT + "("
-	    		+ SHAKE_SHIFT + " BOOLEAN," + VERBAL_SHIFT + " BOOLEAN," + EXCLUSION_SHIFT + " BOOLEAN" +
-	    		")";
+//	    String CREATE_SHIFT_TABLE = "CREATE TABLE" + DATABASE_SHIFT + "("
+//	    		+ SHIFT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
+//	    		+ SHAKE_SHIFT + " INTEGER," + VERBAL_SHIFT + " INTEGER," + EXCLUSION_SHIFT + " INTEGER" + ")";
         
         db.execSQL(CREATE_ITEM_TABLE);
         
@@ -73,7 +74,7 @@ public class Sqlite extends SQLiteOpenHelper {
         
         db.execSQL(CREATE_LIST_TABLE);
         
-        db.execSQL(CREATE_SHIFT_TABLE);
+//        db.execSQL(CREATE_SHIFT_TABLE);
      }
 
 	@Override
