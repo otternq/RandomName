@@ -228,6 +228,7 @@ public class CRUD {
 		});
 	}
 	
+	
 	public void toggle_Shake(){
 		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, SHAKE_COLUMN, null, null, null, null, null);
 	}
