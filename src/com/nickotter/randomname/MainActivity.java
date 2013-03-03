@@ -198,6 +198,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 	}
 	
 	public void createGroups() {
+		
+		// init shake, exclusion, verbal to false
+		databaseCRUD.initExtraFunctions();
+		
 		Log.v(LOGTAG, "createGroups e");
 		
 //		Log.v(LOGTAG, "deleting data for " + Sqlite.DATABASE_ITEM);
