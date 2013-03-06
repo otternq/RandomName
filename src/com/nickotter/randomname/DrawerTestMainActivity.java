@@ -13,9 +13,6 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
-import android.widget.ListView;
-import android.app.Activity;
-import android.view.Menu;
 import android.view.View.OnClickListener;
  
 public class DrawerTestMainActivity extends ExpandableListActivity
@@ -129,9 +126,11 @@ public class DrawerTestMainActivity extends ExpandableListActivity
 		databaseCRUD.add_list(g3, l6);
         Log.v(LOGTAG, "Lists added");
         
+        
+        //setContentView(R.layout.drawer_example_activity_behind);
         //Prototype for the expanded list
         SimpleExpandableListAdapter expandGroupList = new SimpleExpandableListAdapter(
-        		this, 							//associated context
+        		mNav.getContext(), 							//associated context
           		createGroupList(),				//hash map for groups
           		R.layout.group_row,				//Group XML 
           		new String[] {"Group Item"},	//Get group string id
@@ -144,7 +143,9 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         
         //ListView mlv=(ListView)findViewById(R.id.listView1);
         //mlv.setListAdapter(expandGroupList);
+  
         setListAdapter(expandGroupList);
+        //setContentView(R.layout.drawer_example_activity_main);
 }
     
    /* public void onCreate(Bundle savedInstanceState) {
@@ -259,7 +260,8 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     */
     
     // This function is called on each child click 
-    public boolean onChildClick( ExpandableListView parent, View v, int groupPosition,int childPosition,long id) 
+    @Override
+	public boolean onChildClick( ExpandableListView parent, View v, int groupPosition,int childPosition,long id) 
     {
     	Log.v(LOGTAG, "Childname: " + ((TextView) v.findViewById(R.id.grp_child)).getText());
         //Log.v(LOGTAG, "ChildClick in groupName: " + ((TextView) v.findViewById(R.id.row_name)).getText() + "\n\tGroup Pos: "+ groupPosition);
@@ -269,7 +271,8 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     
  
     //This function is called on expansion of the group
-    public void  onGroupExpand(int groupPosition) {
+    @Override
+	public void  onGroupExpand(int groupPosition) {
         try{
         	//View v = (View)findViewById(R.id.expandableListView2);
         	//Log.v(LOGTAG, "Groupname: " + ((TextView) v.findViewById(R.id.row_name)).getText());
