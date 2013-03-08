@@ -1,10 +1,13 @@
-package com.nickotter.randomname;
+package com.nickotter.randomname.crudActivities;
 
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.nickotter.randomname.R;
+import com.nickotter.randomname.R.layout;
+import com.nickotter.randomname.R.menu;
 
 public class AddGroup extends SherlockFragmentActivity {
 

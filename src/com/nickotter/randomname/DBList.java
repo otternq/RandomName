@@ -26,6 +26,7 @@ import android.speech.tts.TextToSpeech;
 import com.nickotter.randomname.MyList;
 import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.ItemListAdapter;
+import com.nickotter.randomname.crudActivities.AddGroup;
 
 public class DBList extends SherlockListFragment implements
 TextToSpeech.OnInitListener {
