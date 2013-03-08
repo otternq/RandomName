@@ -40,7 +40,7 @@
             
         
         <activity
-            android:name="com.nickotter.randomname.AddGroup"
+            android:name="com.nickotter.randomname.crudActivities.AddGroup"
             android:label="Add Group"
             android:uiOptions="splitActionBarWhenNarrow"
             android:screenOrientation="portrait" >
