@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import android.view.View.OnClickListener;
  
 public class DrawerTestMainActivity extends ExpandableListActivity
@@ -101,6 +102,18 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         
         
         //Create fake database
+        Log.v(LOGTAG, "Initializing setting toggels");
+        databaseCRUD.initExtraFunctions();
+        ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
+        //exclusion.setChecked(databaseCRUD.query_Exclusion());
+        ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
+        //verbal.setChecked(databaseCRUD.query_Exclusion());
+        ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
+        //shaker.setChecked(databaseCURD.query_Verbal());
+        		
+        
+        
+        
         Log.v(LOGTAG, "Initializing fake database");
         Group g1 = new Group("CS 480");
         Group g2 = new Group("CS 481");
