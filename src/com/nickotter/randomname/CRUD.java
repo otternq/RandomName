@@ -253,7 +253,7 @@ public class CRUD {
 		return cursor.getInt(cursor.getColumnIndex(Sqlite.EXCLUSION_SHIFT));
 	}
 	
-	public void toogle_Shake(){
+	public void toggle_Shake(){
 		ContentValues values = new ContentValues();
 		int x = query_Shake();
 		
@@ -272,7 +272,7 @@ public class CRUD {
 		
 	}
 	
-	public void toogle_Verbal(){
+	public void toggle_Verbal(){
 		ContentValues values = new ContentValues();
 		int x = query_Verbal();
 		
@@ -291,7 +291,7 @@ public class CRUD {
 			
 	}
 	
-	public void toogle_Exculison(){
+	public void toggle_Exculison(){
 		ContentValues values = new ContentValues();
 		int x = query_Exclusion();
 		

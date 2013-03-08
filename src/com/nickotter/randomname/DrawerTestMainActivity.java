@@ -44,6 +44,8 @@ public class DrawerTestMainActivity extends ExpandableListActivity
 		databaseCRUD = new CRUD(this);
 		Log.v(LOGTAG, "opening database connection in CRUD object");
 		databaseCRUD.open();
+        @SuppressWarnings("unused")
+		boolean dbcheck;
 		
 		//Setup Sidedrawer
 		Log.v(LOGTAG, "Setting up side drawer");
@@ -71,7 +73,13 @@ public class DrawerTestMainActivity extends ExpandableListActivity
             	@Override 
             	public void onClick(View v) 
             	{
-            		//databaseCRUD.exclusionShift();
+            		Log.v(LOGTAG, "Exclusion toggle selected");
+                    @SuppressWarnings("unused")
+					boolean dbcheck;
+            		databaseCRUD.toggle_Exculison();
+                    ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
+                    exclusion.setChecked(dbcheck = (databaseCRUD.query_Exclusion() != 0));   
+                    Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Exclusion());
             	};
         	}   
         );
@@ -83,7 +91,13 @@ public class DrawerTestMainActivity extends ExpandableListActivity
             	@Override 
             	public void onClick(View v) 
             	{
-            		//databaseCRUD.verbalShift();
+            		Log.v(LOGTAG, "Verbal toggle selected");
+                    @SuppressWarnings("unused")
+					boolean dbcheck;
+            		databaseCRUD.toggle_Verbal();
+                    ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
+                    verbal.setChecked(dbcheck = (databaseCRUD.query_Verbal() != 0));
+                    Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Verbal());
             	};
         	}   
         );
@@ -95,25 +109,31 @@ public class DrawerTestMainActivity extends ExpandableListActivity
             	@Override 
             	public void onClick(View v) 
             	{
-            		//databaseCRUD.shakeShift();
+            		Log.v(LOGTAG, "Sahker toggle selected");
+                    @SuppressWarnings("unused")
+					boolean dbcheck;
+            		databaseCRUD.toggle_Shake();
+                    ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
+                    shaker.setChecked(dbcheck = (databaseCRUD.query_Shake() != 0));
+                    Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Shake());
             	};
         	}   
         );
         
         
-        //Create fake database
+        //Setup toggle Buttons (right now they default to off/false)
         Log.v(LOGTAG, "Initializing setting toggels");
         databaseCRUD.initExtraFunctions();
         ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
-        //exclusion.setChecked(databaseCRUD.query_Exclusion());
+        exclusion.setChecked(dbcheck = (databaseCRUD.query_Exclusion() != 0));
         ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
-        //verbal.setChecked(databaseCRUD.query_Exclusion());
+        verbal.setChecked(dbcheck = (databaseCRUD.query_Verbal() != 0));
         ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
-        //shaker.setChecked(databaseCURD.query_Verbal());
+        shaker.setChecked(dbcheck = (databaseCRUD.query_Shake() != 0));
         		
         
         
-        
+        //Create fake database settings
         Log.v(LOGTAG, "Initializing fake database");
         Group g1 = new Group("CS 480");
         Group g2 = new Group("CS 481");
@@ -143,7 +163,8 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         //setContentView(R.layout.drawer_example_activity_behind);
         //Prototype for the expanded list
         SimpleExpandableListAdapter expandGroupList = new SimpleExpandableListAdapter(
-        		mNav.getContext(), 							//associated context
+        		this,
+        		//mNav.getContext(), 							//associated context
           		createGroupList(),				//hash map for groups
           		R.layout.group_row,				//Group XML 
           		new String[] {"Group Item"},	//Get group string id
@@ -289,6 +310,8 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         try{
         	//View v = (View)findViewById(R.id.expandableListView2);
         	//Log.v(LOGTAG, "Groupname: " + ((TextView) v.findViewById(R.id.row_name)).getText());
+            //ExpandableListView exp = (ExpandableListView) findViewById(R.id.);
+            //Log.v(LOGTAG, "Groupname: " + ((TextView) exp.getText());
             Log.v(LOGTAG, "Group expanding Listener => groupPosition = " + groupPosition);
         }catch(Exception e){
             Log.v(LOGTAG, " groupPosition Errrr +++ " + e.getMessage());
