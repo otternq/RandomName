@@ -3,12 +3,14 @@ package com.nickotter.randomname;
 
 import com.nickotter.randomname.SectionsPagerAdapter;
 
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +21,13 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class MainActivity extends SherlockFragmentActivity implements
 		ActionBar.TabListener {
+	
+	final String LOGTAG = "MainActivity";
+	
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -46,6 +52,11 @@ public class MainActivity extends SherlockFragmentActivity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+		//INSERT RANDOM COMMENT
+		//Sean INSERT RANDOM COMMENT!!!
+        
+		actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
 
 		// Create the adapter that will return a fragment for each of the three
@@ -79,14 +90,54 @@ public class MainActivity extends SherlockFragmentActivity implements
 					.setTabListener(this));
 		}
 		
-	}
+		//set audio controls to media
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		
+	}//END void onCreate
+	
+	/*public boolean onMenuItemSelected(int featureId, MenuItem item) {
 
-	@Override
+	    int itemId = item.getItemId();
+	    switch (itemId) {
+	    	case android.R.id.home:
+
+	        // Toast.makeText(this, "home pressed", Toast.LENGTH_LONG).show();
+	        break;
+	        
+	    	case R.id.menu_random:
+    			Log.v(LOGTAG, "onOptionsItemSelected: Clicked Random");
+    			break;
+    			
+	    	case R.id.menu_add_item:
+	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add item");
+	    		
+	    		break;
+	    		
+	    	case R.id.menu_add_list:
+	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add List");
+	    		
+	    		break;
+	    		
+	    	case R.id.menu_settings:
+	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Settings");
+	    		
+	    		break;
+    			
+	        default:
+	        	Log.v(LOGTAG, "onOptionsItemSelected: failed to identify what was clicked");
+	        break;
+
+	    }
+
+	    return true;
+	}//END boolean onMenuItemSelected*/
+
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getSupportMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
-	}
+	}//END boolean onCreateOptionsMenu*/
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
@@ -94,16 +145,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
 		mViewPager.setCurrentItem(tab.getPosition());
-	}
+	}//END void onTabSelected
 
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-	}
+	}//END void onTabUnselected
 
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-	}
+	}//END void onTabReselected
 
-}
+}//END class MainActivity
