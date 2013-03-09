@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.navdrawer.SimpleSideDrawer;
 
 import android.app.ExpandableListActivity;
@@ -16,7 +19,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.view.View.OnClickListener;
  
-public class DrawerTestMainActivity extends ExpandableListActivity
+public class DrawerTestMainActivity extends SherlockActivity
 {
 	//removed activity extension
 
@@ -37,6 +40,9 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         setContentView(R.layout.drawer_example_activity_main);
         
         
+        ActionBar bar = getSupportActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
+        
         //Setup Database
         //Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
 		this.deleteDatabase(Sqlite.DATABASE_NAME);
@@ -54,7 +60,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         
         //Open drawer key listener
         Log.v(LOGTAG, "Sidedrawer button init");
-        findViewById(R.id.btn).setOnClickListener
+        /*findViewById(R.id.btn).setOnClickListener
         (new OnClickListener() 
         	{
             	@Override 
@@ -63,7 +69,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
             		mNav.toggleDrawer();
             	};
         	}   
-        );
+        );*/
         
         //Exclusion toggle listener]
         Log.v(LOGTAG, "Intitializing the toggle listeners");
@@ -178,9 +184,20 @@ public class DrawerTestMainActivity extends ExpandableListActivity
         //ListView mlv=(ListView)findViewById(R.id.listView1);
         //mlv.setListAdapter(expandGroupList);
   
-        setListAdapter(expandGroupList);
+        //setListAdapter(expandGroupList);
         //setContentView(R.layout.drawer_example_activity_main);
 }
+    
+    public boolean onOptionsItemSelected(MenuItem item) 
+    {    
+       switch (item.getItemId()) 
+       {        
+          case android.R.id.home:            
+        	  mNav.toggleDrawer();       
+          default:            
+             return super.onOptionsItemSelected(item);    
+       }
+    }
     
    /* public void onCreate(Bundle savedInstanceState) {
         try{
@@ -294,7 +311,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     */
     
     // This function is called on each child click 
-    @Override
+    //@Override
 	public boolean onChildClick( ExpandableListView parent, View v, int groupPosition,int childPosition,long id) 
     {
     	Log.v(LOGTAG, "Childname: " + ((TextView) v.findViewById(R.id.grp_child)).getText());
@@ -305,7 +322,7 @@ public class DrawerTestMainActivity extends ExpandableListActivity
     
  
     //This function is called on expansion of the group
-    @Override
+    //@Override
 	public void  onGroupExpand(int groupPosition) {
         try{
         	//View v = (View)findViewById(R.id.expandableListView2);
