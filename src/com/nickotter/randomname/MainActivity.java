@@ -2,10 +2,13 @@
 package com.nickotter.randomname;
 
 
+import com.navdrawer.SimpleSideDrawer;
 import com.nickotter.randomname.SectionsPagerAdapter;
+import com.nickotter.randomname.crudActivities.AddGroup;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -19,7 +22,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -46,12 +55,29 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	 */
 	ViewPager mViewPager;
 	
+	private SimpleSideDrawer mNav;
+	
 	CRUD databaseCRUD = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		ActionBar bar = getSupportActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
+		
+		mNav = new SimpleSideDrawer(this);
+        mNav.setBehindContentView(R.layout.drawer_example_activity_behind);
+        
+        String[] groups = {"Group 1", "Group 2"};
+        
+        Log.v(LOGTAG, "Setting group list adapter");
+        
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
+        
+        ListView groupList = (ListView)findViewById(R.id.listView1);
+        groupList.setAdapter(adapter);
 		
 		Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
 		this.deleteDatabase(Sqlite.DATABASE_NAME);
@@ -76,6 +102,71 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
         
 		actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
+        
+        //Exclusion toggle listener]
+        Log.v(LOGTAG, "Intitializing the toggle listeners");
+        findViewById(R.id.toggleExclusion).setOnClickListener
+        (new OnClickListener() 
+        	{
+            	@Override 
+            	public void onClick(View v) 
+            	{
+            		Log.v(LOGTAG, "Exclusion toggle selected");
+                    @SuppressWarnings("unused")
+					boolean dbcheck;
+            		databaseCRUD.toggle_Exculison();
+                    ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
+                    exclusion.setChecked(dbcheck = (databaseCRUD.query_Exclusion() != 0));   
+                    Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Exclusion());
+            	};
+        	}   
+        );
+        
+        //Verbalizer toggle listener
+        findViewById(R.id.toggleVerbalize).setOnClickListener
+        (new OnClickListener() 
+        	{
+            	@Override 
+            	public void onClick(View v) 
+            	{
+            		Log.v(LOGTAG, "Verbal toggle selected");
+                    @SuppressWarnings("unused")
+					boolean dbcheck;
+            		databaseCRUD.toggle_Verbal();
+                    ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
+                    verbal.setChecked(dbcheck = (databaseCRUD.query_Verbal() != 0));
+                    Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Verbal());
+            	};
+        	}   
+        );
+        
+        //Shake randomizer toggle listener
+        findViewById(R.id.toggleShaker).setOnClickListener
+        (new OnClickListener() 
+        	{
+            	@Override 
+            	public void onClick(View v) 
+            	{
+            		Log.v(LOGTAG, "Sahker toggle selected");
+                    @SuppressWarnings("unused")
+					boolean dbcheck;
+            		databaseCRUD.toggle_Shake();
+                    ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
+                    shaker.setChecked(dbcheck = (databaseCRUD.query_Shake() != 0));
+                    Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Shake());
+            	};
+        	}   
+        );
+        
+        findViewById(R.id.add_group_btn).setOnClickListener(
+			new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent i = new Intent(MainActivity.this, AddGroup.class);
+			    		startActivity(i);
+				}
+			}
+        );
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -110,42 +201,16 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		
 	}//END void onCreate
 	
-	/*public boolean onMenuItemSelected(int featureId, MenuItem item) {
-
-	    int itemId = item.getItemId();
-	    switch (itemId) {
-	    	case android.R.id.home:
-
-	        // Toast.makeText(this, "home pressed", Toast.LENGTH_LONG).show();
-	        break;
-	        
-	    	case R.id.menu_random:
-    			Log.v(LOGTAG, "onOptionsItemSelected: Clicked Random");
-    			break;
-    			
-	    	case R.id.menu_add_item:
-	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add item");
-	    		
-	    		break;
-	    		
-	    	case R.id.menu_add_list:
-	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add List");
-	    		
-	    		break;
-	    		
-	    	case R.id.menu_settings:
-	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Settings");
-	    		
-	    		break;
-    			
-	        default:
-	        	Log.v(LOGTAG, "onOptionsItemSelected: failed to identify what was clicked");
-	        break;
-
-	    }
-
-	    return true;
-	}//END boolean onMenuItemSelected*/
+	public boolean onOptionsItemSelected(MenuItem item) 
+    {    
+       switch (item.getItemId()) 
+       {        
+          case android.R.id.home:            
+        	  mNav.toggleDrawer();       
+          default:            
+             return super.onOptionsItemSelected(item);    
+       }
+    }
 
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
