@@ -1,19 +1,37 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res/com.nickotter.randomname"
+    style="@style/behindMenuScroll" >
+-->
+
+
+    <LinearLayout
+        android:id="@+id/draw_lin_lay"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res/com.nickotter.randomname"
     style="@style/behindMenuScroll"
-    xmlns:grid="http://schemas.android.com/apk/res-auto" xmlns:app="http://schemas.android.com/apk/res/com.nickotter.randomname">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+         >
 
         <android.support.v7.widget.GridLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:alignmentMode="alignBounds"
             android:columnCount="2"
             android:columnOrderPreserved="false"
+            android:orientation="vertical"
             android:useDefaultMargins="true" >
 
             <ToggleButton
                 android:id="@+id/toggleExclusion"
                 style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_column="0"
                 app:layout_row="0"
                 android:text="@string/toggleT"
@@ -22,6 +40,8 @@
             <TextView
                 android:id="@+id/textView1"
                 style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_column="3"
                 app:layout_columnSpan="2"
                 app:layout_gravity="left"
@@ -33,6 +53,8 @@
             <ToggleButton
                 android:id="@+id/toggleVerbalize"
                 style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_column="0"
                 app:layout_row="1"
                 android:text="@string/toggleV"
@@ -41,6 +63,8 @@
             <TextView
                 android:id="@+id/textView3"
                 style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_column="3"
                 app:layout_columnSpan="2"
                 app:layout_gravity="left"
@@ -52,6 +76,8 @@
             <ToggleButton
                 android:id="@+id/toggleShaker"
                 style="@style/behindMenuItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_column="0"
                 app:layout_row="2"
                 android:text="@string/toggleS"
@@ -60,27 +86,29 @@
             <TextView
                 android:id="@+id/textView2"
                 style="@style/behindMenuItemLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_column="3"
                 app:layout_row="2"
                 android:text="@string/verbalization"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="14sp" />
 
-            <android.support.v7.widget.Space
-                android:layout_width="10dp"
-                android:layout_height="1dp"
-                app:layout_column="1"
-                app:layout_row="0" />
-
-            <android.support.v7.widget.Space
-                android:layout_height="15dp"
-                app:layout_column="2"
-                app:layout_row="0" />
-
-            <android.support.v7.widget.Space
-                android:layout_width="58dp"
-                android:layout_height="15dp"
-                app:layout_column="4" />
         </android.support.v7.widget.GridLayout>
-   
-</ScrollView>
+
+        <Button
+            android:id="@+id/add_group_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Group"
+            android:onClick="navAddGroup" />
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="264dp"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+    </LinearLayout>
+
+<!--</ScrollView>-->

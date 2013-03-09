@@ -4,9 +4,11 @@ package com.nickotter.randomname;
 
 import com.navdrawer.SimpleSideDrawer;
 import com.nickotter.randomname.SectionsPagerAdapter;
+import com.nickotter.randomname.crudActivities.AddGroup;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -21,6 +23,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -63,6 +69,15 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		
 		mNav = new SimpleSideDrawer(this);
         mNav.setBehindContentView(R.layout.drawer_example_activity_behind);
+        
+        String[] groups = {"Group 1", "Group 2"};
+        
+        Log.v(LOGTAG, "Setting group list adapter");
+        
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
+        
+        ListView groupList = (ListView)findViewById(R.id.listView1);
+        groupList.setAdapter(adapter);
 		
 		Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
 		this.deleteDatabase(Sqlite.DATABASE_NAME);
@@ -141,6 +156,16 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
                     Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Shake());
             	};
         	}   
+        );
+        
+        findViewById(R.id.add_group_btn).setOnClickListener(
+			new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent i = new Intent(MainActivity.this, AddGroup.class);
+			    		startActivity(i);
+				}
+			}
         );
 
 		// Create the adapter that will return a fragment for each of the three
