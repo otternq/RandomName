@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -64,21 +65,6 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
-		
-		mNav = new SimpleSideDrawer(this);
-        mNav.setBehindContentView(R.layout.drawer_example_activity_behind);
-        
-        String[] groups = {"Group 1", "Group 2"};
-        
-        Log.v(LOGTAG, "Setting group list adapter");
-        
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
-        
-        ListView groupList = (ListView)findViewById(R.id.listView1);
-        groupList.setAdapter(adapter);
-		
 		Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
 		this.deleteDatabase(Sqlite.DATABASE_NAME);
 
@@ -90,6 +76,22 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		
 		Log.v(LOGTAG, "Calling createGroups from onCreate");
 		createGroups();
+		
+		ActionBar bar = getSupportActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
+		
+		mNav = new SimpleSideDrawer(this);
+        mNav.setBehindContentView(R.layout.drawer_example_activity_behind);
+        
+        //String[] groups = {"Group 1", "Group 2"};
+        
+        Log.v(LOGTAG, "Setting group list adapter");
+        
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
+        ListAdapter adapter = new GroupListAdapter(this, databaseCRUD.query_group());
+        
+        ListView groupList = (ListView)findViewById(R.id.listView1);
+        groupList.setAdapter(adapter);
 		
 		Log.v(LOGTAG, "Loading actionbar");
 		
