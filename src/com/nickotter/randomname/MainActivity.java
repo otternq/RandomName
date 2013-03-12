@@ -79,8 +79,8 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
         ListView groupList = (ListView)findViewById(R.id.listView1);
         groupList.setAdapter(adapter);
 		
-		Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
-		this.deleteDatabase(Sqlite.DATABASE_NAME);
+		/*Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
+		this.deleteDatabase(Sqlite.DATABASE_NAME);*/
 
 		Log.v(LOGTAG, "Initializing CRUD object");
 		databaseCRUD = new CRUD(this);
@@ -90,6 +90,13 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		
 		Log.v(LOGTAG, "Calling createGroups from onCreate");
 		createGroups();
+		
+		Log.v(LOGTAG, "querying database!");
+		List<Group> dbGroups = databaseCRUD.query_group();
+		
+		for (Group group : dbGroups) {
+			Log.v(LOGTAG, "found group with name="+group.getName());
+		}
 		
 		Log.v(LOGTAG, "Loading actionbar");
 		
