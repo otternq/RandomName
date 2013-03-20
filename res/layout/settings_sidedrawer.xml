@@ -9,9 +9,9 @@
     <LinearLayout
         android:id="@+id/draw_lin_lay"
         xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:grid="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res/com.nickotter.randomname"
-    style="@style/behindMenuScroll"
+    	xmlns:grid="http://schemas.android.com/apk/res-auto"
+    	xmlns:app="http://schemas.android.com/apk/res/com.nickotter.randomname"
+    	style="@style/behindMenuScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"

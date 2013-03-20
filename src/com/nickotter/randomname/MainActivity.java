@@ -7,10 +7,15 @@ import com.nickotter.randomname.SectionsPagerAdapter;
 import com.nickotter.randomname.crudActivities.AddGroup;
 
 import java.util.List;
+import java.util.Random;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -59,6 +64,10 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	private SimpleSideDrawer mNav;
 	
 	CRUD databaseCRUD = null;
+	
+	//Shake variables
+	private SensorManager mSensorManager;
+	private ShakeEventListener mSensorListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +90,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
         bar.setDisplayHomeAsUpEnabled(true);
 		
 		mNav = new SimpleSideDrawer(this);
-        mNav.setBehindContentView(R.layout.drawer_example_activity_behind);
+        mNav.setBehindContentView(R.layout.settings_sidedrawer);
         
         //String[] groups = {"Group 1", "Group 2"};
         
@@ -98,13 +107,11 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
-		//INSERT RANDOM COMMENT
-		//Sean INSERT RANDOM COMMENT!!!
         
 		actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayShowTitleEnabled(true);
         
+       
         //Exclusion toggle listener]
         Log.v(LOGTAG, "Intitializing the toggle listeners");
         findViewById(R.id.toggleExclusion).setOnClickListener
@@ -149,7 +156,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
             	@Override 
             	public void onClick(View v) 
             	{
-            		Log.v(LOGTAG, "Sahker toggle selected");
+            		Log.v(LOGTAG, "Shaker toggle selected");
                     @SuppressWarnings("unused")
 					boolean dbcheck;
             		databaseCRUD.toggle_Shake();
@@ -160,6 +167,8 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
         	}   
         );
         
+        //Group Create Button
+        Log.v(LOGTAG, "Enabling Group button listener");
         findViewById(R.id.add_group_btn).setOnClickListener(
 			new OnClickListener() {
 					@Override
@@ -169,6 +178,25 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 				}
 			}
         );
+        
+        
+        //Shake acceleration listeners (value of 0 is not shaking and greater than 2 is shaking device)
+        Log.v(LOGTAG, "Initilization of Shake detection");
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorListener = new ShakeEventListener();   
+
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() 
+        {
+        	public void onShake() 
+        	{
+        		//Randomize function
+        	       Log.v(LOGTAG, "Shook Randomizer");
+        	       
+        	       //String shook = "Device was shaken";
+        	       //speakOut(shook);
+        	       
+        	}
+        });
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -244,7 +272,14 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		Log.v(LOGTAG, "onResuem e");
 		
 		super.onResume();
+		
+		//Resume DB
 		databaseCRUD.open();
+		
+		//Resume Shake
+		mSensorManager.registerListener(mSensorListener,
+		        mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+		        SensorManager.SENSOR_DELAY_UI);
 		
 		Log.v(LOGTAG, "onResume x");
 	}
@@ -255,11 +290,15 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		
 		super.onPause();
 		
+		//Pause DB
 		if (databaseCRUD != null) {
 			databaseCRUD.close();
 		} else {
 			Log.v(LOGTAG, "\tdatabaseCRUD is null");
 		}
+		
+		//Pause Shake
+	    mSensorManager.unregisterListener(mSensorListener);
 		
 		Log.v(LOGTAG, "onPause x");
 	}

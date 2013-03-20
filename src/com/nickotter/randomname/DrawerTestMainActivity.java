@@ -56,7 +56,7 @@ public class DrawerTestMainActivity extends SherlockActivity
 		//Setup Sidedrawer
 		Log.v(LOGTAG, "Setting up side drawer");
         mNav = new SimpleSideDrawer(this);
-        mNav.setBehindContentView(R.layout.drawer_example_activity_behind);
+        mNav.setBehindContentView(R.layout.settings_sidedrawer);
         
         //Open drawer key listener
         Log.v(LOGTAG, "Sidedrawer button init");
