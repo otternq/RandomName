@@ -85,29 +85,30 @@ TextToSpeech.OnInitListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.v(LOGTAG, "onCreateView e");
 		
+		Log.v(LOGTAG, "\tusing position: " + position + 1);
+		
 		Log.v(LOGTAG, "\t initializing CRUD");
 		this.databaseCRUD = new CRUD(getActivity());
 		this.databaseCRUD.open();
 		
-		/** Creating an array adapter to store the list of countries **/
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1,groupMembers[position]);
+		MyList tempList = new MyList(this.position + 1, 1, "who cares");
 		
-		Log.v(LOGTAG, "\tcreating dumy list item for query");
-		MyList listItem = new MyList(1, 1, "Test");
-		
-		Log.v(LOGTAG, "\tquerying for items with list id = " + listItem.getID());
-		List<Item> items = databaseCRUD.query_item(listItem);
+		List<Item> items = databaseCRUD.query_item(tempList);
 		
 		Log.v(LOGTAG, "\tusing ItemListAdapter to bring List<items> to listview");
 		ListAdapter adapter = new ItemListAdapter(inflater.getContext(), items);
 		
-        /** Setting the list adapter for the ListFragment */
+        //Setting the list adapter for the ListFragment
 		Log.v(LOGTAG, "\tsetting list adapter");
         setListAdapter(adapter);
  
         this.databaseCRUD.close();
         
         Log.v(LOGTAG, "onCreateView x, returning super");
+        
+        //Setting the list adapter for the ListFragment
+        setListAdapter(adapter);
+		
         return super.onCreateView(inflater, container, savedInstanceState);
     }//END View onCreateView
 	

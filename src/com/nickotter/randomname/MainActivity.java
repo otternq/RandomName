@@ -190,14 +190,18 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 					}
 				});
 
-		// For each of the sections in the app, add a tab to the action bar.
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+		List<Group> groups = databaseCRUD.query_group();
+		List<MyList> tempList = databaseCRUD.query_list(groups.get(0));
+		
+		
+		// For each of the lists, add a tab to the action bar.
+		for(MyList t : tempList) {
 			// Create a tab with text corresponding to the page title defined by
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
 			actionBar.addTab(actionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
+					.setText(t.getName())
 					.setTabListener(this));
 		}
 		
@@ -271,11 +275,6 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		
 		Log.v(LOGTAG, "createGroups e");
 		
-//		Log.v(LOGTAG, "deleting data for " + Sqlite.DATABASE_ITEM);
-//		databaseCRUD.destroyTable(Sqlite.DATABASE_ITEM);
-		
-		
-		
 		Log.v(LOGTAG, "\tcreating groups start");
 		Group g1 = new Group("CS480");
 		Group g2 = new Group("CS481");
@@ -284,8 +283,6 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		MyList l1 = new MyList(1, g1.getID(), "List 1");
 		MyList l2 = new MyList(2, g1.getID(), "List 2");
 		MyList l3 = new MyList(3, g1.getID(), "List 3");
-		MyList l4 = new MyList(4, g1.getID(), "List 4");
-		MyList l5 = new MyList(5, g1.getID(), "List 5");
 		
 		Log.v(LOGTAG, "Adding Groups");
 		databaseCRUD.add_group(g1);
@@ -298,24 +295,19 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		databaseCRUD.add_list(g1, l1);
 		databaseCRUD.add_list(g1, l2);
 		databaseCRUD.add_list(g1, l3);
-		databaseCRUD.add_list(g1, l4);
-		databaseCRUD.add_list(g1, l5);
 		
 		Log.v(LOGTAG, "Adding Items");
-		Item i1 = new Item(1, l1.getID(), "Item 1");
-		Item i2 = new Item(2, l1.getID(), "Item 2");
-		Item i3 = new Item(3, l1.getID(), "Item 3");
-		Item i4 = new Item(4, l1.getID(), "Item 4");
-		Item i5 = new Item(5, l1.getID(), "Item 5");
+		Item i1 = new Item(1, l1.getID(), "List 1 - Item 1");
+		Item i2 = new Item(2, l1.getID(), "List 1 - Item 2");
+		Item i3 = new Item(3, l2.getID(), "List 2 - Item 3");
+		Item i4 = new Item(4, l2.getID(), "List 2 - Item 4");
+		Item i5 = new Item(5, l3.getID(), "List 3 - Item 5");
 		
 		databaseCRUD.add_item(l1, i1);
 		databaseCRUD.add_item(l1, i2);
-		databaseCRUD.add_item(l1, i3);
-		databaseCRUD.add_item(l1, i4);
-		databaseCRUD.add_item(l1, i5);
-		
-		
-		
+		databaseCRUD.add_item(l2, i3);
+		databaseCRUD.add_item(l2, i4);
+		databaseCRUD.add_item(l3, i5);
 		
 		
 		Log.v(LOGTAG, "Query Group");
