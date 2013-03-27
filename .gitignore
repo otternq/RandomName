@@ -1,4 +1,6 @@
 # built application files
+
+project.properties
 *.apk
 *.ap_
 
