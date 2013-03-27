@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -68,9 +70,12 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	//Shake variables
 	private SensorManager mSensorManager;
 	private ShakeEventListener mSensorListener;
+	
+	int currentGroup = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
@@ -92,15 +97,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		mNav = new SimpleSideDrawer(this);
         mNav.setBehindContentView(R.layout.settings_sidedrawer);
         
-        //String[] groups = {"Group 1", "Group 2"};
-        
         Log.v(LOGTAG, "Setting group list adapter");
-        
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
-        ListAdapter adapter = new GroupListAdapter(this, databaseCRUD.query_group());
-        
-        ListView groupList = (ListView)findViewById(R.id.listView1);
-        groupList.setAdapter(adapter);
 		
 		Log.v(LOGTAG, "Loading actionbar");
 		
@@ -197,7 +194,34 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
         	       
         	}
         });
+        
+        this.loadLists(currentGroup);
 
+		
+		
+	}//END void onCreate
+	
+	private void loadLists(int groupIndex) {
+		
+		// Set up the action bar.
+		final ActionBar actionBar = getSupportActionBar();
+		
+		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
+        ListAdapter adapter = new GroupListAdapter(this, databaseCRUD.query_group());
+        
+        ListView groupList = (ListView)findViewById(R.id.listView1);
+        groupList.removeAllViewsInLayout();
+        groupList.setAdapter(adapter);
+        
+        groupList.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            	currentGroup = position;
+            	mNav.toggleDrawer();
+            	Log.v(LOGTAG, "\n\n\n\tclicked on group index=" + position);
+            	//loadLists(currentGroup);
+            }
+        });
+		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -219,7 +243,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 				});
 
 		List<Group> groups = databaseCRUD.query_group();
-		List<MyList> tempList = databaseCRUD.query_list(groups.get(0));
+		List<MyList> tempList = databaseCRUD.query_list(groups.get(groupIndex));
 		
 		
 		// For each of the lists, add a tab to the action bar.
@@ -233,7 +257,10 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 					.setTabListener(this));
 		}
 		
-	}//END void onCreate
+		Log.v(LOGTAG, "\tcurrent tab count" + actionBar.getTabCount());
+		
+		
+	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 
     {    
@@ -321,7 +348,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		
 		MyList l1 = new MyList(1, g1.getID(), "List 1");
 		MyList l2 = new MyList(2, g1.getID(), "List 2");
-		MyList l3 = new MyList(3, g1.getID(), "List 3");
+		MyList l3 = new MyList(3, g2.getID(), "List 3");
 		
 		Log.v(LOGTAG, "Adding Groups");
 		databaseCRUD.add_group(g1);
@@ -333,7 +360,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		Log.v(LOGTAG, "Adding Lists");
 		databaseCRUD.add_list(g1, l1);
 		databaseCRUD.add_list(g1, l2);
-		databaseCRUD.add_list(g1, l3);
+		databaseCRUD.add_list(g2, l3);
 		
 		Log.v(LOGTAG, "Adding Items");
 		Item i1 = new Item(1, l1.getID(), "List 1 - Item 1");

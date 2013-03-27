@@ -37,37 +37,13 @@ TextToSpeech.OnInitListener {
 	
 	private CRUD databaseCRUD;
 	
-	
-	String[][] groupMembers = new String[][] {
-			{
-				"Grant Boomer",
-				"Alex cochrane",
-				"Tanis Lopez",
-				"Santiago Pina Ros"
-			},
-			{
-				"Everett Bloch", 
-				"Ryan Sacksteder", 
-				"Gresham Schlect", 
-				"Pierce Trey"
-			},
-			{
-				"Lyle Johnson", 
-				"Jonathon Lamb"
-			},
-			{
-				"Sean Heagerty", 
-				"Long Nguyen", 
-				"Nick Otter", 
-				"Brett Papineau", 
-				"Colby Rush"
-			}
-    };
-	
 	private int position = 0;
+	
+	List<MyList> lists;
 	
 	DBList(int position) {
 		Log.v(LOGTAG, "DBList e");
+		
 		this.position = position;
 		
 		Log.v(LOGTAG, "DBList x");
@@ -79,25 +55,39 @@ TextToSpeech.OnInitListener {
 		tts = new TextToSpeech(getActivity(), this);
 		
 		setHasOptionsMenu(true);
+		
+		Log.v(LOGTAG, "\t initializing CRUD");
+		this.databaseCRUD = new CRUD(getActivity());
+		this.databaseCRUD.open();
+
+		//MyList tempList = new MyList(this.position + 1, 1, "who cares");
+		
+		List<Group> groupList = databaseCRUD.query_group();
+		Group group = groupList.get(0);
+		
+		this.lists = databaseCRUD.query_list(group);
+
+        this.databaseCRUD.close();
+		
 	}//END void onCreate
 	 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.v(LOGTAG, "onCreateView e");
-		
+
 		Log.v(LOGTAG, "\tusing position: " + position + 1);
-		
+
 		Log.v(LOGTAG, "\t initializing CRUD");
 		this.databaseCRUD = new CRUD(getActivity());
 		this.databaseCRUD.open();
-		
+
 		MyList tempList = new MyList(this.position + 1, 1, "who cares");
-		
+
 		List<Item> items = databaseCRUD.query_item(tempList);
-		
+
 		Log.v(LOGTAG, "\tusing ItemListAdapter to bring List<items> to listview");
 		ListAdapter adapter = new ItemListAdapter(inflater.getContext(), items);
-		
+
         //Setting the list adapter for the ListFragment
 		Log.v(LOGTAG, "\tsetting list adapter");
         setListAdapter(adapter);
@@ -108,7 +98,7 @@ TextToSpeech.OnInitListener {
         
         //Setting the list adapter for the ListFragment
         setListAdapter(adapter);
-		
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }//END View onCreateView
 	
@@ -124,9 +114,9 @@ TextToSpeech.OnInitListener {
 	
 	@Override 
     public void onListItemClick(ListView l, View v, int itemPosition, long id) {
-        Log.v(LOGTAG, "You clicked on item number " + position);
+        /*Log.v(LOGTAG, "You clicked on item number " + position);
         Log.v(LOGTAG, "The selected item is: " + this.groupMembers[position][itemPosition]);
-        speakOut(this.groupMembers[position][itemPosition]);
+        speakOut(this.groupMembers[position][itemPosition]);*/
     }//END void onListItemClick
 	
 	@Override
@@ -148,12 +138,12 @@ TextToSpeech.OnInitListener {
 	    	case R.id.menu_random:
     			Log.v(LOGTAG, "onOptionsItemSelected: Clicked Random");
     			
-    			Random r = new Random();
+    			/*Random r = new Random();
     			int i1 = r.nextInt(this.groupMembers[position].length);
     			
     			Log.v(LOGTAG, Integer.toString(i1));
     			
-    			speakOut(this.groupMembers[position][i1]);
+    			speakOut(this.groupMembers[position][i1]);*/
     			
     			break;
     		
