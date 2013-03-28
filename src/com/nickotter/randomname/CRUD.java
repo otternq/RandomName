@@ -92,7 +92,9 @@ public class CRUD {
 		values.put(Sqlite.LIST_GROUP_ID, group.getID());
 		
 		Log.v(LOGTAG, "inserting with group_id=" + group.getID());
-		database.insert(Sqlite.DATABASE_LIST, null, values);
+		int lastId = (int) database.insert(Sqlite.DATABASE_LIST, null, values);
+		
+		list.setId(lastId);
 		
 		Log.v(LOGTAG, "add_list function end");
 	}
