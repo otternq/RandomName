@@ -22,4 +22,9 @@ public class MyList {
 	public String getName(){
 		return this.name;
 	}
+
+	public void setId(int id) {
+		this._id = id;
+		
+	}
 }

@@ -4,33 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.01"
-        android:ems="10"
-        android:text="@string/default_new_list" android:inputType="text">
+        <EditText
+            android:id="@+id/groupName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="@string/default_new_group" >
 
         <requestFocus />
     </EditText>
-
-    <Spinner
-        android:id="@+id/spinner1"
+    
+    <EditText
+        android:id="@+id/listName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.15" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/done" />
-
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/default_new_list" >
+        <requestFocus />
+    </EditText>
 </LinearLayout>
