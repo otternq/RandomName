@@ -183,6 +183,16 @@ public class CRUD {
 		return groups;
 	}
 	
+	public Group get_group(String name){
+		
+		Cursor cursor = database.query(Sqlite.DATABASE_GROUP, GROUP_COLUMNS, "groupName = " + name, null, null, null, null);
+		cursor.moveToNext();
+		
+		Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
+		
+		return g;
+	}
+	
 	public void update_item(Item item){
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.ITEM_NAME, item.getName());
