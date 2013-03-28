@@ -16,6 +16,8 @@ import com.nickotter.randomname.R.menu;
 
 public class AddGroup extends SherlockFragmentActivity {
 
+	final String LOGTAG = "DrawerTestMainActivity";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
