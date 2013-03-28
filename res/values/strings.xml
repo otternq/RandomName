@@ -21,6 +21,7 @@
     <string name="hello_world">Hello world!</string>    
     <string name="menu_settings">Settings</string>
     <string name="menu_random">Random</string>
+    <string name="menu_add_group">Add Group</string>
     <string name="menu_add_list">Add List</string>
     <string name="menu_add_item">Add Item</string>
     <string name="done">Done</string>
