@@ -62,7 +62,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	 */
 	ViewPager mViewPager;
 	
-	private SimpleSideDrawer mNav;
+	public SimpleSideDrawer mNav;
 	
 	CRUD databaseCRUD = null;
 	

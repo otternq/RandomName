@@ -62,7 +62,10 @@ public class CRUD {
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.ITEM_NAME, item.getName());
 		values.put(Sqlite.ITEM_LIST_ID, list.getID());
-		database.insert(Sqlite.DATABASE_ITEM, null, values);
+		
+		int lastId = (int) database.insert(Sqlite.DATABASE_ITEM, null, values);
+		
+		item.setId(lastId);
 	}
 	
 	public void add_group(Group group){
