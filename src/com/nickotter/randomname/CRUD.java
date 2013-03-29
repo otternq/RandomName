@@ -198,6 +198,16 @@ public class CRUD {
 		return g;
 	}
 	
+	public MyList get_list(String name){
+		
+		Cursor cursor = database.query(Sqlite.DATABASE_LIST, LIST_COLUMNS, "listName = " + name, null, null, null, null);
+		cursor.moveToNext();
+		
+		MyList l = new MyList(0, cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME)));
+		
+		return l;
+	}
+	
 	public void update_item(Item item){
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.ITEM_NAME, item.getName());

@@ -28,6 +28,7 @@
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
     <string name="remove">Remove</string>
+    <string name="default_new_item">Enter Item Name</string>
     <string name="default_new_list">Enter List Name</string>
     <string name="default_new_group">Enter Group Name</string>
     <string name="shook">Device has been shaken</string>

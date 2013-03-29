@@ -1,6 +1,7 @@
 package com.nickotter.randomname.crudActivities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -14,7 +15,7 @@ import com.nickotter.randomname.R;
 
 public class AddGroup extends SherlockFragmentActivity {
 
-	final String LOGTAG = "DrawerTestMainActivity";
+	final String LOGTAG = "AddGroupActivity";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +47,23 @@ public class AddGroup extends SherlockFragmentActivity {
         	  databaseCRUD.open();
         	  
         	  EditText groupElement = (EditText)findViewById(R.id.groupName);
+        	  if(groupElement == null)
+        	  {
+        		  Log.v(LOGTAG, "Error: Group must not be blank");
+        		  finish();
+        	  }
         	  
-        	  Group g1 = new Group(groupElement.getText().toString());
+        	  else
+        	  {
+        		  Group g1 = new Group(groupElement.getText().toString());
+        		  Log.v(LOGTAG, "Adding new group with name and ID: " + g1.getName() + " " + g1.getID());
+
         	  
-        	  databaseCRUD.add_group(g1);
-        	  databaseCRUD.close();
+        		  databaseCRUD.add_group(g1);
+        		  databaseCRUD.close();
         	  
         	  finish();
+        	  }
         	  return true;
         	  
           default:            
