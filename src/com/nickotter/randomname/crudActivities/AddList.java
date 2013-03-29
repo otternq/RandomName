@@ -69,8 +69,9 @@ public class AddList extends SherlockFragmentActivity {
         		  Group gdefault = databaseCRUD.get_group("default");
         		  MyList l1 = new MyList(0, gdefault.getID(), listField.getText().toString());
         	  }
-        	  else
+        	  else {
         		  MyList l1 = new MyList(0, group.getID(), listField.getText().toString());
+        	  }
         		  
         		  
         		  

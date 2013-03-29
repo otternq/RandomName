@@ -11,8 +11,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.Group;
 import com.nickotter.randomname.R;
-import com.nickotter.randomname.R.layout;
-import com.nickotter.randomname.R.menu;
 
 public class AddGroup extends SherlockFragmentActivity {
 
