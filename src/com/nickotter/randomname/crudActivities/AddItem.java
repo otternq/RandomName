@@ -57,6 +57,7 @@ public class AddItem extends SherlockFragmentActivity {
         	  
         	  //list check + return
         	  EditText listField = (EditText)findViewById(R.id.listName);
+        	  Log.v(LOGTAG, "Retreived list string == " + listField.getText().toString());
         	  MyList list = databaseCRUD.get_list(listField.getText().toString());
         	  
         	  if(list == null)
