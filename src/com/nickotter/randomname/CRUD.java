@@ -62,10 +62,7 @@ public class CRUD {
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.ITEM_NAME, item.getName());
 		values.put(Sqlite.ITEM_LIST_ID, list.getID());
-		
-		int lastId = (int) database.insert(Sqlite.DATABASE_ITEM, null, values);
-		
-		item.setId(lastId);
+		database.insert(Sqlite.DATABASE_ITEM, null, values);
 	}
 	
 	public void add_group(Group group){
@@ -196,16 +193,6 @@ public class CRUD {
 		Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
 		
 		return g;
-	}
-	
-	public MyList get_list(String name){
-		
-		Cursor cursor = database.query(Sqlite.DATABASE_LIST, LIST_COLUMNS, "listName = " + name, null, null, null, null);
-		cursor.moveToNext();
-		
-		MyList l = new MyList(0, cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME)));
-		
-		return l;
 	}
 	
 	public void update_item(Item item){
