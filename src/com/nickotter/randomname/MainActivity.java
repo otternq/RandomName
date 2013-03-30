@@ -79,7 +79,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 		setContentView(R.layout.activity_main);
 		
 		Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
-		//this.deleteDatabase(Sqlite.DATABASE_NAME);
+		this.deleteDatabase(Sqlite.DATABASE_NAME);
 
 		Log.v(LOGTAG, "Initializing CRUD object");
 		databaseCRUD = new CRUD(this);

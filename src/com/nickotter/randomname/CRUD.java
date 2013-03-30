@@ -187,12 +187,33 @@ public class CRUD {
 	
 	public Group get_group(String name){
 		
-		Cursor cursor = database.query(Sqlite.DATABASE_GROUP, GROUP_COLUMNS, "groupName = " + name, null, null, null, null);
+		Log.v(LOGTAG, "get_group start");
+		
+		Cursor cursor = database.rawQuery("SELECT groupName FROM groupManager WHERE groupName = ?; ", new String[] { name });
 		cursor.moveToNext();
 		
 		Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
+		Log.v(LOGTAG, "Fetched group with name and id: " + g.getName() + " " + g.getID());
+		Log.v(LOGTAG, "get_group end");
 		
 		return g;
+	}
+	
+	public MyList get_list(String name){
+		
+		Log.v(LOGTAG, "get_list start");
+		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE listName = ?; ", new String[] { name });
+		Log.v(LOGTAG, "Move to next");
+		cursor.moveToNext();
+		Log.v(LOGTAG, "Found or not...");
+		
+		Log.v(LOGTAG, " ++++ num of row " + cursor.getCount() );
+				
+		MyList l = new MyList(cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_ID)), cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME)));
+		Log.v(LOGTAG, "Fetched List with name, group id, and id: " + l.getName() + " " + l.getGroupID() + " " + l.getID());
+		Log.v(LOGTAG, "get_list end");	
+		
+		return l;
 	}
 	
 	public void update_item(Item item){
