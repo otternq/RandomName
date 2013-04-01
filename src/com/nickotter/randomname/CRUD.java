@@ -17,6 +17,8 @@ public class CRUD {
 	SQLiteOpenHelper dbhelper;
 	SQLiteDatabase database;
 	
+	
+	//technically all these are no longer needed (lines 22-49 which are the columns in strings)
 	private static final String[] GROUP_COLUMNS = {
 		Sqlite.GROUP_ID,
 		Sqlite.GROUP_NAME
@@ -100,13 +102,14 @@ public class CRUD {
 	}
 	
 	public List<Item> query_item(MyList list){
-		Log.v(LOGTAG, "query_item e");
+		Log.v(LOGTAG, "query_item start");
 		
 		Log.v(LOGTAG, "initializing List<item>");
 		List<Item> items = new ArrayList<Item>();
 		
 		Log.v(LOGTAG, "creating cursor from database.query()");
-		Cursor cursor = database.query(Sqlite.DATABASE_ITEM, ITEM_COLUMNS, "listID = " + list.getID(), null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_ITEM, ITEM_COLUMNS, "listID = " + list.getID(), null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT itemName, id, listID FROM itemManager WHERE listID = ?; ", new String[] { String.valueOf(list.getID()) });
 		
 		Log.v(LOGTAG, "checking that the cursor is not empty");
 		if(cursor.getCount() > 0 ){
@@ -129,17 +132,18 @@ public class CRUD {
 			Log.v(LOGTAG, "\t query_item cursor is empty");
 		}
 		
-		Log.v(LOGTAG, "query_item x");
+		Log.v(LOGTAG, "query_item finish");
 		return items;
 		
 	}
 	
 	public List<MyList> query_list(Group group){
-		Log.v(LOGTAG, "query_list e");
+		Log.v(LOGTAG, "query_list start");
 		
 		List<MyList> lists = new ArrayList<MyList>();
 		
-		Cursor cursor = database.query(Sqlite.DATABASE_LIST, LIST_COLUMNS, "groupID = " + group.getID(), null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_LIST, LIST_COLUMNS, "groupID = " + group.getID(), null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE groupID = ?; ", new String[] { String.valueOf(group.getID()) });
 		
 		if(cursor.getCount() > 0 ){
 			Log.v(LOGTAG, "\t The cursor retrieved items");
@@ -159,7 +163,7 @@ public class CRUD {
 			Log.v(LOGTAG, "\t The cursor did not retrieve items");
 		}
 		
-		Log.v(LOGTAG, "query_list x");
+		Log.v(LOGTAG, "query_list finish");
 		
 		return lists;
 		
@@ -169,7 +173,9 @@ public class CRUD {
 		List<Group> groups = new ArrayList<Group>();
 		
 		Log.v(LOGTAG, "query_group function start");
-		Cursor cursor = database.query(Sqlite.DATABASE_GROUP, GROUP_COLUMNS, null, null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_GROUP, GROUP_COLUMNS, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager; ", null);
+
 		
 		if(cursor.getCount() > 0){
 			while(cursor.moveToNext()){
@@ -189,10 +195,14 @@ public class CRUD {
 		
 		Log.v(LOGTAG, "get_group start");
 		
-		Cursor cursor = database.rawQuery("SELECT groupName FROM groupManager WHERE groupName = ?; ", new String[] { name });
+		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager WHERE groupName = ?; ", new String[] { name });
 		cursor.moveToNext();
 		
 		Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
+		
+		//The id isn't returned unless this next line is added
+		g.setId(cursor.getInt(cursor.getColumnIndex(Sqlite.GROUP_ID)));
+		
 		Log.v(LOGTAG, "Fetched group with name and id: " + g.getName() + " " + g.getID());
 		Log.v(LOGTAG, "get_group end");
 		
@@ -203,11 +213,7 @@ public class CRUD {
 		
 		Log.v(LOGTAG, "get_list start");
 		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE listName = ?; ", new String[] { name });
-		Log.v(LOGTAG, "Move to next");
 		cursor.moveToNext();
-		Log.v(LOGTAG, "Found or not...");
-		
-		Log.v(LOGTAG, " ++++ num of row " + cursor.getCount() );
 				
 		MyList l = new MyList(cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_ID)), cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME)));
 		Log.v(LOGTAG, "Fetched List with name, group id, and id: " + l.getName() + " " + l.getGroupID() + " " + l.getID());
@@ -263,7 +269,8 @@ public class CRUD {
 	
 	
 	public int query_Shake(){
-		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, SHAKE_COLUMN, null, null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, SHAKE_COLUMN, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT shakeShift FROM shiftManager; ", null);
 		
 		cursor.moveToNext();
 		return cursor.getInt(cursor.getColumnIndex(Sqlite.SHAKE_SHIFT));
@@ -271,7 +278,9 @@ public class CRUD {
 	}
 	
 	public int query_Verbal(){
-		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, VERBAL_COLUMN, null, null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, VERBAL_COLUMN, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT verbalShift FROM shiftManager; ", null);
+
 		
 		cursor.moveToNext();
 		return cursor.getInt(cursor.getColumnIndex(Sqlite.VERBAL_SHIFT));
@@ -279,7 +288,9 @@ public class CRUD {
 	}
 	
 	public int query_Exclusion(){
-		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, EXCLUSION_COLUMN, null, null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, EXCLUSION_COLUMN, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT exclusionShift FROM shiftManager; ", null);
+
 		
 		
 		cursor.moveToNext();
