@@ -196,16 +196,21 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	
 	private void loadLists(int groupIndex) {
 		
+		Log.v(LOGTAG, "Load lists start");
 		// Set up the action bar.
+		Log.v(LOGTAG, "Actionbar get");
 		final ActionBar actionBar = getSupportActionBar();
 		
 		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
         ListAdapter adapter = new GroupListAdapter(this, databaseCRUD.query_group());
         
+        Log.v(LOGTAG, "Find listview");
         ListView groupList = (ListView)findViewById(R.id.listView1);
         groupList.removeAllViewsInLayout();
         groupList.setAdapter(adapter);
+        Log.v(LOGTAG, "Lists removed and reset");
         
+        Log.v(LOGTAG, "Re-init new selection listener");
         groupList.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             	currentGroup = position;
