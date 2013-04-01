@@ -24,6 +24,9 @@
     <string name="menu_add_group">Add Group</string>
     <string name="menu_add_list">Add List</string>
     <string name="menu_add_item">Add Item</string>
+    <string name="settings">Settings</string>
+    <string name="settingsImg">Settings Image</string>
+    <string name="groupSelect">Group Selection</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
@@ -36,9 +39,7 @@
     <string name="test_button">Test Button</string>
     
     <string name="exclusitivity">Exclusitivity</string>
-    
     <string name="shaker">Shake Randomization</string>
-    
     <string name="verbalization">Verbalization</string>
     
     <string name="toggleT">Exclusion Toggle</string>
