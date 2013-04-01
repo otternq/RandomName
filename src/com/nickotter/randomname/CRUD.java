@@ -268,100 +268,111 @@ public class CRUD {
 	}
 	
 	
-	public int query_Shake(){
+	public boolean query_Shake(){
 		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, SHAKE_COLUMN, null, null, null, null, null);
 		Cursor cursor = database.rawQuery("SELECT shakeShift FROM shiftManager; ", null);
-		
 		cursor.moveToNext();
-		return cursor.getInt(cursor.getColumnIndex(Sqlite.SHAKE_SHIFT));
+		int x = cursor.getInt(cursor.getColumnIndex(Sqlite.SHAKE_SHIFT));
+		if (x == 0)
+			return false;
+		else
+			return true;
+		
+		//cursor.moveToNext();
+		//return cursor.getInt(cursor.getColumnIndex(Sqlite.SHAKE_SHIFT));
 		
 	}
 	
-	public int query_Verbal(){
+	public boolean query_Verbal(){
 		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, VERBAL_COLUMN, null, null, null, null, null);
 		Cursor cursor = database.rawQuery("SELECT verbalShift FROM shiftManager; ", null);
-
-		
 		cursor.moveToNext();
-		return cursor.getInt(cursor.getColumnIndex(Sqlite.VERBAL_SHIFT));
+		int x = cursor.getInt(cursor.getColumnIndex(Sqlite.VERBAL_SHIFT));
+		if (x == 0)
+			return false;
+		else
+			return true;
+		
+		//cursor.moveToNext();
+		//return cursor.getInt(cursor.getColumnIndex(Sqlite.VERBAL_SHIFT));
 		
 	}
 	
-	public int query_Exclusion(){
+	public boolean query_Exclusion(){
 		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, EXCLUSION_COLUMN, null, null, null, null, null);
 		Cursor cursor = database.rawQuery("SELECT exclusionShift FROM shiftManager; ", null);
-
-		
-		
 		cursor.moveToNext();
-		return cursor.getInt(cursor.getColumnIndex(Sqlite.EXCLUSION_SHIFT));
+		int x = cursor.getInt(cursor.getColumnIndex(Sqlite.EXCLUSION_SHIFT));
+		if (x == 0)
+			return false;
+		else
+			return true;
+		
+		//cursor.moveToNext();
+		//return cursor.getInt(cursor.getColumnIndex(Sqlite.EXCLUSION_SHIFT));
+		
 	}
 	
 	public boolean toggle_Shake(){
 		ContentValues values = new ContentValues();
-		int x = query_Shake();
+		boolean x = query_Shake();
 		
-		if (x == 0){
+		if (x == false)
+		{
 			values.put(Sqlite.SHAKE_SHIFT, 1);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
 			return false;
-		}else
+		}
+		else
 		{
 			values.put(Sqlite.SHAKE_SHIFT, 0);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
 			return true;
 		}
 		
 	}
 	
-	public boolean toggle_Verbal(){
+	public void toggle_Verbal(){
 		ContentValues values = new ContentValues();
-		int x = query_Verbal();
+		boolean x = query_Verbal();
 		
-		if (x == 0){
+		if (x == false)
+		{
 			values.put(Sqlite.VERBAL_SHIFT, 1);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
-			return true;
-		}else
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
+			return;
+		}
+		else
 		{
 			values.put(Sqlite.VERBAL_SHIFT, 0);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
-			return false;
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
+			return;
 		}
 			
 	}
 	
-	public boolean toggle_Exculison(){
+	public void toggle_Exculison(){
 		ContentValues values = new ContentValues();
-		int x = query_Exclusion();
+		boolean x = query_Exclusion();
 		
-		if (x == 0){
+		if (x == false)
+		{
 			values.put(Sqlite.EXCLUSION_SHIFT, 1);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
-			return false;
-		}else
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
+			return;
+		}
+		else //true
 		{
 			values.put(Sqlite.EXCLUSION_SHIFT, 0);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
-			return true;
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
+			return;
 		}
 		
 	}
 	
 	
 	public void initExtraFunctions(){
+		Log.v(LOGTAG, "Settings init");
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.SHIFT_ID, 1);
 		values.put(Sqlite.EXCLUSION_SHIFT, 0);
@@ -369,7 +380,7 @@ public class CRUD {
 		values.put(Sqlite.VERBAL_SHIFT, 0);
 		
 		database.insert(Sqlite.DATABASE_SHIFT, null, values);
-		
+		Log.v(LOGTAG, "Settings sucesfullly initiated");
 	}
 
 }

@@ -84,7 +84,7 @@ public class DrawerTestMainActivity extends SherlockActivity
 					boolean dbcheck;
             		databaseCRUD.toggle_Exculison();
                     ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
-                    exclusion.setChecked(dbcheck = (databaseCRUD.query_Exclusion() != 0));   
+                    //exclusion.setChecked(dbcheck = (databaseCRUD.query_Exclusion() != 0));   
                     Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Exclusion());
             	};
         	}   
@@ -102,7 +102,7 @@ public class DrawerTestMainActivity extends SherlockActivity
 					boolean dbcheck;
             		databaseCRUD.toggle_Verbal();
                     ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
-                    verbal.setChecked(dbcheck = (databaseCRUD.query_Verbal() != 0));
+                    //verbal.setChecked(dbcheck = (databaseCRUD.query_Verbal() != 0));
                     Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Verbal());
             	};
         	}   
@@ -120,7 +120,7 @@ public class DrawerTestMainActivity extends SherlockActivity
 					boolean dbcheck;
             		databaseCRUD.toggle_Shake();
                     ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
-                    shaker.setChecked(dbcheck = (databaseCRUD.query_Shake() != 0));
+                    //shaker.setChecked(dbcheck = (databaseCRUD.query_Shake() != 0));
                     Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Shake());
             	};
         	}   
@@ -131,11 +131,11 @@ public class DrawerTestMainActivity extends SherlockActivity
         Log.v(LOGTAG, "Initializing setting toggels");
         databaseCRUD.initExtraFunctions();
         ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
-        exclusion.setChecked(dbcheck = (databaseCRUD.query_Exclusion() != 0));
+        //exclusion.setChecked(dbcheck = (databaseCRUD.query_Exclusion() != 0));
         ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
-        verbal.setChecked(dbcheck = (databaseCRUD.query_Verbal() != 0));
+        //verbal.setChecked(dbcheck = (databaseCRUD.query_Verbal() != 0));
         ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
-        shaker.setChecked(dbcheck = (databaseCRUD.query_Shake() != 0));
+        //shaker.setChecked(dbcheck = (databaseCRUD.query_Shake() != 0));
         		
         
         
