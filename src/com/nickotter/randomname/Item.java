@@ -1,6 +1,8 @@
 package com.nickotter.randomname;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 	
 	private int _id;
 	private int _listID;

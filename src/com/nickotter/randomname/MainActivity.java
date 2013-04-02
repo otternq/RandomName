@@ -171,7 +171,7 @@ public class MainActivity extends SherlockFragmentActivity {
         
         
         //Shake acceleration listeners (value of 0 is not shaking and greater than 2 is shaking device)
-        /*Log.v(LOGTAG, "Initilization of Shake detection");
+        Log.v(LOGTAG, "Initilization of Shake detection");
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();   
 
@@ -186,15 +186,11 @@ public class MainActivity extends SherlockFragmentActivity {
         	       //speakOut(shook);
         	       
         	}
-        });*/
-		
-		/*for (MyList tempList : lists) {
-			Log.v(LOGTAG, "loadLists - found list name=" + tempList.getName());
-		}*/
+        });
         
-        // Create the adapter that will return a fragment for each of the three
+        /*// Create the adapter that will return a fragment for each of the three
  		// primary sections of the app.
- 		/*mSectionsPagerAdapter = new SectionsPagerAdapter(
+ 		mSectionsPagerAdapter = new SectionsPagerAdapter(
  			getSupportFragmentManager(), 
  			getApplicationContext(), 
  			lists
@@ -253,8 +249,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			
 			Log.v(LOGTAG, "adding tab for:" + list.getName() + " with id=" + list.getID());
 			
-			Bundle b = new Bundle();
-			
 			
 			Tab tab1 = actionBar.newTab()
 	                .setText(list.getName())
@@ -268,8 +262,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			for (Item tempItem : listItems) {
 				Log.v(LOGTAG, "found entry for itemID="+tempItem.getID());
 			}
-			
-			
+
 			arguments.putSerializable("items", (Serializable) listItems);
 			
 			
@@ -277,9 +270,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			tab1.setTag(arguments);
 		    actionBar.addTab(tab1);
 		    
-			/*actionBar.addTab(actionBar.newTab()
-					.setText(t.getName())
-					.setTabListener(this));*/
 		}
 		
 		
@@ -311,10 +301,12 @@ public class MainActivity extends SherlockFragmentActivity {
 		//Resume DB
 		databaseCRUD.open();
 		
+		this.loadLists();
+		
 		//Resume Shake
-		/*mSensorManager.registerListener(mSensorListener,
+		mSensorManager.registerListener(mSensorListener,
 		        mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-		        SensorManager.SENSOR_DELAY_UI);*/
+		        SensorManager.SENSOR_DELAY_UI);
 		
 		Log.v(LOGTAG, "onResume ofMainactivity sucessful");
 	}
@@ -325,6 +317,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		super.onPause();
 		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.removeAllTabs();
+		
 		//Pause DB
 		if (databaseCRUD != null) {
 			databaseCRUD.close();
@@ -333,7 +328,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		}
 		
 		//Pause Shake
-	    //mSensorManager.unregisterListener(mSensorListener);
+	    mSensorManager.unregisterListener(mSensorListener);
 		
 		Log.v(LOGTAG, "onPause of MainActivity sucessful");
 	}
