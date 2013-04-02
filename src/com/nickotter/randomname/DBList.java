@@ -116,7 +116,7 @@ TextToSpeech.OnInitListener {
 	
 	@Override 
     public void onListItemClick(ListView l, View v, int itemPosition, long id) {
-        Log.v(LOGTAG, "You clicked on item number " + position);
+        Log.v(LOGTAG, "Currently within list number " + position);
         //Log.v(LOGTAG, "The selected item is: " + this.groupMembers[position][itemPosition]);
         //speakOut(this.groupMembers[position][itemPosition]);
     }//END void onListItemClick

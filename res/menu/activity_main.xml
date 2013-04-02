@@ -23,8 +23,7 @@
     <item
         android:id="@+id/menu_add_item"
         android:showAsAction="always"
-        android:title="@+string/menu_add_item" />
-        
+        android:title="@+string/menu_add_item" />        
 
     <item
         android:id="@+id/menu_random"
