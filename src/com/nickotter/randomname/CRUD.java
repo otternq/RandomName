@@ -117,7 +117,7 @@ public class CRUD {
 			Log.v(LOGTAG, "iterating through cursor");
 			while(cursor.moveToNext()){
 				
-				Log.v(LOGTAG, "initializing item to be added to list");
+				Log.v(LOGTAG, "initializing item to be added to list. name=" + cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME)));
 				Item item = new Item(
 					cursor.getColumnIndex(Sqlite.ITEM_ID),
 					cursor.getColumnIndex(Sqlite.ITEM_LIST_ID),
