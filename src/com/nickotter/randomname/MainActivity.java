@@ -171,7 +171,7 @@ public class MainActivity extends SherlockFragmentActivity {
         
         
         //Shake acceleration listeners (value of 0 is not shaking and greater than 2 is shaking device)
-        Log.v(LOGTAG, "Initilization of Shake detection");
+        /*Log.v(LOGTAG, "Initilization of Shake detection");
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorListener = new ShakeEventListener();   
 
@@ -186,7 +186,7 @@ public class MainActivity extends SherlockFragmentActivity {
         	       //speakOut(shook);
         	       
         	}
-        });
+        });*/
 		
 		/*for (MyList tempList : lists) {
 			Log.v(LOGTAG, "loadLists - found list name=" + tempList.getName());
@@ -225,9 +225,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
         ListAdapter adapter = new GroupListAdapter(this, databaseCRUD.query_group());
        
-        /*ListView groupList = (ListView)findViewById(R.id.listView1);
+        ListView groupList = (ListView)findViewById(R.id.listView1);
         groupList.removeAllViewsInLayout();
-        groupList.setAdapter(adapter);*/
+        groupList.setAdapter(adapter);
         
         //end content to display groups in slider
         
@@ -236,7 +236,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		// Set up the action bar.
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		//actionBar.removeAllTabs();
+		actionBar.removeAllTabs();
         
         List<Group> groups = databaseCRUD.query_group();
         

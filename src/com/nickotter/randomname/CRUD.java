@@ -64,7 +64,8 @@ public class CRUD {
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.ITEM_NAME, item.getName());
 		values.put(Sqlite.ITEM_LIST_ID, list.getID());
-		database.insert(Sqlite.DATABASE_ITEM, null, values);
+		int lastId = (int) database.insert(Sqlite.DATABASE_ITEM, null, values);
+		item.setId(lastId);
 	}
 	
 	public void add_group(Group group){
@@ -119,8 +120,8 @@ public class CRUD {
 				
 				Log.v(LOGTAG, "initializing item to be added to list. name=" + cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME)));
 				Item item = new Item(
-					cursor.getColumnIndex(Sqlite.ITEM_ID),
-					cursor.getColumnIndex(Sqlite.ITEM_LIST_ID),
+					cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_ID)),
+					cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_LIST_ID)),
 					cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME))
 						);
 				
@@ -150,8 +151,8 @@ public class CRUD {
 			while(cursor.moveToNext()){
 				
 				MyList list = new MyList(
-						cursor.getColumnIndex(Sqlite.LIST_ID),
-						cursor.getColumnIndex(Sqlite.LIST_GROUP_ID),
+						cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_ID)),
+						cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)),
 						cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME))
 						);
 				Log.v(LOGTAG, "\tLIST_NAME=" + list.getName());
