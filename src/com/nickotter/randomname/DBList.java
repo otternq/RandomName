@@ -1,8 +1,8 @@
 package com.nickotter.randomname;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -10,17 +10,14 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 //import android.support.v4.app.ListFragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.speech.tts.TextToSpeech;
 
 import com.nickotter.randomname.MyList;
@@ -33,23 +30,14 @@ import com.nickotter.randomname.crudActivities.AddList;
 public class DBList extends SherlockListFragment implements
 TextToSpeech.OnInitListener {
 
+
 	final String LOGTAG = "DBList";
 	
 	private TextToSpeech tts;
 	
 	private CRUD databaseCRUD;
 	
-	private int position = 0;
-	
-	List<MyList> lists;
-	
-	DBList(int position) {
-		Log.v(LOGTAG, "DBList e");
-		
-		this.position = position;
-		
-		Log.v(LOGTAG, "DBList x");
-	}
+	List<Item> items = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,49 +45,29 @@ TextToSpeech.OnInitListener {
 		tts = new TextToSpeech(getActivity(), this);
 		
 		setHasOptionsMenu(true);
-		
-		Log.v(LOGTAG, "\t initializing CRUD");
-		this.databaseCRUD = new CRUD(getActivity());
-		this.databaseCRUD.open();
-
-		//MyList tempList = new MyList(this.position + 1, 1, "who cares");
-		
-		List<Group> groupList = databaseCRUD.query_group();
-		Group group = groupList.get(0);
-		
-		this.lists = databaseCRUD.query_list(group);
-		
-        this.databaseCRUD.close();
-		
 	}//END void onCreate
 	 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.v(LOGTAG, "onCreateView e");
-
-		Log.v(LOGTAG, "\tusing position: " + position + 1);
-
-		Log.v(LOGTAG, "\t initializing CRUD");
-		this.databaseCRUD = new CRUD(getActivity());
-		this.databaseCRUD.open();
-
-		MyList tempList = new MyList(this.position + 1, 1, "who cares");
-
-		List<Item> items = databaseCRUD.query_item(tempList);
+		
+		Bundle argument = getArguments();
+		this.items = (List<Item>) argument.getSerializable("items");
+		
+		for (Item tempItem : this.items) {
+			Log.v(LOGTAG, "found item with name=" + tempItem.getName());
+		}
 
 		Log.v(LOGTAG, "\tusing ItemListAdapter to bring List<items> to listview");
-		ListAdapter adapter = new ItemListAdapter(inflater.getContext(), items);
+		ListAdapter adapter = new ItemListAdapter(inflater.getContext(), this.items);
 
+		
+		
         //Setting the list adapter for the ListFragment
 		Log.v(LOGTAG, "\tsetting list adapter");
         setListAdapter(adapter);
- 
-        this.databaseCRUD.close();
         
         Log.v(LOGTAG, "onCreateView x, returning super");
-        
-        //Setting the list adapter for the ListFragment
-        setListAdapter(adapter);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }//END View onCreateView
@@ -111,12 +79,12 @@ TextToSpeech.OnInitListener {
             tts.stop();
             tts.shutdown();
         }
+        
         super.onDestroy();
     }//END void onDestroy
 	
 	@Override 
     public void onListItemClick(ListView l, View v, int itemPosition, long id) {
-        Log.v(LOGTAG, "You clicked on item number " + position);
         //Log.v(LOGTAG, "The selected item is: " + this.groupMembers[position][itemPosition]);
         //speakOut(this.groupMembers[position][itemPosition]);
     }//END void onListItemClick
