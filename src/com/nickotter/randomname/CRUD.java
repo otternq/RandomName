@@ -17,6 +17,8 @@ public class CRUD {
 	SQLiteOpenHelper dbhelper;
 	SQLiteDatabase database;
 	
+	
+	//technically all these are no longer needed (lines 22-49 which are the columns in strings)
 	private static final String[] GROUP_COLUMNS = {
 		Sqlite.GROUP_ID,
 		Sqlite.GROUP_NAME
@@ -62,10 +64,7 @@ public class CRUD {
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.ITEM_NAME, item.getName());
 		values.put(Sqlite.ITEM_LIST_ID, list.getID());
-		
-		int lastId = (int) database.insert(Sqlite.DATABASE_ITEM, null, values);
-		
-		item.setId(lastId);
+		database.insert(Sqlite.DATABASE_ITEM, null, values);
 	}
 	
 	public void add_group(Group group){
@@ -103,13 +102,14 @@ public class CRUD {
 	}
 	
 	public List<Item> query_item(MyList list){
-		Log.v(LOGTAG, "query_item e");
+		Log.v(LOGTAG, "query_item start");
 		
 		Log.v(LOGTAG, "initializing List<item>");
 		List<Item> items = new ArrayList<Item>();
 		
 		Log.v(LOGTAG, "creating cursor from database.query()");
-		Cursor cursor = database.query(Sqlite.DATABASE_ITEM, ITEM_COLUMNS, "listID = " + list.getID(), null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_ITEM, ITEM_COLUMNS, "listID = " + list.getID(), null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT itemName, id, listID FROM itemManager WHERE listID = ?; ", new String[] { String.valueOf(list.getID()) });
 		
 		Log.v(LOGTAG, "checking that the cursor is not empty");
 		if(cursor.getCount() > 0 ){
@@ -132,17 +132,18 @@ public class CRUD {
 			Log.v(LOGTAG, "\t query_item cursor is empty");
 		}
 		
-		Log.v(LOGTAG, "query_item x");
+		Log.v(LOGTAG, "query_item finish");
 		return items;
 		
 	}
 	
 	public List<MyList> query_list(Group group){
-		Log.v(LOGTAG, "query_list e");
+		Log.v(LOGTAG, "query_list start");
 		
 		List<MyList> lists = new ArrayList<MyList>();
 		
-		Cursor cursor = database.query(Sqlite.DATABASE_LIST, LIST_COLUMNS, "groupID = " + group.getID(), null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_LIST, LIST_COLUMNS, "groupID = " + group.getID(), null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE groupID = ?; ", new String[] { String.valueOf(group.getID()) });
 		
 		if(cursor.getCount() > 0 ){
 			Log.v(LOGTAG, "\t The cursor retrieved items");
@@ -162,7 +163,7 @@ public class CRUD {
 			Log.v(LOGTAG, "\t The cursor did not retrieve items");
 		}
 		
-		Log.v(LOGTAG, "query_list x");
+		Log.v(LOGTAG, "query_list finish");
 		
 		return lists;
 		
@@ -172,7 +173,9 @@ public class CRUD {
 		List<Group> groups = new ArrayList<Group>();
 		
 		Log.v(LOGTAG, "query_group function start");
-		Cursor cursor = database.query(Sqlite.DATABASE_GROUP, GROUP_COLUMNS, null, null, null, null, null);
+		//Cursor cursor = database.query(Sqlite.DATABASE_GROUP, GROUP_COLUMNS, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager; ", null);
+
 		
 		if(cursor.getCount() > 0){
 			while(cursor.moveToNext()){
@@ -190,12 +193,33 @@ public class CRUD {
 	
 	public Group get_group(String name){
 		
-		Cursor cursor = database.query(Sqlite.DATABASE_GROUP, GROUP_COLUMNS, "groupName = " + name, null, null, null, null);
+		Log.v(LOGTAG, "get_group start");
+		
+		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager WHERE groupName = ?; ", new String[] { name });
 		cursor.moveToNext();
 		
 		Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
 		
+		//The id isn't returned unless this next line is added
+		g.setId(cursor.getInt(cursor.getColumnIndex(Sqlite.GROUP_ID)));
+		
+		Log.v(LOGTAG, "Fetched group with name and id: " + g.getName() + " " + g.getID());
+		Log.v(LOGTAG, "get_group end");
+		
 		return g;
+	}
+	
+	public MyList get_list(String name){
+		
+		Log.v(LOGTAG, "get_list start");
+		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE listName = ?; ", new String[] { name });
+		cursor.moveToNext();
+				
+		MyList l = new MyList(cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_ID)), cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME)));
+		Log.v(LOGTAG, "Fetched List with name, group id, and id: " + l.getName() + " " + l.getGroupID() + " " + l.getID());
+		Log.v(LOGTAG, "get_list end");	
+		
+		return l;
 	}
 	
 	public void update_item(Item item){
@@ -244,95 +268,111 @@ public class CRUD {
 	}
 	
 	
-	public int query_Shake(){
-		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, SHAKE_COLUMN, null, null, null, null, null);
-		
+	public boolean query_Shake(){
+		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, SHAKE_COLUMN, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT shakeShift FROM shiftManager; ", null);
 		cursor.moveToNext();
-		return cursor.getInt(cursor.getColumnIndex(Sqlite.SHAKE_SHIFT));
+		int x = cursor.getInt(cursor.getColumnIndex(Sqlite.SHAKE_SHIFT));
+		if (x == 0)
+			return false;
+		else
+			return true;
+		
+		//cursor.moveToNext();
+		//return cursor.getInt(cursor.getColumnIndex(Sqlite.SHAKE_SHIFT));
 		
 	}
 	
-	public int query_Verbal(){
-		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, VERBAL_COLUMN, null, null, null, null, null);
-		
+	public boolean query_Verbal(){
+		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, VERBAL_COLUMN, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT verbalShift FROM shiftManager; ", null);
 		cursor.moveToNext();
-		return cursor.getInt(cursor.getColumnIndex(Sqlite.VERBAL_SHIFT));
+		int x = cursor.getInt(cursor.getColumnIndex(Sqlite.VERBAL_SHIFT));
+		if (x == 0)
+			return false;
+		else
+			return true;
+		
+		//cursor.moveToNext();
+		//return cursor.getInt(cursor.getColumnIndex(Sqlite.VERBAL_SHIFT));
 		
 	}
 	
-	public int query_Exclusion(){
-		Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, EXCLUSION_COLUMN, null, null, null, null, null);
-		
-		
+	public boolean query_Exclusion(){
+		//Cursor cursor = database.query(Sqlite.DATABASE_SHIFT, EXCLUSION_COLUMN, null, null, null, null, null);
+		Cursor cursor = database.rawQuery("SELECT exclusionShift FROM shiftManager; ", null);
 		cursor.moveToNext();
-		return cursor.getInt(cursor.getColumnIndex(Sqlite.EXCLUSION_SHIFT));
+		int x = cursor.getInt(cursor.getColumnIndex(Sqlite.EXCLUSION_SHIFT));
+		if (x == 0)
+			return false;
+		else
+			return true;
+		
+		//cursor.moveToNext();
+		//return cursor.getInt(cursor.getColumnIndex(Sqlite.EXCLUSION_SHIFT));
+		
 	}
 	
 	public boolean toggle_Shake(){
 		ContentValues values = new ContentValues();
-		int x = query_Shake();
+		boolean x = query_Shake();
 		
-		if (x == 0){
+		if (x == false)
+		{
 			values.put(Sqlite.SHAKE_SHIFT, 1);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
 			return false;
-		}else
+		}
+		else
 		{
 			values.put(Sqlite.SHAKE_SHIFT, 0);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
 			return true;
 		}
 		
 	}
 	
-	public boolean toggle_Verbal(){
+	public void toggle_Verbal(){
 		ContentValues values = new ContentValues();
-		int x = query_Verbal();
+		boolean x = query_Verbal();
 		
-		if (x == 0){
+		if (x == false)
+		{
 			values.put(Sqlite.VERBAL_SHIFT, 1);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
-			return true;
-		}else
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
+			return;
+		}
+		else
 		{
 			values.put(Sqlite.VERBAL_SHIFT, 0);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
-			return false;
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
+			return;
 		}
 			
 	}
 	
-	public boolean toggle_Exculison(){
+	public void toggle_Exculison(){
 		ContentValues values = new ContentValues();
-		int x = query_Exclusion();
+		boolean x = query_Exclusion();
 		
-		if (x == 0){
+		if (x == false)
+		{
 			values.put(Sqlite.EXCLUSION_SHIFT, 1);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
-			return false;
-		}else
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
+			return;
+		}
+		else //true
 		{
 			values.put(Sqlite.EXCLUSION_SHIFT, 0);
-			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{
-					String.valueOf(1)
-			});
-			return true;
+			database.update(Sqlite.DATABASE_SHIFT, values, Sqlite.SHIFT_ID + "= ? ", new String[]{ String.valueOf(1) });
+			return;
 		}
 		
 	}
 	
 	
 	public void initExtraFunctions(){
+		Log.v(LOGTAG, "Settings init");
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.SHIFT_ID, 1);
 		values.put(Sqlite.EXCLUSION_SHIFT, 0);
@@ -340,7 +380,7 @@ public class CRUD {
 		values.put(Sqlite.VERBAL_SHIFT, 0);
 		
 		database.insert(Sqlite.DATABASE_SHIFT, null, values);
-		
+		Log.v(LOGTAG, "Settings sucesfullly initiated");
 	}
 
 }

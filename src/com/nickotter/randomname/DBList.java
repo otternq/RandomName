@@ -24,6 +24,8 @@ import com.nickotter.randomname.MyList;
 import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.ItemListAdapter;
 import com.nickotter.randomname.crudActivities.AddGroup;
+import com.nickotter.randomname.crudActivities.AddItem;
+import com.nickotter.randomname.crudActivities.AddList;
 
 public class DBList extends SherlockListFragment implements
 TextToSpeech.OnInitListener {
@@ -43,7 +45,6 @@ TextToSpeech.OnInitListener {
 		tts = new TextToSpeech(getActivity(), this);
 		
 		setHasOptionsMenu(true);
-		
 	}//END void onCreate
 	 
 	@Override
@@ -84,9 +85,8 @@ TextToSpeech.OnInitListener {
 	
 	@Override 
     public void onListItemClick(ListView l, View v, int itemPosition, long id) {
-        /*Log.v(LOGTAG, "You clicked on item number " + position);
-        Log.v(LOGTAG, "The selected item is: " + this.groupMembers[position][itemPosition]);
-        speakOut(this.groupMembers[position][itemPosition]);*/
+        //Log.v(LOGTAG, "The selected item is: " + this.groupMembers[position][itemPosition]);
+        //speakOut(this.groupMembers[position][itemPosition]);
     }//END void onListItemClick
 	
 	@Override
@@ -117,20 +117,28 @@ TextToSpeech.OnInitListener {
     			
     			break;
     		
-	    	case R.id.demobutton:
-	    		Intent i = new Intent(getActivity(), AddGroup.class);
-	    		startActivity(i); 
-    			
-	    	/*case R.id.menu_add_item:
-	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add item");
+	    	case R.id.menu_add_group:
+	    		Log.v(LOGTAG, "Main menu selection: Clicked Add Group");
+	    		Intent igroup = new Intent(getActivity(), AddGroup.class);
+	    		startActivity(igroup); 
 	    		
 	    		break;
-	    		
+	   
 	    	case R.id.menu_add_list:
-	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Add List");
+	    		Log.v(LOGTAG, "Main menu selection: Clicked Add List");
+	    		Intent ilist = new Intent(getActivity(), AddList.class);
+	    		startActivity(ilist);
+	    		
+	    		break;   	
+	    		
+	    	case R.id.menu_add_item:
+	    		Log.v(LOGTAG, "Main menu selection: Clicked Add item");
+	    		Intent iitem = new Intent(getActivity(), AddItem.class);
+	    		startActivity(iitem);
 	    		
 	    		break;
 	    		
+	    		/*
 	    	case R.id.menu_settings:
 	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Settings");
 	    		
@@ -138,7 +146,7 @@ TextToSpeech.OnInitListener {
     			
 	        default:
 	        	Log.v(LOGTAG, "onOptionsItemSelected: failed to identify what was clicked");
-	        break;
+	        	break;
 
 	    }
 

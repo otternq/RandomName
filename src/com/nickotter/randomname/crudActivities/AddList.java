@@ -1,8 +1,5 @@
 package com.nickotter.randomname.crudActivities;
 
-import java.util.HashMap;
-import java.util.List;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -16,12 +13,10 @@ import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.Group;
 import com.nickotter.randomname.MyList;
 import com.nickotter.randomname.R;
-import com.nickotter.randomname.R.layout;
-import com.nickotter.randomname.R.menu;
 
 public class AddList extends SherlockFragmentActivity {
 
-	final String LOGTAG = "DrawerTestMainActivity";
+	final String LOGTAG = "AddListActivity";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +51,7 @@ public class AddList extends SherlockFragmentActivity {
         	  EditText listField = (EditText)findViewById(R.id.listName);
         	  if(listField == null)
         	  {
-        		  Log.v(LOGTAG, "Error: list must not be blank");    	
+        		  Log.v(LOGTAG, "Error: list was blank");    	
         		  finish();
         	  }
         	  
@@ -66,20 +61,21 @@ public class AddList extends SherlockFragmentActivity {
         	  
         	  if(group == null)
         	  {
+        		  Log.v(LOGTAG, "No group entered setting to default");
         		  Group gdefault = databaseCRUD.get_group("default");
         		  MyList l1 = new MyList(0, gdefault.getID(), listField.getText().toString());
+        		  databaseCRUD.add_list(gdefault, l1);
         	  }
-        	  else {
+        	  else 
+        	  {
+        		  Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());
         		  MyList l1 = new MyList(0, group.getID(), listField.getText().toString());
+        		  databaseCRUD.add_list(group, l1);
         	  }
-        		  
-        		  
-        		  
-    		  //Log.v(LOGTAG, "Fetching Groups for comparison");
-      
-      		  //MyList l1 = new MyList(0, group.getID(), "List 1");
+
         	  
-        	  //databaseCRUD.add_group(g1);
+        	  //finish
+        	  Log.v(LOGTAG, "New list entry sucessful");
         	  databaseCRUD.close();
         	  
         	  finish();

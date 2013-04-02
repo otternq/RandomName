@@ -12,13 +12,19 @@
         android:title="@string/menu_add_list" />-->
     
     <item
-        android:id="@+id/demobutton"
+        android:id="@+id/menu_add_group"
         android:showAsAction="always"
         android:title="@string/menu_add_group" />
     <item
-        android:id="@+id/menu_add_item"
+        android:id="@+id/menu_add_list"
         android:showAsAction="always"
         android:title="@string/menu_add_list" />
+    
+    <item
+        android:id="@+id/menu_add_item"
+        android:showAsAction="always"
+        android:title="@+string/menu_add_item" />
+        
 
     <item
         android:id="@+id/menu_random"

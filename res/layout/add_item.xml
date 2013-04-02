@@ -5,23 +5,23 @@
     android:orientation="vertical" >
 
     <EditText
-            android:id="@+id/groupName"
+            android:id="@+id/listName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:ems="10"
             android:inputType="text"
-            android:text="@string/default_new_group" >
+            android:text="@string/default_new_list">
         <requestFocus />
     </EditText>
     
     <EditText
-        android:id="@+id/listName"
+        android:id="@+id/itemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:text="@string/default_new_list" >
+        android:text="@string/default_new_item" >
         <requestFocus />
     </EditText>
 </LinearLayout>

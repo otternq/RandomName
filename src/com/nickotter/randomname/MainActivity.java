@@ -50,7 +50,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	 */
 	//ViewPager mViewPager;
 	
-	public SimpleSideDrawer mNav;
+	public SimpleSideDrawer settingsNav;
 	
 	CRUD databaseCRUD = null;
 	
@@ -75,14 +75,15 @@ public class MainActivity extends SherlockFragmentActivity {
 		Log.v(LOGTAG, "opening database connection in CRUD object");
 		databaseCRUD.open();
 		
-		Log.v(LOGTAG, "Calling createGroups from onCreate");
-		createGroups();
+		Log.v(LOGTAG, "Creating dummy DB from onCreate using dummyDB()");
+		dummyDB();
 		
 		ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 		
-		/*mNav = new SimpleSideDrawer(this);
-        mNav.setBehindContentView(R.layout.settings_sidedrawer);
+		settingsNav = new SimpleSideDrawer(this);
+        settingsNav.setBehindContentView(R.layout.settings_sidedrawer);
+
         
         Log.v(LOGTAG, "Setting group list adapter");
 		
@@ -100,7 +101,7 @@ public class MainActivity extends SherlockFragmentActivity {
         groupList.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             	currentGroup = position;
-            	mNav.toggleDrawer();
+            	settingsNav.toggleDrawer();
             	Log.v(LOGTAG, "\n\n\n\tclicked on group index=" + position);
             	loadLists();
             }
@@ -116,11 +117,9 @@ public class MainActivity extends SherlockFragmentActivity {
             	public void onClick(View v) 
             	{
             		Log.v(LOGTAG, "Exclusion toggle selected");
-                    @SuppressWarnings("unused")
-					boolean dbcheck;
             		databaseCRUD.toggle_Exculison();
                     ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
-                    exclusion.setChecked(dbcheck = (databaseCRUD.query_Exclusion() != 0));   
+                    exclusion.setChecked(databaseCRUD.query_Exclusion());   
                     Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Exclusion());
             	};
         	}   
@@ -134,11 +133,9 @@ public class MainActivity extends SherlockFragmentActivity {
             	public void onClick(View v) 
             	{
             		Log.v(LOGTAG, "Verbal toggle selected");
-                    @SuppressWarnings("unused")
-					boolean dbcheck;
             		databaseCRUD.toggle_Verbal();
                     ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
-                    verbal.setChecked(dbcheck = (databaseCRUD.query_Verbal() != 0));
+                    verbal.setChecked(databaseCRUD.query_Verbal());
                     Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Verbal());
             	};
         	}   
@@ -152,11 +149,9 @@ public class MainActivity extends SherlockFragmentActivity {
             	public void onClick(View v) 
             	{
             		Log.v(LOGTAG, "Shaker toggle selected");
-                    @SuppressWarnings("unused")
-					boolean dbcheck;
             		databaseCRUD.toggle_Shake();
                     ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
-                    shaker.setChecked(dbcheck = (databaseCRUD.query_Shake() != 0));
+                    shaker.setChecked(databaseCRUD.query_Shake());
                     Log.v(LOGTAG, "\tCurrent db value: " + databaseCRUD.query_Shake());
             	};
         	}   
@@ -227,11 +222,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		Log.v(LOGTAG, "loadLists - current group="+ this.currentGroup);
 		
-		//content to display groups in the slider
-		
 		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
         ListAdapter adapter = new GroupListAdapter(this, databaseCRUD.query_group());
-        
+       
         /*ListView groupList = (ListView)findViewById(R.id.listView1);
         groupList.removeAllViewsInLayout();
         groupList.setAdapter(adapter);*/
@@ -302,7 +295,7 @@ public class MainActivity extends SherlockFragmentActivity {
        switch (item.getItemId()) 
        {        
           case android.R.id.home:            
-        	  mNav.toggleDrawer();       
+        	  settingsNav.toggleDrawer();       
           default:            
              return super.onOptionsItemSelected(item);    
        }
@@ -311,7 +304,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	@Override
 	protected void onResume() {
-		Log.v(LOGTAG, "onResuem e");
+		Log.v(LOGTAG, "onResume MainActivity starting");
 		
 		super.onResume();
 		
@@ -323,12 +316,12 @@ public class MainActivity extends SherlockFragmentActivity {
 		        mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 		        SensorManager.SENSOR_DELAY_UI);*/
 		
-		Log.v(LOGTAG, "onResume x");
+		Log.v(LOGTAG, "onResume ofMainactivity sucessful");
 	}
 	
 	@Override
 	protected void onPause() {
-		Log.v(LOGTAG, "onPause e");
+		Log.v(LOGTAG, "onPause MainActivity starting");
 		
 		super.onPause();
 		
@@ -342,15 +335,28 @@ public class MainActivity extends SherlockFragmentActivity {
 		//Pause Shake
 	    //mSensorManager.unregisterListener(mSensorListener);
 		
-		Log.v(LOGTAG, "onPause x");
+		Log.v(LOGTAG, "onPause of MainActivity sucessful");
 	}
 	
-	public void createGroups() {
+	public void dummyDB() {
+		Log.v(LOGTAG, "dummyDB started");
+
 		
-		// init shake, exclusion, verbal to false
+		// init shake, exclusion, verbal to false, set buttons accordingly
+		Log.v(LOGTAG, "Setting up settings defaults");
 		databaseCRUD.initExtraFunctions();
+		Log.v(LOGTAG, "Settings display initialization");
+		/*
+        ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
+        //----------------------------->>>>> NULL POINTER EXCEPTION WHEN SETTING TOGGLES? <<<<<<--------------------------//
+        Log.v(LOGTAG, "test");
+        exclusion.setChecked(databaseCRUD.query_Exclusion());
+        ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
+        verbal.setChecked(databaseCRUD.query_Verbal());
+        ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
+        shaker.setChecked(databaseCRUD.query_Shake());
+        */
 		
-		Log.v(LOGTAG, "createGroups e");
 		
 		Log.v(LOGTAG, "\tcreating groups start");
 		Group g1 = new Group("CS480");
@@ -386,9 +392,11 @@ public class MainActivity extends SherlockFragmentActivity {
 		databaseCRUD.add_item(l2, i4);
 		databaseCRUD.add_item(l3, i5);
 		
+		Log.v(LOGTAG, "dummyDB finished");
 		
 		Log.v(LOGTAG, "createGroups x");
 		
+			
 		
 	}
 
