@@ -23,7 +23,7 @@
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="@string/listSelect"
+        android:text="@string/groupSelect"
         android:textSize="22sp" />
 
     <View

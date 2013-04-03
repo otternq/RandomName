@@ -5,6 +5,9 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,15 +25,17 @@ import com.nickotter.randomname.R;
 
 public class AddItem extends SherlockFragmentActivity {
 
-	final String LOGTAG = "AddListActivity";
+	final String LOGTAG = "AddItemActivity";
 	
 	protected CRUD databaseCRUD = null;
 	protected List<MyList> lists = null;
+	protected List<Group> groups = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         Log.v(LOGTAG, "onCreate start");
         
+        //setup layout and action bar
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_item);
 		
@@ -38,16 +43,71 @@ public class AddItem extends SherlockFragmentActivity {
         bar.setDisplayHomeAsUpEnabled(true);
         
         Log.v(LOGTAG, "\taction bar has home enabled");
-
+        
+        //open DB
         Log.v(LOGTAG, "\topening database connection");
         this.databaseCRUD = new CRUD(this);
         this.databaseCRUD.open();     
         
-        Log.v(LOGTAG, "\tquery for lists");
+        //pull current group from intent and load spinners of lists based on group name
         String groupName = getIntent().getStringExtra("group");
-        Group g = this.databaseCRUD.get_group(groupName);
+        loadListSpinner(groupName);
+        
+        //load group spinner
+        Log.v(LOGTAG, "\tquery for groups");
+        this.groups = this.databaseCRUD.query_group(); 
+        //this needs to be changed to a custom adapter        
+        Log.v(LOGTAG, "\tinitalizing a group list");
+        List<String> tempGroup = new ArrayList<String>();
+        
+        for (Group group : this.groups)
+        {
+        	tempGroup.add(group.getName());
+        }
+        
+        Log.v(LOGTAG, "\tinitalizing spinner objet from layout");
+        Spinner gspinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);    
+        Log.v(LOGTAG, "\tarray adapter for temp group list");
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tempGroup);      
+        Log.v(LOGTAG, "\tsetting array adapter");
+        gspinner.setAdapter(spinnerArrayAdapter);      
+
+        gspinner.setOnItemSelectedListener(new OnItemSelectedListener() 
+        {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) 
+			{
+				//get string of selection then send it to loadListSpinner()
+				Log.v(LOGTAG, "Group spinner new item selected");
+				String selectedGroup = parent.getSelectedItem().toString();
+				loadListSpinner(selectedGroup);			
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) 
+			{
+				//nothing...
+				Log.v(LOGTAG, "Group spinner nothing selected");
+				return;
+			}
+        });
+        
+        Log.v(LOGTAG, "onCreate end");
+        
+	}
+
+	private void loadListSpinner(String groupName)
+	{
+		//reset lists
+		Log.v(LOGTAG, "reset lists to null");
+		lists = null;
+		
+		//query lists based on group
+        Log.v(LOGTAG, "\tquery for lists");
+		Group g = this.databaseCRUD.get_group(groupName);
         this.lists = this.databaseCRUD.query_list(g);
         
+        //setup new array for spinner adapter
         Log.v(LOGTAG, "\tinitalizing a list list");
         List<String> tempList = new ArrayList<String>();
         
@@ -64,9 +124,6 @@ public class AddItem extends SherlockFragmentActivity {
         
         Log.v(LOGTAG, "\tsetting array adapter");
         spinner.setAdapter(spinnerArrayAdapter);
-        
-        Log.v(LOGTAG, "onCreate end");
-        
 	}
 	
 	@Override
@@ -90,6 +147,7 @@ public class AddItem extends SherlockFragmentActivity {
         	  Log.v(LOGTAG, "Submit start");
         	  //Item check
         	  EditText itemField = (EditText)findViewById(R.id.itemName);
+        	  //note: this does not check for empty string (currently useless)
         	  if(itemField == null)
         	  {
         		  Log.v(LOGTAG, "Error: item was blank");    	
