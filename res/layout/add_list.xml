@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <EditText
+    <!-- <EditText
             android:id="@+id/groupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -13,7 +13,13 @@
             android:inputType="text"
             android:text="@string/default_new_group" >
         <requestFocus />
-    </EditText>
+    </EditText> -->
+    
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/groupSelect" />
     
     <EditText
         android:id="@+id/listName"

@@ -317,9 +317,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		super.onPause();
 		
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.removeAllTabs();
-		
 		//Pause DB
 		if (databaseCRUD != null) {
 			databaseCRUD.close();
