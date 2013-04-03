@@ -30,7 +30,7 @@ public class AddList extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Log.v(LOGTAG, "onCreate e");
+		Log.v(LOGTAG, "onCreate start");
 		setContentView(R.layout.add_list);
 		
 		ActionBar bar = getSupportActionBar();
@@ -45,7 +45,7 @@ public class AddList extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\tquery for groups");
         this.groups = this.databaseCRUD.query_group();
         
-        //this needs to be chaged to a custom adapter
+        //this needs to be changed to a custom adapter
         
         Log.v(LOGTAG, "\tinitalizing a group list");
         List<String> tempGroup = new ArrayList<String>();
@@ -55,7 +55,7 @@ public class AddList extends SherlockFragmentActivity {
         }
         
         Log.v(LOGTAG, "\tinitalizing spinner objet from layout");
-        Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+        Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
         
         Log.v(LOGTAG, "\tarray adapter for temp group list");
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tempGroup);
@@ -63,7 +63,7 @@ public class AddList extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\tsetting array adapter");
         spinner.setAdapter(spinnerArrayAdapter);
         
-        Log.v(LOGTAG, "onCreate x");
+        Log.v(LOGTAG, "onCreate end");
 	}
 	
 	@Override
@@ -99,7 +99,7 @@ public class AddList extends SherlockFragmentActivity {
         	  }
         	  
         	  //group check + return
-        	  Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+        	  Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
         	  int selectedGroup = spinner.getSelectedItemPosition();
         	  
         	  /*

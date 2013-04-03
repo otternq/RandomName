@@ -96,7 +96,7 @@ public class MainActivity extends SherlockFragmentActivity {
         actionBar.setDisplayShowTitleEnabled(true);
         
         
-        ListView groupList = (ListView)findViewById(R.id.listView1);
+        ListView groupList = (ListView)findViewById(R.id.groupListView);
         
         groupList.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -221,7 +221,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
         ListAdapter adapter = new GroupListAdapter(this, databaseCRUD.query_group());
        
-        ListView groupList = (ListView)findViewById(R.id.listView1);
+        ListView groupList = (ListView)findViewById(R.id.groupListView);
         groupList.removeAllViewsInLayout();
         groupList.setAdapter(adapter);
         
@@ -271,9 +271,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		    actionBar.addTab(tab1);
 		    
 		}
-		
-		
-		
 		
 		Log.v(LOGTAG, "\tcurrent tab count" + actionBar.getTabCount());
 		

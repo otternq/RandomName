@@ -134,6 +134,9 @@ TextToSpeech.OnInitListener {
 	    	case R.id.menu_add_item:
 	    		Log.v(LOGTAG, "Main menu selection: Clicked Add item");
 	    		Intent iitem = new Intent(getActivity(), AddItem.class);
+	    		//insert method to get currentGroup (by name) here
+	    		String currentGroup = "CS480";
+	    		iitem.putExtra("group", currentGroup);
 	    		startActivity(iitem);
 	    		
 	    		break;
