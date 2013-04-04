@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
@@ -59,12 +60,16 @@ public class MainActivity extends SherlockFragmentActivity {
 	private ShakeEventListener mSensorListener;
 	
 	int currentGroup = 0;
+	int currentList = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main);
+		
+		//set audio controls to media
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		
 		Log.v(LOGTAG, "Deleting DATABASE_NAME="+ Sqlite.DATABASE_NAME);
 		this.deleteDatabase(Sqlite.DATABASE_NAME);

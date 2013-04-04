@@ -42,21 +42,18 @@
         <activity
             android:name="com.nickotter.randomname.crudActivities.AddGroup"
             android:label="Add Group"
-            android:uiOptions="splitActionBarWhenNarrow"
             android:screenOrientation="portrait" >            
         </activity>
         
         <activity
             android:name="com.nickotter.randomname.crudActivities.AddList"
             android:label="Add List"
-            android:uiOptions="splitActionBarWhenNarrow"
             android:screenOrientation="portrait" >            
         </activity>
         
         <activity
             android:name="com.nickotter.randomname.crudActivities.AddItem"
             android:label="Add Item"
-            android:uiOptions="splitActionBarWhenNarrow"
             android:screenOrientation="portrait" >            
         </activity>
         
