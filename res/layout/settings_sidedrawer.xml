@@ -155,7 +155,7 @@
                 android:clickable="false"
                 android:contentDescription="@string/settingsImg"
                 android:longClickable="false"
-                android:src="@drawable/abs__ic_search_api_holo_light" />
+                android:src="@drawable/settings" />
 
         </android.support.v7.widget.GridLayout>
 
