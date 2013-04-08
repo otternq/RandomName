@@ -8,6 +8,7 @@ import com.nickotter.randomname.crudActivities.AddGroup;
 import java.io.Serializable;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -18,10 +19,14 @@ import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ToggleButton;
@@ -59,9 +64,33 @@ public class MainActivity extends SherlockFragmentActivity {
 	private SensorManager mSensorManager;
 	private ShakeEventListener mSensorListener;
 	
+	//current activity
+	Activity activity = this;
+	
 	int currentGroup = 0;
 	int currentList = 0;
 
+    //Context menu listener test
+    @Override        
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
+    {
+    	if (v.getId()==R.id.groupListView) 
+    	{
+    		Log.v(LOGTAG, "Creating Context Menu");
+    		//AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+    		menu.setHeaderTitle("Group Context Menu");
+    		//menu adds work like comment below
+    		//add(int groupId, int itemId, int order, CharSequence title/or title resource)
+    		menu.add(0, v.getId(), 0, "Context 1");
+    		menu.add(0, v.getId(), 0, "Context 2");
+    		menu.add(0, v.getId(), 0, "Context 3");
+    		//for (int i = 0; i<menuItems.length; i++) {
+    			//menu.add(Menu.NONE, i, i, menuItems[i]);
+    		//}
+    		Log.v(LOGTAG, "Context Menu created");
+    	}
+    };
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -102,14 +131,27 @@ public class MainActivity extends SherlockFragmentActivity {
         
         
         ListView groupList = (ListView)findViewById(R.id.groupListView);
-        
+                
         groupList.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
             	currentGroup = position;
-            	settingsNav.toggleDrawer();
+            	//settingsNav.toggleDrawer();
+				activity.openContextMenu(v);
             	Log.v(LOGTAG, "\n\n\n\tclicked on group index=" + position);
-            	loadLists();
+            	//loadLists();
             }
+        });
+        
+        groupList.setOnItemLongClickListener(new OnItemLongClickListener() 
+        {
+        	@Override
+        	public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id)
+        	{
+        		activity.openContextMenu(v);
+        		Log.v(LOGTAG, "Context Menu Opened by longClick");   
+        		
+        		return false;
+        	}
         });
         
        
@@ -167,10 +209,11 @@ public class MainActivity extends SherlockFragmentActivity {
         findViewById(R.id.add_group_btn).setOnClickListener(
 			new OnClickListener() {
 					@Override
-					public void onClick(View v) {
+					public void onClick(View v) 
+					{
 						Intent i = new Intent(MainActivity.this, AddGroup.class);
 			    		startActivity(i);
-				}
+					}
 			}
         );
         
@@ -192,6 +235,8 @@ public class MainActivity extends SherlockFragmentActivity {
         	       
         	}
         });
+        
+
         
         /*// Create the adapter that will return a fragment for each of the three
  		// primary sections of the app.
@@ -229,6 +274,9 @@ public class MainActivity extends SherlockFragmentActivity {
         ListView groupList = (ListView)findViewById(R.id.groupListView);
         groupList.removeAllViewsInLayout();
         groupList.setAdapter(adapter);
+        
+        //Context Menu Testing
+        registerForContextMenu(groupList);
         
         //end content to display groups in slider
         
