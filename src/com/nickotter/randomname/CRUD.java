@@ -192,11 +192,11 @@ public class CRUD {
 		return groups;
 	}
 	
-	public Group get_group(String name){
+	public Group get_group(int name){
 		
 		Log.v(LOGTAG, "get_group start");
 		
-		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager WHERE groupName = ?; ", new String[] { name });
+		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager WHERE id = ?; ", new String[] { String.valueOf(name+1)});
 		cursor.moveToNext();
 		
 		Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));

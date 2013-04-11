@@ -50,8 +50,11 @@ public class AddItem extends SherlockFragmentActivity {
         this.databaseCRUD.open();     
         
         //pull current group from intent and load spinners of lists based on group name
-        String groupName = getIntent().getStringExtra("group");
-        loadListSpinner(groupName);
+        int groupId = getIntent().getIntExtra("groupId",-1);
+        Log.v(LOGTAG, "groupId after getIntent" + groupId);
+        if(groupId == -1)
+        	groupId = 0;
+        loadListSpinner(groupId);
         
         //load group spinner
         Log.v(LOGTAG, "\tquery for groups");
@@ -79,8 +82,8 @@ public class AddItem extends SherlockFragmentActivity {
 			{
 				//get string of selection then send it to loadListSpinner()
 				Log.v(LOGTAG, "Group spinner new item selected");
-				String selectedGroup = parent.getSelectedItem().toString();
-				loadListSpinner(selectedGroup);			
+//				String selectedGroup = parent.getSelectedItem().toString();
+				loadListSpinner(position);			
 			}
 
 			@Override
@@ -95,8 +98,15 @@ public class AddItem extends SherlockFragmentActivity {
         Log.v(LOGTAG, "onCreate end");
         
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		this.databaseCRUD.close();
+	}
+	
 
-	private void loadListSpinner(String groupName)
+	private void loadListSpinner(int groupId)
 	{
 		//reset lists
 		Log.v(LOGTAG, "reset lists to null");
@@ -104,7 +114,9 @@ public class AddItem extends SherlockFragmentActivity {
 		
 		//query lists based on group
         Log.v(LOGTAG, "\tquery for lists");
-		Group g = this.databaseCRUD.get_group(groupName);
+		Group g = this.databaseCRUD.get_group(groupId);
+		Log.v(LOGTAG, "print groupId" + groupId + "\n\t" + g.getName());
+		
         this.lists = this.databaseCRUD.query_list(g);
         
         //setup new array for spinner adapter

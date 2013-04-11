@@ -269,7 +269,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 
 			arguments.putSerializable("items", (Serializable) listItems);
-			
+		    arguments.putInt("currentGroup", this.currentGroup);	
 			
 			
 			tab1.setTag(arguments);

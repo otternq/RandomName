@@ -35,6 +35,8 @@ TextToSpeech.OnInitListener {
 	
 	private TextToSpeech tts;
 	
+	private int currentGroup;
+	
 	private CRUD databaseCRUD;
 	
 	List<Item> items = null;
@@ -53,6 +55,7 @@ TextToSpeech.OnInitListener {
 		
 		Bundle argument = getArguments();
 		this.items = (List<Item>) argument.getSerializable("items");
+		this.currentGroup = argument.getInt("currentGroup");
 		
 		for (Item tempItem : this.items) {
 			Log.v(LOGTAG, "found item with name=" + tempItem.getName());
@@ -127,6 +130,7 @@ TextToSpeech.OnInitListener {
 	    	case R.id.menu_add_list:
 	    		Log.v(LOGTAG, "Main menu selection: Clicked Add List");
 	    		Intent ilist = new Intent(getActivity(), AddList.class);
+	    		ilist.putExtra("groupId", currentGroup);
 	    		startActivity(ilist);
 	    		
 	    		break;   	
@@ -136,8 +140,7 @@ TextToSpeech.OnInitListener {
 	    		
 	    		Intent iitem = new Intent(getActivity(), AddItem.class);
 	    		//insert method to get currentGroup (by name) here
-	    		String currentGroup = "CS480";
-	    		iitem.putExtra("group", currentGroup);
+	    		iitem.putExtra("groupId", currentGroup);
 	    		startActivity(iitem);
 	    		
 	    		break;

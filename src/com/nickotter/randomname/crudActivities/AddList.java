@@ -43,7 +43,13 @@ public class AddList extends SherlockFragmentActivity {
         this.databaseCRUD.open();
         
         Log.v(LOGTAG, "\tquery for groups");
+        int groupId = getIntent().getIntExtra("groupId",-1);
+        Log.v(LOGTAG, "groupId after getIntent" + groupId);
+        if(groupId == -1)
+        	groupId = 0;
+        
         this.groups = this.databaseCRUD.query_group();
+        
         
         //this needs to be changed to a custom adapter
         
@@ -62,7 +68,8 @@ public class AddList extends SherlockFragmentActivity {
         
         Log.v(LOGTAG, "\tsetting array adapter");
         spinner.setAdapter(spinnerArrayAdapter);
-        
+               
+        spinner.setSelection(groupId);
         Log.v(LOGTAG, "onCreate end");
 	}
 	
