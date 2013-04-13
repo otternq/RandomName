@@ -27,6 +27,8 @@ public class EditList extends SherlockFragmentActivity {
 	protected List<Group> groups = null;
 	protected MyList list = null;
 	
+	protected EditText listField = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +54,9 @@ public class EditList extends SherlockFragmentActivity {
         
         this.groups = this.databaseCRUD.query_group();
         this.list = this.databaseCRUD.get_list(listId);
+        
+        this.listField = (EditText)findViewById(R.id.listName);
+        this.listField.setText(this.list.getName());
         
         
         //this needs to be changed to a custom adapter
@@ -102,8 +107,8 @@ public class EditList extends SherlockFragmentActivity {
           case R.id.doneButton:
         	  
         	  //list check
-        	  EditText listField = (EditText)findViewById(R.id.listName);
-        	  if(listField == null)
+        	  
+        	  if(this.listField == null)
         	  {
         		  Log.v(LOGTAG, "Error: list was blank");    	
         		  finish();
@@ -116,7 +121,7 @@ public class EditList extends SherlockFragmentActivity {
         	  Group group = this.groups.get(selectedGroup);
         	  Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());
     		  //MyList l1 = new MyList(0, group.getID(), listField.getText().toString());
-        	  this.list.setName(listField.getText().toString());
+        	  this.list.setName(this.listField.getText().toString());
         	  this.list.setId(group.getID());
     		  
         	  databaseCRUD.update_list(this.list);
