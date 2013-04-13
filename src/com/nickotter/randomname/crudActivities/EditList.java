@@ -1,9 +1,11 @@
 package com.nickotter.randomname.crudActivities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -23,6 +25,7 @@ public class EditList extends SherlockFragmentActivity {
 	
 	protected CRUD databaseCRUD = null;
 	protected List<Group> groups = null;
+	protected MyList list = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,38 @@ public class EditList extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\topening database connection");
         this.databaseCRUD = new CRUD(this);
         this.databaseCRUD.open();
+        
+        Log.v(LOGTAG, "\tquery for groups");
+        int listId = getIntent().getIntExtra("listId",-1);
+        Log.v(LOGTAG, "listId after getIntent" + listId);
+        if(listId == -1) {
+        	listId = 0;
+        }
+        
+        this.groups = this.databaseCRUD.query_group();
+        this.list = this.databaseCRUD.get_list(listId);
+        
+        
+        //this needs to be changed to a custom adapter
+        
+        Log.v(LOGTAG, "\tinitalizing a group list");
+        List<String> tempGroup = new ArrayList<String>();
+        
+        for (Group group : this.groups){
+        	tempGroup.add(group.getName());
+        }
+        
+        Log.v(LOGTAG, "\tinitalizing spinner objet from layout");
+        Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
+        
+        Log.v(LOGTAG, "\tarray adapter for temp group list");
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tempGroup);
+        
+        Log.v(LOGTAG, "\tsetting array adapter");
+        spinner.setAdapter(spinnerArrayAdapter);
+               
+        spinner.setSelection(this.list.getGroupID());
+        Log.v(LOGTAG, "onCreate end");
         
 	}
 	
@@ -65,6 +100,26 @@ public class EditList extends SherlockFragmentActivity {
               return true;  
               
           case R.id.doneButton:
+        	  
+        	  //list check
+        	  EditText listField = (EditText)findViewById(R.id.listName);
+        	  if(listField == null)
+        	  {
+        		  Log.v(LOGTAG, "Error: list was blank");    	
+        		  finish();
+        	  }
+        	  
+        	  //group check + return
+        	  Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
+        	  int selectedGroup = spinner.getSelectedItemPosition();
+        	  
+        	  Group group = this.groups.get(selectedGroup);
+        	  Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());
+    		  //MyList l1 = new MyList(0, group.getID(), listField.getText().toString());
+        	  this.list.setName(listField.getText().toString());
+        	  this.list.setId(group.getID());
+    		  
+        	  databaseCRUD.update_list(this.list);
         	  
         	  
         	  return true;

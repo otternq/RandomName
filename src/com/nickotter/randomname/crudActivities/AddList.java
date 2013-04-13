@@ -45,8 +45,9 @@ public class AddList extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\tquery for groups");
         int groupId = getIntent().getIntExtra("groupId",-1);
         Log.v(LOGTAG, "groupId after getIntent" + groupId);
-        if(groupId == -1)
+        if(groupId == -1) {
         	groupId = 0;
+        }
         
         this.groups = this.databaseCRUD.query_group();
         

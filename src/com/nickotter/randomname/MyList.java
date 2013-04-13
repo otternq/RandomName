@@ -29,4 +29,8 @@ public class MyList implements Serializable {
 		this._id = id;
 		
 	}
+
+	public void setName(String tempName) {
+		this.name = tempName;
+	}
 }

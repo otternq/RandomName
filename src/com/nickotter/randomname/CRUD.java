@@ -210,10 +210,10 @@ public class CRUD {
 		return g;
 	}
 	
-	public MyList get_list(String name){
+	public MyList get_list(int listId){
 		
 		Log.v(LOGTAG, "get_list start");
-		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE listName = ?; ", new String[] { name });
+		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE id = ?; ", new String[] { String.valueOf(listId) });
 		cursor.moveToNext();
 				
 		MyList l = new MyList(cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_ID)), cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME)));
