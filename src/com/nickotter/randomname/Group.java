@@ -21,4 +21,8 @@ public class Group {
 		this._id = columnIndex;
 		
 	}
+
+	public void setName(String tempName) {
+		this.name = tempName;
+	}
 }

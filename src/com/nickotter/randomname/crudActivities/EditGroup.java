@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -19,7 +20,9 @@ public class EditGroup  extends SherlockFragmentActivity {
 	final String LOGTAG = "EditGroupActivity";
 	
 	protected CRUD databaseCRUD = null;
-	protected List<Group> groups = null;
+	
+	protected Group group = null;
+	protected EditText groupElement = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +33,15 @@ public class EditGroup  extends SherlockFragmentActivity {
 		
 		ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
-        
         Log.v(LOGTAG, "\taction bar has home enabled");
+        
+        this.groupElement = (EditText)findViewById(R.id.groupName);
+        
+        //setting the groupId from the provided by intent
+        int groupId = getIntent().getIntExtra("groupId",-1);
+        
+        this.group = databaseCRUD.get_group(groupId);
+        this.groupElement.setText(this.group.getName());
         
         Log.v(LOGTAG, "\topening database connection");
         this.databaseCRUD = new CRUD(this);
@@ -62,6 +72,25 @@ public class EditGroup  extends SherlockFragmentActivity {
               return true;  
               
           case R.id.doneButton:
+        	  
+        	  
+        	  if(this.groupElement == null)
+        	  {
+        		  Log.v(LOGTAG, "Error: Group must not be blank");
+        		  finish();
+        	  }
+        	  
+        	  else
+        	  {
+        		  this.group.setName(this.groupElement.getText().toString());
+        		  
+        		  Log.v(LOGTAG, "Adding new group with name and ID: " + this.group.getName() + " " + this.group.getID());
+
+        	  
+        		  databaseCRUD.update_group(this.group);
+        	  
+        		  finish();
+        	  }
         	  
         	  
         	  return true;
