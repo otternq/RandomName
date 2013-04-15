@@ -45,6 +45,26 @@
             android:screenOrientation="portrait" >            
         </activity>
         
+        <activity          
+            android:name="com.nickotter.randomname.crudActivities.EditGroup"
+            android:label="Edit Group"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name="com.nickotter.randomname.crudActivities.EditList"
+            android:label="Edit List"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <!--
+        <activity
+            android:name="com.nickotter.randomname.crudActivities.EditItem"
+            android:label="Edit Item"
+            android:screenOrientation="portrait" >
+        </activity>
+        -->
+        
     </application>
 
 </manifest>

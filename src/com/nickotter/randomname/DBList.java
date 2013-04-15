@@ -13,9 +13,11 @@ import com.actionbarsherlock.view.MenuItem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.speech.tts.TextToSpeech;
@@ -26,6 +28,7 @@ import com.nickotter.randomname.ItemListAdapter;
 import com.nickotter.randomname.crudActivities.AddGroup;
 import com.nickotter.randomname.crudActivities.AddItem;
 import com.nickotter.randomname.crudActivities.AddList;
+import com.nickotter.randomname.crudActivities.EditGroup;
 
 public class DBList extends SherlockListFragment implements
 TextToSpeech.OnInitListener {
@@ -41,12 +44,25 @@ TextToSpeech.OnInitListener {
 	
 	List<Item> items = null;
 	
-	public void onCreate(Bundle savedInstanceState) {
+	public void onActivityCreated(Bundle savedState)
+	{
+		super.onActivityCreated(savedState);
+		
+		Log.v(LOGTAG, "Context Menu registartion complete");
+		registerForContextMenu(getListView());
+	}
+	
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		
 		tts = new TextToSpeech(getActivity(), this);
 		
 		setHasOptionsMenu(true);
+		
+		//ListView l = (ListView)findViewbyId(R.id.listView1);
+		
+		
 	}//END void onCreate
 	 
 	@Override
@@ -86,11 +102,111 @@ TextToSpeech.OnInitListener {
         super.onDestroy();
     }//END void onDestroy
 	
+	
 	@Override 
-    public void onListItemClick(ListView l, View v, int itemPosition, long id) {
+    public void onListItemClick(ListView l, View v, int itemPosition, long id) 
+	{
+		//Log.v(LOGTAG, "List Selection: launching context menu");
+		//l.showContextMenu();
+		
         //Log.v(LOGTAG, "The selected item is: " + this.groupMembers[position][itemPosition]);
         //speakOut(this.groupMembers[position][itemPosition]);
     }//END void onListItemClick
+    
+	
+	public void onListLongItemClick(ListView l, View v, long id)
+	{
+		Log.v(LOGTAG, "List Long Selection: launching context menu");
+		l.showContextMenu();
+	}
+	
+	//Context Menu stuff
+	    //Context menu listener test
+
+	
+	@Override        
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) 
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		//if (v.getId()==R.id.groupListView) 
+	    //{
+			Log.v(LOGTAG, "Creating Context Menu");
+	        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+	        menu.setHeaderTitle("Activity Selection Context Menu");
+	        //menu adds work like comment below
+	        //add(int groupId, int itemId, int order, CharSequence title/or title resource)
+	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Add Group");
+	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Add List");
+	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Add Item");
+	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Edit Group");
+	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Edit List");
+	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Edit Item");
+	        
+	        Log.v(LOGTAG, "Context Menu created");
+	    //}
+	};
+	
+    @Override
+	public boolean onContextItemSelected(android.view.MenuItem item)
+	{
+		Log.v(LOGTAG, "Entered Context Item selection");
+		if(item.getTitle()=="Add Group")
+		{
+			Log.v(LOGTAG, "Context Menu: Add Group context selected");
+			Intent igroup = new Intent(getActivity(), AddGroup.class);
+			igroup.putExtra("groupId", currentGroup);
+			startActivity(igroup);
+		}
+
+		else if(item.getTitle()=="Add List")
+		{
+			Log.v(LOGTAG, "Context Menu: Add List context selected");
+			Intent ilist = new Intent(getActivity(), AddList.class);
+			ilist.putExtra("groupId", currentGroup);
+			Log.v(LOGTAG, "Value of current group: " + currentGroup);
+			startActivity(ilist);
+		}
+
+		else if(item.getTitle()=="Add Item")
+		{
+			Log.v(LOGTAG, "Context Menu: Add Item context selected");
+			Intent iitem = new Intent(getActivity(), AddItem.class);
+			iitem.putExtra("groupId", currentGroup);
+			startActivity(iitem);
+		}
+		
+		else if(item.getTitle()=="Edit Group")
+		{
+			Log.v(LOGTAG, "Context Menu: Edit Group context selected");
+			Intent iegroup = new Intent(getActivity(), EditGroup.class);
+			iegroup.putExtra("groupId", currentGroup);
+			startActivity(iegroup);
+		}
+		
+		else if(item.getTitle()=="Edit List")
+		{
+			Log.v(LOGTAG, "Context Menu: Edit List context selected");
+			Intent ielist = new Intent(getActivity(), EditGroup.class);
+			ielist.putExtra("groupId", currentGroup);
+			startActivity(ielist);
+		}
+		
+		//Not implemented do not use
+		else if(item.getTitle()=="Edit Item")
+		{
+			Log.v(LOGTAG, "Context Menu: Edit Item context selected");
+			//Intent ieitem = new Intent(getActivity(), EditGroup.class);
+			//ieitem.putExtra("group", currentGroup);
+			//startActivity(ieitem);
+		}
+
+		else
+			return false;
+		
+		//getActivity().closeContextMenu();
+
+		return true;
+	}
 	
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -139,7 +255,6 @@ TextToSpeech.OnInitListener {
 	    		Log.v(LOGTAG, "Main menu selection: Clicked Add item");
 	    		
 	    		Intent iitem = new Intent(getActivity(), AddItem.class);
-	    		//insert method to get currentGroup (by name) here
 	    		iitem.putExtra("groupId", currentGroup);
 	    		startActivity(iitem);
 	    		
