@@ -4,6 +4,8 @@ package com.nickotter.randomname;
 import com.navdrawer.SimpleSideDrawer;
 import com.nickotter.randomname.SectionsPagerAdapter;
 import com.nickotter.randomname.crudActivities.AddGroup;
+import com.nickotter.randomname.crudActivities.AddItem;
+import com.nickotter.randomname.crudActivities.AddList;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,7 +28,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ToggleButton;
@@ -69,31 +70,10 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	int currentGroup = 0;
 	int currentList = 0;
-
-    //Context menu listener test
-    @Override        
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
-    {
-    	if (v.getId()==R.id.groupListView) 
-    	{
-    		Log.v(LOGTAG, "Creating Context Menu");
-    		//AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-    		menu.setHeaderTitle("Group Context Menu");
-    		//menu adds work like comment below
-    		//add(int groupId, int itemId, int order, CharSequence title/or title resource)
-    		menu.add(0, v.getId(), 0, "Context 1");
-    		menu.add(0, v.getId(), 0, "Context 2");
-    		menu.add(0, v.getId(), 0, "Context 3");
-    		//for (int i = 0; i<menuItems.length; i++) {
-    			//menu.add(Menu.NONE, i, i, menuItems[i]);
-    		//}
-    		Log.v(LOGTAG, "Context Menu created");
-    	}
-    };
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+				
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main);
 		
@@ -130,30 +110,19 @@ public class MainActivity extends SherlockFragmentActivity {
         actionBar.setDisplayShowTitleEnabled(true);
         
         
-        ListView groupList = (ListView)findViewById(R.id.groupListView);
+        //Register grouplist for context menu
+        final ListView groupList = (ListView)findViewById(R.id.groupListView);
                 
         groupList.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
             	currentGroup = position;
             	//settingsNav.toggleDrawer();
+                registerForContextMenu(groupList);
 				activity.openContextMenu(v);
             	Log.v(LOGTAG, "\n\n\n\tclicked on group index=" + position);
             	//loadLists();
             }
         });
-        
-        groupList.setOnItemLongClickListener(new OnItemLongClickListener() 
-        {
-        	@Override
-        	public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id)
-        	{
-        		activity.openContextMenu(v);
-        		Log.v(LOGTAG, "Context Menu Opened by longClick");   
-        		
-        		return false;
-        	}
-        });
-        
        
         //Exclusion toggle listener]
         Log.v(LOGTAG, "Intitializing the toggle listeners");
@@ -264,6 +233,61 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 	}//END void onCreate
 	
+    //Context menu listener test
+    @Override        
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) 
+    {
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    	if (v.getId()==R.id.groupListView) 
+    	{
+    		Log.v(LOGTAG, "Creating Context Menu");
+    		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            ListView groupList = (ListView)findViewById(R.id.groupListView);
+    		menu.setHeaderTitle("Activity Selection Context Menu");
+    		//menu adds work like comment below
+    		//add(int groupId, int itemId, int order, CharSequence title/or title resource)
+    		menu.add(menu.NONE, v.getId(), 0, "Add Group");
+    		menu.add(menu.NONE, v.getId(), 0, "Add List");
+    		menu.add(menu.NONE, v.getId(), 0, "Add Item");
+    		
+    		Log.v(LOGTAG, "Context Menu created");
+    	}
+    };
+	
+    @Override
+	public boolean onContextItemSelected(android.view.MenuItem item)
+	{
+		Log.v(LOGTAG, "Entered Context Item selection");
+		if(item.getTitle()=="Add Group")
+		{
+			Log.v(LOGTAG, "Context Menu: Add Group context selected");
+			Intent igroup = new Intent(activity, AddGroup.class);
+			igroup.putExtra("group", currentGroup);
+			startActivity(igroup);
+		}
+		
+		else if(item.getTitle()=="Add List")
+		{
+			Log.v(LOGTAG, "Context Menu: Add List context selected");
+			Intent ilist = new Intent(activity, AddList.class);
+			ilist.putExtra("group", currentGroup);
+			startActivity(ilist);
+		}
+		
+		else if(item.getTitle()=="Add Item")
+		{
+			Log.v(LOGTAG, "Context Menu: Add Item context selected");
+			Intent iitem = new Intent(activity, AddItem.class);
+			iitem.putExtra("group", currentGroup);
+			startActivity(iitem);
+		}
+			
+		else
+			return false;
+		
+		return true;
+	}
+	
 	private void loadLists() {
 		
 		Log.v(LOGTAG, "loadLists - current group="+ this.currentGroup);
@@ -274,9 +298,6 @@ public class MainActivity extends SherlockFragmentActivity {
         ListView groupList = (ListView)findViewById(R.id.groupListView);
         groupList.removeAllViewsInLayout();
         groupList.setAdapter(adapter);
-        
-        //Context Menu Testing
-        registerForContextMenu(groupList);
         
         //end content to display groups in slider
         
