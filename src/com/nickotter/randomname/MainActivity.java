@@ -31,6 +31,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
@@ -61,6 +62,18 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	int currentGroup = 0;
 	int currentList = 0;
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

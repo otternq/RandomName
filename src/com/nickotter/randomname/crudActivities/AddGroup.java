@@ -9,6 +9,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.Group;
 import com.nickotter.randomname.R;
@@ -16,6 +17,18 @@ import com.nickotter.randomname.R;
 public class AddGroup extends SherlockFragmentActivity {
 
 	final String LOGTAG = "AddGroupActivity";
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

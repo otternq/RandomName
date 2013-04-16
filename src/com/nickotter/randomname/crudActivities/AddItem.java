@@ -17,6 +17,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.Group;
 import com.nickotter.randomname.Item;
@@ -30,6 +31,18 @@ public class AddItem extends SherlockFragmentActivity {
 	protected CRUD databaseCRUD = null;
 	protected List<MyList> lists = null;
 	protected List<Group> groups = null;
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
