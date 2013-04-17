@@ -296,7 +296,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) 
-    {    
+    {
+		EasyTracker.getTracker().sendEvent("ui_action", "button_press", item.getTitle().toString(), (long)item.getItemId());
+		
        switch (item.getItemId()) 
        {        
           case android.R.id.home:            

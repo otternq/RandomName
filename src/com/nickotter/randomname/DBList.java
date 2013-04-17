@@ -8,6 +8,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 
 //import android.support.v4.app.ListFragment;
 import android.content.Intent;
@@ -216,6 +217,8 @@ TextToSpeech.OnInitListener {
 	
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+    	
+    	EasyTracker.getTracker().sendEvent("ui_action", "button_press", item.getTitle().toString(), (long)item.getItemId());
 
 	    int itemId = item.getItemId();
 	    switch (itemId) {

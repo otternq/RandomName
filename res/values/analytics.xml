@@ -9,7 +9,5 @@
 
   <!--Enable automatic exception tracking-->
   <bool name="ga_reportUncaughtExceptions">true</bool>
-  
-  <!--Sets tobug mode -->
-  <bool name="ga_debug">true</bool>
+
 </resources>
