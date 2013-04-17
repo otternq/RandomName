@@ -70,7 +70,6 @@ public class AddGroup extends SherlockFragmentActivity {
         	  {
         		  Group g1 = new Group(groupElement.getText().toString());
         		  Log.v(LOGTAG, "Adding new group with name and ID: " + g1.getName() + " " + g1.getID());
-
         	  
         		  databaseCRUD.add_group(g1);
         		  databaseCRUD.close();

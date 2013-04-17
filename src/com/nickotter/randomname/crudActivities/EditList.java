@@ -47,7 +47,7 @@ public class EditList extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		
 		Log.v(LOGTAG, "onCreate start");
-		setContentView(R.layout.add_list);
+		setContentView(R.layout.edit_list);
 		
 		ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
@@ -61,26 +61,26 @@ public class EditList extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\tquery for groups");
         int listId = getIntent().getIntExtra("listId",-1);
         Log.v(LOGTAG, "listId after getIntent" + listId);
-        if(listId == -1) {
-        	listId = 0;
-        }
+        if(listId == -1)
+        	listId = 1;
         
         this.groups = this.databaseCRUD.query_group();
+        //failing on the line below index 0 requested with size of zero
         this.list = this.databaseCRUD.get_list(listId);
         
-        this.listField = (EditText)findViewById(R.id.listName);
+        this.listField = (EditText)findViewById(R.id.editListName);
         this.listField.setText(this.list.getName());
         
-        
         //this needs to be changed to a custom adapter
-        
         Log.v(LOGTAG, "\tinitalizing a group list");
         List<String> tempGroup = new ArrayList<String>();
         
-        for (Group group : this.groups){
+        for (Group group : this.groups)
+        {
         	tempGroup.add(group.getName());
         }
         
+        /*
         Log.v(LOGTAG, "\tinitalizing spinner objet from layout");
         Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
         
@@ -89,8 +89,9 @@ public class EditList extends SherlockFragmentActivity {
         
         Log.v(LOGTAG, "\tsetting array adapter");
         spinner.setAdapter(spinnerArrayAdapter);
+        */
                
-        spinner.setSelection(this.list.getGroupID());
+        //spinner.setSelection(this.list.getGroupID());
         Log.v(LOGTAG, "onCreate end");
         
 	}
@@ -128,14 +129,16 @@ public class EditList extends SherlockFragmentActivity {
         	  }
         	  
         	  //group check + return
+        	  /*
         	  Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
         	  int selectedGroup = spinner.getSelectedItemPosition();
+        	  */
         	  
-        	  Group group = this.groups.get(selectedGroup);
-        	  Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());
+        	  //Group group = this.groups.get(selectedGroup);
+        	  //Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());
     		  //MyList l1 = new MyList(0, group.getID(), listField.getText().toString());
         	  this.list.setName(this.listField.getText().toString());
-        	  this.list.setId(group.getID());
+        	  //this.list.setId(group.getID());
     		  
         	  databaseCRUD.update_list(this.list);
         	  

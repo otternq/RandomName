@@ -30,6 +30,7 @@ import com.nickotter.randomname.crudActivities.AddGroup;
 import com.nickotter.randomname.crudActivities.AddItem;
 import com.nickotter.randomname.crudActivities.AddList;
 import com.nickotter.randomname.crudActivities.EditGroup;
+import com.nickotter.randomname.crudActivities.EditList;
 
 public class DBList extends SherlockListFragment implements
 TextToSpeech.OnInitListener {
@@ -187,8 +188,9 @@ TextToSpeech.OnInitListener {
 		else if(item.getTitle()=="Edit List")
 		{
 			Log.v(LOGTAG, "Context Menu: Edit List context selected");
-			Intent ielist = new Intent(getActivity(), EditGroup.class);
+			Intent ielist = new Intent(getActivity(), EditList.class);
 			ielist.putExtra("groupId", currentGroup);
+			ielist.putExtra("listId", 1);
 			startActivity(ielist);
 		}
 		

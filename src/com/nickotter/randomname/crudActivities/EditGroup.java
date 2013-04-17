@@ -24,6 +24,7 @@ public class EditGroup  extends SherlockFragmentActivity {
 	
 	protected Group group = null;
 	protected EditText groupElement = null;
+	String old = null;
 	
 	@Override
 	public void onStart() {
@@ -48,17 +49,23 @@ public class EditGroup  extends SherlockFragmentActivity {
         bar.setDisplayHomeAsUpEnabled(true);
         Log.v(LOGTAG, "\taction bar has home enabled");
         
-        this.groupElement = (EditText)findViewById(R.id.groupName);
+        Log.v(LOGTAG, "\topening database connection");
+        this.databaseCRUD = new CRUD(this);
+        this.databaseCRUD.open();
+        
+        this.groupElement = (EditText)findViewById(R.id.editGroupName);
         
         //setting the groupId from the provided by intent
         int groupId = getIntent().getIntExtra("groupId",-1);
         
-        this.group = databaseCRUD.get_group(groupId);
-        this.groupElement.setText(this.group.getName());
+        //If no group is found (error default to first group)
+        if(groupId == -1) 
+        	groupId = 0;
         
-        Log.v(LOGTAG, "\topening database connection");
-        this.databaseCRUD = new CRUD(this);
-        this.databaseCRUD.open();
+        this.group = databaseCRUD.get_group(groupId);
+        Log.v(LOGTAG, "Found group with name and setting text field to: " + group.getName());
+        this.groupElement.setText(this.group.getName());
+        old = group.getName();
         
 	}
 	
@@ -98,7 +105,6 @@ public class EditGroup  extends SherlockFragmentActivity {
         		  this.group.setName(this.groupElement.getText().toString());
         		  
         		  Log.v(LOGTAG, "Adding new group with name and ID: " + this.group.getName() + " " + this.group.getID());
-
         	  
         		  databaseCRUD.update_group(this.group);
         	  
