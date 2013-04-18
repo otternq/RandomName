@@ -86,7 +86,8 @@ public class AddItem extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\tarray adapter for temp group list");
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tempGroup);      
         Log.v(LOGTAG, "\tsetting array adapter");
-        gspinner.setAdapter(spinnerArrayAdapter);      
+        gspinner.setAdapter(spinnerArrayAdapter);   
+        gspinner.setSelection(groupId);
 
         gspinner.setOnItemSelectedListener(new OnItemSelectedListener() 
         {
