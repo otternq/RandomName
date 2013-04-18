@@ -154,7 +154,7 @@ public class AddItem extends SherlockFragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getSupportMenuInflater();
-	    inflater.inflate(R.menu.edit_general, menu);
+	    inflater.inflate(R.menu.add_general, menu);
 	    return true;
 	}
 	
