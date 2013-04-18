@@ -223,6 +223,18 @@ public class CRUD {
 		return l;
 	}
 	
+	public Item get_item(int itemId)
+	{
+		Log.v(LOGTAG, "get_item start");
+		Cursor cursor = database.rawQuery("SELECT itemName, id, listID FROM itemManager WHERE id = ?; ", new String[] { String.valueOf(itemId) });
+		
+		Log.v(LOGTAG, "got here");
+		Item i = new Item(cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_ID)), cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_LIST_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME)));
+		Log.v(LOGTAG, "Fetched Item with name, list id, and id: " + i.getName() + " " + i.getListId() + " " + i.getID());
+		Log.v(LOGTAG, "get_item end");
+		
+		return i;
+	}
 	public void update_item(Item item){
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.ITEM_NAME, item.getName());
