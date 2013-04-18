@@ -61,18 +61,15 @@ public class EditList extends SherlockFragmentActivity {
         this.databaseCRUD = new CRUD(this);
         this.databaseCRUD.open();
         
-        Log.v(LOGTAG, "\tquery for groups");
+        //get Extras from intent
         int listId = getIntent().getIntExtra("listId",-1);
         Log.v(LOGTAG, "listId after getIntent" + listId);
         if(listId == -1)
         	listId = 1;
         
+        //Group spinner setup
+        Log.v(LOGTAG, "\tquery for groups");
         this.groups = this.databaseCRUD.query_group();
-        //failing on the line below index 0 requested with size of zero
-        this.list = this.databaseCRUD.get_list(listId);
-        
-        this.listField = (EditText)findViewById(R.id.editListName);
-        this.listField.setText(this.list.getName());
         
         //this needs to be changed to a custom adapter
         Log.v(LOGTAG, "\tinitalizing a group list");
@@ -88,20 +85,27 @@ public class EditList extends SherlockFragmentActivity {
         	i++;
         }
         
+        int groupId = getIntent().getIntExtra("groupId",-1);
+        Log.v(LOGTAG, "groupId after getIntent" + groupId);
+        if(groupId == -1)
+        	groupId = 0;
         
         Log.v(LOGTAG, "\tinitalizing spinner objet from layout");
         Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
-        
         Log.v(LOGTAG, "\tarray adapter for temp group list");
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tempGroup);
-        
         Log.v(LOGTAG, "\tsetting array adapter");
-        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setAdapter(spinnerArrayAdapter);             
+        spinner.setSelection(groupId);
+      
         
-               
-        spinner.setSelection(this.currentGroupIndex);
+        //List edit text field
+        this.list = this.databaseCRUD.get_list(listId);
+        
+        this.listField = (EditText)findViewById(R.id.editListName);
+        this.listField.setText(this.list.getName());
+            
         Log.v(LOGTAG, "onCreate end");
-        
 	}
 	
 	@Override

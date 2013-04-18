@@ -4,11 +4,45 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    <TextView
+    	android:id="@+id/labelGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="@string/groupSelect"
+        android:textSize="22sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="3dp"
+        android:background="#999999" />
+    
     <Spinner
         android:id="@+id/CRUDgroupSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:prompt="@string/groupSelect" />
+    
+    <TextView
+        android:id="@+id/labelEditList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="@string/editlist"
+        android:textSize="22sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="3dp"
+        android:background="#999999" />
     
     <EditText
         android:id="@+id/editListName"

@@ -139,12 +139,8 @@ TextToSpeech.OnInitListener {
 	        menu.setHeaderTitle("Activity Selection Context Menu");
 	        //menu adds work like comment below
 	        //add(int groupId, int itemId, int order, CharSequence title/or title resource)
-	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Add Group");
-	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Add List");
-	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Add Item");
-	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Edit Group");
-	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Edit List");
 	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Edit Item");
+	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Delete Item");
 	        
 	        Log.v(LOGTAG, "Context Menu created");
 	    //}

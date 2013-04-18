@@ -31,6 +31,7 @@
     <string name="newitem">Insert new item name:</string>
     <string name="newlist">Insert new list name:</string>
     <string name="newgroup">Insert new group name:</string>
+    <string name="editlist">Edit List Name:</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
