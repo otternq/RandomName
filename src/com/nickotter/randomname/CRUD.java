@@ -244,6 +244,7 @@ public class CRUD {
 	public void update_list(MyList list){
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.LIST_NAME, list.getName());
+		values.put(Sqlite.GROUP_ID, list.getGroupID());
 		
 		database.update(Sqlite.DATABASE_LIST, values, Sqlite.LIST_ID + "= ?", new String[]{
 				String.valueOf(list.getID())
