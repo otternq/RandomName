@@ -11,5 +11,9 @@
          android:textStyle="normal"
          android:layout_width="320dp"
          android:layout_height="wrap_content"/>
+    
+    <ImageView 
+        android:layout_height="wrap_content" 
+        android:layout_width="72px" android:src="@drawable/content_remove" android:id="@+id/imageView1"/>
  
 </LinearLayout>

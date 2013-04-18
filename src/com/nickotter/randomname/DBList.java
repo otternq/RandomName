@@ -3,11 +3,13 @@ package com.nickotter.randomname;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 import com.google.analytics.tracking.android.EasyTracker;
 
 //import android.support.v4.app.ListFragment;
@@ -214,6 +216,7 @@ TextToSpeech.OnInitListener {
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.activity_main, menu);
+        
         super.onCreateOptionsMenu(menu, inflater);
     }
 	
@@ -232,21 +235,14 @@ TextToSpeech.OnInitListener {
 	    	case R.id.menu_random:
     			Log.v(LOGTAG, "onOptionsItemSelected: Clicked Random");
     			
-    			/*Random r = new Random();
-    			int i1 = r.nextInt(this.groupMembers[position].length);
+    			Random r = new Random();
+    			int i1 = r.nextInt(this.items.size());
     			
     			Log.v(LOGTAG, Integer.toString(i1));
     			
-    			speakOut(this.groupMembers[position][i1]);*/
+    			this.speakOut(this.items.get(i1).getName());
     			
     			break;
-    		
-	    	/*case R.id.menu_add_group:
-	    		Log.v(LOGTAG, "Main menu selection: Clicked Add Group");
-	    		Intent igroup = new Intent(getActivity(), AddGroup.class);
-	    		startActivity(igroup); 
-	    		
-	    		break;*/
 	   
 	    	case R.id.menu_add_list:
 	    		Log.v(LOGTAG, "Main menu selection: Clicked Add List");
@@ -264,12 +260,17 @@ TextToSpeech.OnInitListener {
 	    		startActivity(iitem);
 	    		
 	    		break;
+
+	    	case R.id.menu_edit:
+	    		Log.v(LOGTAG, "Main menu selection: Clicked on Edit List");
 	    		
-	    		/*
-	    	case R.id.menu_settings:
-	    		Log.v(LOGTAG, "onOptionsItemSelected: Clicked Settings");
-	    		
-	    		break;*/
+	    		Log.v(LOGTAG, "Context Menu: Edit List context selected");
+				Intent ielist = new Intent(getActivity(), EditList.class);
+				ielist.putExtra("groupId", currentGroup);
+				ielist.putExtra("listId", this.items.get(0).getListId());
+				startActivity(ielist);
+				
+				break;
     			
 	        default:
 	        	Log.v(LOGTAG, "onOptionsItemSelected: failed to identify what was clicked");

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import java.util.List;
 import com.nickotter.randomname.Item;
@@ -43,6 +44,7 @@ public class GroupListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		TextView itemLayout;
+		ImageView image;
         Group item = this.list.get(position);
 
         itemLayout= (TextView) LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);

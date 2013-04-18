@@ -25,6 +25,9 @@ public class EditList extends SherlockFragmentActivity {
 	final String LOGTAG = "EditListActivity";
 	
 	protected CRUD databaseCRUD = null;
+	
+	protected int currentGroupIndex = -1;
+	
 	protected List<Group> groups = null;
 	protected MyList list = null;
 	
@@ -75,12 +78,17 @@ public class EditList extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\tinitalizing a group list");
         List<String> tempGroup = new ArrayList<String>();
         
+        int i = 0;
         for (Group group : this.groups)
         {
+        	if (group.getID() == getIntent().getIntExtra("groupId", -1)) {
+        		this.currentGroupIndex = i;
+        	}
         	tempGroup.add(group.getName());
+        	i++;
         }
         
-        /*
+        
         Log.v(LOGTAG, "\tinitalizing spinner objet from layout");
         Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
         
@@ -89,9 +97,9 @@ public class EditList extends SherlockFragmentActivity {
         
         Log.v(LOGTAG, "\tsetting array adapter");
         spinner.setAdapter(spinnerArrayAdapter);
-        */
+        
                
-        //spinner.setSelection(this.list.getGroupID());
+        spinner.setSelection(this.currentGroupIndex);
         Log.v(LOGTAG, "onCreate end");
         
 	}
@@ -129,18 +137,20 @@ public class EditList extends SherlockFragmentActivity {
         	  }
         	  
         	  //group check + return
-        	  /*
-        	  Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
-        	  int selectedGroup = spinner.getSelectedItemPosition();
-        	  */
         	  
-        	  //Group group = this.groups.get(selectedGroup);
-        	  //Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());
-    		  //MyList l1 = new MyList(0, group.getID(), listField.getText().toString());
+        	  Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
+        	  int selectedGroupIndex = spinner.getSelectedItemPosition();
+        	  
+        	  
+        	  Group group = this.groups.get(selectedGroupIndex);
+        	  Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());
+    		  
+        	  
         	  this.list.setName(this.listField.getText().toString());
-        	  //this.list.setId(group.getID());
+        	  this.list.setGroupId(group.getID());
     		  
         	  databaseCRUD.update_list(this.list);
+        	  finish();
         	  
         	  
         	  return true;

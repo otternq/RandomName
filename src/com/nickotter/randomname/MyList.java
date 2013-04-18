@@ -17,6 +17,10 @@ public class MyList implements Serializable {
 		return this._id;
 	}
 	
+	public void setGroupId(int id) {
+		this._groupID = id;
+	}
+	
 	public int getGroupID(){
 		return this._groupID;
 	}
@@ -33,4 +37,6 @@ public class MyList implements Serializable {
 	public void setName(String tempName) {
 		this.name = tempName;
 	}
+
+	
 }

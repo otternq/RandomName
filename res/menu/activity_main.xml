@@ -11,18 +11,37 @@
         android:showAsAction="never"
         android:title="@string/menu_add_list" />-->
         
-    <item
-        android:id="@+id/menu_add_list"
-        android:title="@string/menu_add_list"
-        android:showAsAction="ifRoom|withText" />
+    <item 
+        android:id="@+id/menu_edit"
+        android:icon="@drawable/content_edit"
+        android:title="Edit"
+        android:showAsAction="always"/>
     
     <item
-        android:id="@+id/menu_add_item"
-        android:title="@+string/menu_add_item"
-        android:showAsAction="ifRoom|withText" />        
+        android:id="@+id/menu_add"
+        android:icon="@drawable/content_new"
+        android:title="Add"
+        android:showAsAction="always">
+        
+        <menu>
+            <item 
+                android:id="@+id/menu_add_list"
+                android:title="@string/menu_add_list"
+                android:showAsAction="ifRoom|withText" />
+            
+            <item
+		        android:id="@+id/menu_add_item"
+		        android:title="@+string/menu_add_item"
+		        android:showAsAction="ifRoom|withText" />
+        </menu>
+        
+    </item>
+    
+            
 
     <item
         android:id="@+id/menu_random"
+        android:icon="@drawable/av_shuffle"
         android:showAsAction="always|withText"
         android:title="@string/menu_random" />
 
