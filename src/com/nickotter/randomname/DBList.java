@@ -32,6 +32,7 @@ import com.nickotter.randomname.crudActivities.AddGroup;
 import com.nickotter.randomname.crudActivities.AddItem;
 import com.nickotter.randomname.crudActivities.AddList;
 import com.nickotter.randomname.crudActivities.EditGroup;
+import com.nickotter.randomname.crudActivities.EditItem;
 import com.nickotter.randomname.crudActivities.EditList;
 
 public class DBList extends SherlockListFragment implements
@@ -149,56 +150,22 @@ TextToSpeech.OnInitListener {
     @Override
 	public boolean onContextItemSelected(android.view.MenuItem item)
 	{
-		Log.v(LOGTAG, "Entered Context Item selection");
-		if(item.getTitle()=="Add Group")
-		{
-			Log.v(LOGTAG, "Context Menu: Add Group context selected");
-			Intent igroup = new Intent(getActivity(), AddGroup.class);
-			igroup.putExtra("groupId", currentGroup);
-			startActivity(igroup);
-		}
-
-		else if(item.getTitle()=="Add List")
-		{
-			Log.v(LOGTAG, "Context Menu: Add List context selected");
-			Intent ilist = new Intent(getActivity(), AddList.class);
-			ilist.putExtra("groupId", currentGroup);
-			Log.v(LOGTAG, "Value of current group: " + currentGroup);
-			startActivity(ilist);
-		}
-
-		else if(item.getTitle()=="Add Item")
-		{
-			Log.v(LOGTAG, "Context Menu: Add Item context selected");
-			Intent iitem = new Intent(getActivity(), AddItem.class);
-			iitem.putExtra("groupId", currentGroup);
-			startActivity(iitem);
-		}
-		
-		else if(item.getTitle()=="Edit Group")
-		{
-			Log.v(LOGTAG, "Context Menu: Edit Group context selected");
-			Intent iegroup = new Intent(getActivity(), EditGroup.class);
-			iegroup.putExtra("groupId", currentGroup);
-			startActivity(iegroup);
-		}
-		
-		else if(item.getTitle()=="Edit List")
-		{
-			Log.v(LOGTAG, "Context Menu: Edit List context selected");
-			Intent ielist = new Intent(getActivity(), EditList.class);
-			ielist.putExtra("groupId", currentGroup);
-			ielist.putExtra("listId", 1);
-			startActivity(ielist);
-		}
-		
+		Log.v(LOGTAG, "Entered Context Item selection");		
 		//Not implemented do not use
-		else if(item.getTitle()=="Edit Item")
+		if(item.getTitle()=="Edit Item")
 		{
 			Log.v(LOGTAG, "Context Menu: Edit Item context selected");
-			//Intent ieitem = new Intent(getActivity(), EditGroup.class);
-			//ieitem.putExtra("group", currentGroup);
-			//startActivity(ieitem);
+			Intent ieitem = new Intent(getActivity(), EditItem.class);
+			ieitem.putExtra("groupId", currentGroup);
+			ieitem.putExtra("listId", this.items.get(0).getListId());
+			ieitem.putExtra("itemId", 1);
+			startActivity(ieitem);
+		}
+		
+		else if(item.getTitle()=="Delete Item")
+		{
+			Log.v(LOGTAG, "Context Menu: Delete Item context selected");
+			//code for item deletion
 		}
 
 		else

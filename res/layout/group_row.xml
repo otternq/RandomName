@@ -9,11 +9,17 @@
          android:textSize="20sp"
          android:textColor="#2554C7"
          android:textStyle="normal"
-         android:layout_width="320dp"
+         android:layout_width="170dp"
          android:layout_height="wrap_content"/>
     
     <ImageView 
+        android:id="@+id/row_edit"
         android:layout_height="wrap_content" 
-        android:layout_width="72px" android:src="@drawable/content_remove" android:id="@+id/imageView1"/>
+        android:layout_width="72px" />
+    
+    <ImageView 
+        android:id="@+id/row_delete"
+        android:layout_height="wrap_content" 
+        android:layout_width="72px" />
  
 </LinearLayout>

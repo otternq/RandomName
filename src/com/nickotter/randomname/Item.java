@@ -26,7 +26,17 @@ public class Item implements Serializable {
 		return this.name;
 	}
 	
-	public void setId(int id) {
-		this._id = id;
+	public void setId(int Id) {
+		this._id = Id;
+	}
+	
+	public void setListId(int listId)
+	{
+		this._listID = listId;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 }
