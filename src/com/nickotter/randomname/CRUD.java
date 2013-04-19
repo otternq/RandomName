@@ -229,8 +229,13 @@ public class CRUD {
 		Cursor cursor = database.rawQuery("SELECT itemName, id, listID FROM itemManager WHERE id = ?; ", new String[] { String.valueOf(itemId) });
 		cursor.moveToNext();
 		
-		Log.v(LOGTAG, "got here");
-		Item i = new Item(cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_ID)), cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_LIST_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME)));
+		int id = cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_ID));
+		Log.v(LOGTAG, "id: " + id);
+		int listid = cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_LIST_ID));
+		Log.v(LOGTAG, "listid: " + listid);
+		String name = cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME));
+		Log.v(LOGTAG, "Name: " + name);
+		Item i = new Item(id, listid, name);		
 		Log.v(LOGTAG, "Fetched Item with name, list id, and id: " + i.getName() + " " + i.getListId() + " " + i.getID());
 		Log.v(LOGTAG, "get_item end");
 		
