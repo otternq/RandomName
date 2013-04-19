@@ -44,6 +44,7 @@ TextToSpeech.OnInitListener {
 	private TextToSpeech tts;
 	
 	private int currentGroup;
+	private int selectedItem;
 	
 	private CRUD databaseCRUD;
 	
@@ -108,11 +109,9 @@ TextToSpeech.OnInitListener {
     }//END void onDestroy
 	
 	
-	@Override 
     public void onListItemClick(ListView l, View v, int itemPosition, long id) 
 	{
-		//Log.v(LOGTAG, "List Selection: launching context menu");
-		//l.showContextMenu();
+    	selectedItem = (int) id;
 		
         //Log.v(LOGTAG, "The selected item is: " + this.groupMembers[position][itemPosition]);
         //speakOut(this.groupMembers[position][itemPosition]);
@@ -122,6 +121,8 @@ TextToSpeech.OnInitListener {
 	public void onListLongItemClick(ListView l, View v, long id)
 	{
 		Log.v(LOGTAG, "List Long Selection: launching context menu");
+		Log.v(LOGTAG, "Long id: " + id);
+    	selectedItem = (int) id;
 		l.showContextMenu();
 	}
 	
@@ -158,7 +159,9 @@ TextToSpeech.OnInitListener {
 			Intent ieitem = new Intent(getActivity(), EditItem.class);
 			ieitem.putExtra("groupId", currentGroup);
 			ieitem.putExtra("listId", this.items.get(0).getListId());
-			ieitem.putExtra("itemId", 1);
+			Log.v(LOGTAG, "selectedItem before launch: " + selectedItem);
+			//ieitem.putExtra("itemId", 1);
+			ieitem.putExtra("itemId", selectedItem);
 			startActivity(ieitem);
 		}
 		
