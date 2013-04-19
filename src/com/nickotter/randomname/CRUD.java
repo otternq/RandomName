@@ -397,5 +397,44 @@ public class CRUD {
 		database.insert(Sqlite.DATABASE_SHIFT, null, values);
 		Log.v(LOGTAG, "Settings sucesfullly initiated");
 	}
+	
+	
+	public MyList randomizeLists(Group group){
+		List<MyList> lists = new ArrayList<MyList>();
+		lists = query_list(group);
+		
+		int size = lists.size();
+		
+		int random = (int)(Math.random()*size);
+		
+		return lists.get(random);
+	}
+	
+	public Item randomizeItems(MyList list){
+		List<Item> items = new ArrayList<Item>();
+		items = query_item(list);
+		
+		int size = items.size();
+		
+		int random = (int)(Math.random()*size);
+		
+		return items.get(random);
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
