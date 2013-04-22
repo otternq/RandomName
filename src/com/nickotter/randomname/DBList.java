@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.speech.tts.TextToSpeech;
@@ -28,10 +29,8 @@ import android.speech.tts.TextToSpeech;
 import com.nickotter.randomname.MyList;
 import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.ItemListAdapter;
-import com.nickotter.randomname.crudActivities.AddGroup;
 import com.nickotter.randomname.crudActivities.AddItem;
 import com.nickotter.randomname.crudActivities.AddList;
-import com.nickotter.randomname.crudActivities.EditGroup;
 import com.nickotter.randomname.crudActivities.EditItem;
 import com.nickotter.randomname.crudActivities.EditList;
 
@@ -56,6 +55,17 @@ TextToSpeech.OnInitListener {
 		
 		Log.v(LOGTAG, "Context Menu registartion complete");
 		registerForContextMenu(getListView());
+		
+		getListView().setOnItemLongClickListener(new OnItemLongClickListener() 
+		{
+	        public boolean onItemLongClick(AdapterView<?> l, View v, int itemPosition, long id) 
+	        {
+	    		Log.v(LOGTAG, "List Long Selection: launching context menu");
+	        	selectedItem = (int) id;
+	    		l.showContextMenu();
+	            return true;
+	        }
+	    });
 	}
 	
 	public void onCreate(Bundle savedInstanceState) 
@@ -111,33 +121,22 @@ TextToSpeech.OnInitListener {
 	
     public void onListItemClick(ListView l, View v, int itemPosition, long id) 
 	{
-    	selectedItem = (int) id;
-		
-        //Log.v(LOGTAG, "The selected item is: " + this.groupMembers[position][itemPosition]);
-        //speakOut(this.groupMembers[position][itemPosition]);
+    	if(this.databaseCRUD.query_Verbal() == true)
+    	{
+    		Log.v(LOGTAG, "Speak out for: " + this.items.get(itemPosition).getName());
+    		speakOut(this.items.get(itemPosition).getName());
+    	}
+    	
+    	else
+    		Log.v(LOGTAG, "Failed to speak out, disabled option");
     }//END void onListItemClick
-    
-	
-	public void onListLongItemClick(ListView l, View v, long id)
-	{
-		Log.v(LOGTAG, "List Long Selection: launching context menu");
-		Log.v(LOGTAG, "Long id: " + id);
-    	selectedItem = (int) id;
-		l.showContextMenu();
-	}
-	
-	//Context Menu stuff
-	    //Context menu listener test
-
 	
 	@Override        
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) 
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
-		//if (v.getId()==R.id.groupListView) 
-	    //{
 			Log.v(LOGTAG, "Creating Context Menu");
-	        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+	        //AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 	        menu.setHeaderTitle("Activity Selection Context Menu");
 	        //menu adds work like comment below
 	        //add(int groupId, int itemId, int order, CharSequence title/or title resource)
@@ -145,7 +144,6 @@ TextToSpeech.OnInitListener {
 	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Delete Item");
 	        
 	        Log.v(LOGTAG, "Context Menu created");
-	    //}
 	};
 	
     @Override

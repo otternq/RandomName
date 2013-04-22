@@ -96,7 +96,7 @@ public class EditList extends SherlockFragmentActivity {
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tempGroup);
         Log.v(LOGTAG, "\tsetting array adapter");
         spinner.setAdapter(spinnerArrayAdapter);             
-        spinner.setSelection(groupId);
+        spinner.setSelection(currentGroupIndex);
       
         
         //List edit text field

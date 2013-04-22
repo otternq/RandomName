@@ -107,7 +107,7 @@ public class EditItem extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\tsetting array adapter");
         spinner.setAdapter(spinnerArrayAdapter); 
         //I think this is going to fail as list id's are accumulated over groups
-        spinner.setSelection(listId - 1);
+        spinner.setSelection(currentListIndex);
       
         //List edit text field
         this.item = this.databaseCRUD.get_item(itemId);
