@@ -1,5 +1,7 @@
 package com.nickotter.randomname.crudActivities;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -12,6 +14,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.Group;
+import com.nickotter.randomname.Item;
+import com.nickotter.randomname.MyList;
 import com.nickotter.randomname.R;
 
 public class EditGroup  extends SherlockFragmentActivity {
@@ -21,6 +25,8 @@ public class EditGroup  extends SherlockFragmentActivity {
 	protected CRUD databaseCRUD = null;
 	
 	protected Group group = null;
+	protected List<MyList> lists = null;
+	protected List<Item> tempItems = null;
 	protected EditText groupElement = null;
 	String old = null;
 	
@@ -107,9 +113,30 @@ public class EditGroup  extends SherlockFragmentActivity {
         		  databaseCRUD.update_group(this.group);
         	  
         		  finish();
+        	  }      	  
+        	  
+        	  return true;
+        	  
+          case R.id.discardButton:
+        	  
+        	  this.lists = this.databaseCRUD.query_list(group);
+        	  for(MyList l: this.lists)
+        	  {
+        		  this.tempItems = this.databaseCRUD.query_item(l);
+        		  for(Item i: this.tempItems)
+        		  {
+        			  Log.v(LOGTAG, "Deleting item with name and id: " + i.getName() + " " + i.getID());
+                	  this.databaseCRUD.delete_item(i);
+        		  }
+        		  
+        		  Log.v(LOGTAG, "Deleting list with name and id: " + l.getName() + " " + l.getID());
         	  }
         	  
+        	  Log.v(LOGTAG, "Deleting group with name and id: " + this.group.getName() + " " + this.group.getID());
+        	  this.databaseCRUD.delete_group(this.group);
+        	  Log.v(LOGTAG, "Deletion of group complete");
         	  
+        	  finish();
         	  return true;
         	  
           default:            

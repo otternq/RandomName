@@ -269,22 +269,19 @@ public class CRUD {
 		});
 	}
 	
-	public void delete_item(Item item){
-		database.delete(Sqlite.DATABASE_ITEM, Sqlite.ITEM_ID + "= ? ", new String[]{
-				String.valueOf(item.getID())
-		});
+	public void delete_item(Item item)
+	{
+		database.delete(Sqlite.DATABASE_ITEM, Sqlite.ITEM_ID + "= ? ", new String[]{String.valueOf(item.getID())});
 	}
 	
-	public void delete_list(MyList list){
-		database.delete(Sqlite.DATABASE_LIST, Sqlite.LIST_ID + "= ? ", new String[]{
-				String.valueOf(list.getID())
-		});
+	public void delete_list(MyList list)
+	{
+		database.delete(Sqlite.DATABASE_LIST, Sqlite.LIST_ID + "= ? ", new String[]{String.valueOf(list.getID())});
 	}
 	
-	public void delete_group(Group group){
-		database.delete(Sqlite.DATABASE_GROUP, Sqlite.GROUP_ID + "= ? ", new String[]{
-				String.valueOf(group.getID())
-		});
+	public void delete_group(Group group)
+	{
+		database.delete(Sqlite.DATABASE_GROUP, Sqlite.GROUP_ID + "= ? ", new String[]{String.valueOf(group.getID())});
 	}
 	
 	

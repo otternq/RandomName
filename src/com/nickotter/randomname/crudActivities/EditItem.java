@@ -165,6 +165,14 @@ public class EditItem extends SherlockFragmentActivity {
         	  
         	  return true;
         	  
+          case R.id.discardButton:
+        	  Log.v(LOGTAG, "Deleting item with name and id: " + this.item.getName() + " " + this.item.getID());
+        	  this.databaseCRUD.delete_item(this.item);
+        	  Log.v(LOGTAG, "Deletion of item complete");
+        	  
+        	  finish();
+        	  return true;
+        	  
           default:            
              return super.onOptionsItemSelected(item);    
        }

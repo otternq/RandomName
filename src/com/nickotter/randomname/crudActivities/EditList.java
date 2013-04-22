@@ -17,6 +17,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.nickotter.randomname.CRUD;
 import com.nickotter.randomname.Group;
+import com.nickotter.randomname.Item;
 import com.nickotter.randomname.MyList;
 import com.nickotter.randomname.R;
 
@@ -29,6 +30,7 @@ public class EditList extends SherlockFragmentActivity {
 	protected int currentGroupIndex = -1;
 	
 	protected List<Group> groups = null;
+	protected List<Item> items = null;
 	protected MyList list = null;
 	
 	protected EditText listField = null;
@@ -157,6 +159,22 @@ public class EditList extends SherlockFragmentActivity {
         	  finish();
         	  
         	  
+        	  return true;
+        	  
+          case R.id.discardButton:
+        	  
+        	  Log.v(LOGTAG, "Deleting list items:");
+        	  this.items = this.databaseCRUD.query_item(this.list);
+        	  for(Item i : this.items)
+        	  {
+        		  Log.v(LOGTAG, "Deleting item with name and id: " + i.getName() + " " + i.getID());
+        		  this.databaseCRUD.delete_item(i);
+        	  }
+        	  Log.v(LOGTAG, "Deleting list with name and id: " + this.list.getName() + " " + this.list.getID());
+        	  this.databaseCRUD.delete_list(list);
+        	  Log.v(LOGTAG, "Deletion of list complete");
+        	  
+        	  finish();
         	  return true;
         	  
           default:            

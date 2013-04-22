@@ -45,7 +45,7 @@ TextToSpeech.OnInitListener {
 	private int currentGroup;
 	private int selectedItem;
 	
-	private CRUD databaseCRUD;
+	CRUD databaseCRUD = null;
 	
 	List<Item> items = null;
 	
@@ -71,6 +71,11 @@ TextToSpeech.OnInitListener {
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
+        Log.v(LOGTAG, "\topening database connection");
+        //database needs to open lol...
+        this.databaseCRUD = new CRUD(getActivity());
+        this.databaseCRUD.open();
 		
 		tts = new TextToSpeech(getActivity(), this);
 		
@@ -166,7 +171,9 @@ TextToSpeech.OnInitListener {
 		else if(item.getTitle()=="Delete Item")
 		{
 			Log.v(LOGTAG, "Context Menu: Delete Item context selected");
-			//code for item deletion
+			Item di = this.databaseCRUD.get_item(selectedItem);
+         	Log.v(LOGTAG, "Deleting item with name and id: " + di.getName() + " " + di.getID());
+			this.databaseCRUD.delete_item(di);
 		}
 
 		else
@@ -217,8 +224,7 @@ TextToSpeech.OnInitListener {
 	    		break;   	
 	    		
 	    	case R.id.menu_add_item:
-	    		Log.v(LOGTAG, "Main menu selection: Clicked Add item");
-	    		
+	    		Log.v(LOGTAG, "Main menu selection: Clicked Add item");    		
 	    		Intent iitem = new Intent(getActivity(), AddItem.class);
 	    		iitem.putExtra("groupId", currentGroup);
 	    		startActivity(iitem);
