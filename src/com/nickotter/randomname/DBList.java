@@ -136,6 +136,15 @@ TextToSpeech.OnInitListener {
     		Log.v(LOGTAG, "Failed to speak out, disabled option");
     }//END void onListItemClick
 	
+	public void onListLongItemClick(ListView l, View v, long id)
+	{
+		Log.v(LOGTAG, "List Long Selection: launching context menu");
+		l.showContextMenu();
+	}
+	
+	//Context Menu stuff
+	    //Context menu listener test
+	
 	@Override        
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) 
 	{
