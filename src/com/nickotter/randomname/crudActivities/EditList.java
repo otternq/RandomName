@@ -165,11 +165,17 @@ public class EditList extends SherlockFragmentActivity {
         	  
         	  Log.v(LOGTAG, "Deleting list items:");
         	  this.items = this.databaseCRUD.query_item(this.list);
-        	  for(Item i : this.items)
+        	  if(items != null)
         	  {
-        		  Log.v(LOGTAG, "Deleting item with name and id: " + i.getName() + " " + i.getID());
-        		  this.databaseCRUD.delete_item(i);
+        		  for(Item i : this.items)
+        		  {
+        			  Log.v(LOGTAG, "Deleting item with name and id: " + i.getName() + " " + i.getID());
+        			  this.databaseCRUD.delete_item(i);
+        		  }
         	  }
+        	  else
+        		  Log.v(LOGTAG, "No items detected");
+        	  
         	  Log.v(LOGTAG, "Deleting list with name and id: " + this.list.getName() + " " + this.list.getID());
         	  this.databaseCRUD.delete_list(list);
         	  Log.v(LOGTAG, "Deletion of list complete");

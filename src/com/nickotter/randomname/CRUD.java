@@ -113,10 +113,12 @@ public class CRUD {
 		Cursor cursor = database.rawQuery("SELECT itemName, id, listID FROM itemManager WHERE listID = ?; ", new String[] { String.valueOf(list.getID()) });
 		
 		Log.v(LOGTAG, "checking that the cursor is not empty");
-		if(cursor.getCount() > 0 ){
+		if(cursor.getCount() > 0 )
+		{
 			
 			Log.v(LOGTAG, "iterating through cursor");
-			while(cursor.moveToNext()){
+			while(cursor.moveToNext())
+			{
 				
 				Log.v(LOGTAG, "initializing item to be added to list. name=" + cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME)));
 				Item item = new Item(
@@ -126,11 +128,13 @@ public class CRUD {
 						);
 				
 				Log.v(LOGTAG, "Adding item to list");
-				items.add(item);
-				
+				items.add(item);			
 			}
-		} else {
-			Log.v(LOGTAG, "\t query_item cursor is empty");
+		} 
+		else 
+		{
+			Log.v(LOGTAG, "\t The cursor did not retrieve items");
+			return null;
 		}
 		
 		Log.v(LOGTAG, "query_item finish");
@@ -146,10 +150,11 @@ public class CRUD {
 		//Cursor cursor = database.query(Sqlite.DATABASE_LIST, LIST_COLUMNS, "groupID = " + group.getID(), null, null, null, null);
 		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE groupID = ?; ", new String[] { String.valueOf(group.getID()) });
 		
-		if(cursor.getCount() > 0 ){
+		if(cursor.getCount() > 0 )
+		{
 			Log.v(LOGTAG, "\t The cursor retrieved items");
-			while(cursor.moveToNext()){
-				
+			while(cursor.moveToNext())
+			{
 				MyList list = new MyList(
 						cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_ID)),
 						cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)),
@@ -160,8 +165,11 @@ public class CRUD {
 				lists.add(list);
 				
 			}
-		} else {
+		} 
+		else 
+		{
 			Log.v(LOGTAG, "\t The cursor did not retrieve items");
+			return null;
 		}
 		
 		Log.v(LOGTAG, "query_list finish");
@@ -178,14 +186,21 @@ public class CRUD {
 		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager; ", null);
 
 		
-		if(cursor.getCount() > 0){
-			while(cursor.moveToNext()){
+		if(cursor.getCount() > 0)
+		{
+			while(cursor.moveToNext())
+			{
 				Log.v(LOGTAG, "Group name and id respectively: " + cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)) + " && " + cursor.getInt(cursor.getColumnIndex(Sqlite.GROUP_ID)));
 				Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
 				g.setId(cursor.getInt(cursor.getColumnIndex(Sqlite.GROUP_ID)));
 				
 				groups.add(g);
 			}
+		}
+		else
+		{
+			Log.v(LOGTAG, "\t The cursor did not retrieve items");
+			return null;
 		}
 		
 		Log.v(LOGTAG, "query_group function end");

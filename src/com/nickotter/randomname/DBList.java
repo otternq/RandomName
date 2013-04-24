@@ -280,30 +280,70 @@ TextToSpeech.OnInitListener {
 		
 		//no items found
 		else
+		{
 			Log.v(LOGTAG, "No Items found");
+			if(databaseCRUD.query_Verbal() == true)
+				this.speakOut("Random selection failed, no items detected");
+		}
 	}
 	
 	public void randomList()
 	{
 		/*
 		Random r = new Random();
-		int l1;
-		
-		if(this.tabs.size() != 1)
+		int l1 = 0;
+
+		if(this.tabs.size() != 0)
 		{
-			l1 = r.nextInt(this.tabs.size());
-			while(exclusionList == l1)
+			//exclusion on
+			if(databaseCRUD.query_Exclusion() == true)
+			{
+				//protection of singular list
+				if(this.tabs.size() != 1)
+				{
+					//loop until non-similar is found
+					l1 = r.nextInt(this.tabs.size());
+					while(exclusionItem == l1)
+					{
+						Log.v(LOGTAG, "exclusion detected: " + exclusionList + " : " + l1);
+						l1 = r.nextInt(this.tabs.size());
+					}
+				}
+				//singular list
+				else
+				{
+					l1 = r.nextInt(this.tabs.size());
+					Log.v(LOGTAG, "Single item detected with id: " + l1);
+				}
+			
+				//new exclusion
+				exclusionList = l1;
+			}
+			//exclusion off
+			else
+			{
 				l1 = r.nextInt(this.tabs.size());
+				Log.v(LOGTAG, "Exclusion turned off");
+			}
+		
+			Log.v(LOGTAG, "Randomed List id: " + Integer.toString(l1));		
+			if(databaseCRUD.query_Verbal() == true)
+				this.speakOut(this.tabs.get(l1).getName());
+				>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>switch tabs goes here<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			else
+				;
+				//possibly flash the chosen item
+				>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>switch tabs goes here<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 		}
+		
+		//no items found
 		else
-			l1 = r.nextInt(this.tabs.size());
-		
-		exclusionList = l1;
-		
-		Log.v(LOGTAG, "Randomed List id: " + Integer.toString(l1));
-		SWITCH TO PROPER TAB
-		if(databaseCRUD.query_Verbal() == true);
-			this.speakOut(this.tabs.get(l1).getName());
+		{
+			Log.v(LOGTAG, "No Lists found");
+			if(databaseCRUD.query_Verbal() == true)
+				this.speakOut("Random selection failed, no lists detected");
+		}
 		*/
 	}
 	

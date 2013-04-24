@@ -229,37 +229,52 @@ public class MainActivity extends SherlockFragmentActivity {
 			List<MyList> lists = databaseCRUD.query_list(groups.get(this.currentGroup));
 			
 			// For each of the lists, add a tab to the action bar.
-			for(MyList list : lists) {
+			if(lists != null)
+			{
+				for(MyList list : lists) 
+				{
 				// Create a tab with text corresponding to the page title defined by
 				// the adapter. Also specify this Activity object, which implements
 				// the TabListener interface, as the callback (listener) for when
 				// this tab is selected.
 				
-				Log.v(LOGTAG, "adding tab for:" + list.getName() + " with id=" + list.getID());
+					Log.v(LOGTAG, "adding tab for:" + list.getName() + " with id=" + list.getID());
 				
 				
-				Tab tab1 = actionBar.newTab()
+					Tab tab1 = actionBar.newTab()
 		                .setText(list.getName())
 		                .setTabListener(new TabListener<DBList>(
 		                        this, "Basic", DBList.class));
 				
-				Bundle arguments = new Bundle();
+					Bundle arguments = new Bundle();
 				
-				List<Item> listItems = databaseCRUD.query_item(list);
+					List<Item> listItems = databaseCRUD.query_item(list);
+					if(listItems != null)
+					{
 				
-				for (Item tempItem : listItems) {
-					Log.v(LOGTAG, "found entry for itemID="+tempItem.getID());
-				}
+						for (Item tempItem : listItems) 
+						{
+							Log.v(LOGTAG, "found entry for itemID="+tempItem.getID());
+						}
 	
-				arguments.putSerializable("items", (Serializable) listItems);
-			    arguments.putInt("currentGroup", this.currentGroup);	
+						arguments.putSerializable("items", (Serializable) listItems);
+						arguments.putInt("currentGroup", this.currentGroup);	
 				
 				
-				tab1.setTag(arguments);
-			    actionBar.addTab(tab1);
+						tab1.setTag(arguments);
+						actionBar.addTab(tab1);
+					}
+					else
+					{
+						Log.v(LOGTAG, "No Items detected");
+					}
 			    
+				}
 			}
-			
+			else
+			{
+				Log.v(LOGTAG, "Group contained no lists");
+			}
 			Log.v(LOGTAG, "\tcurrent tab count" + actionBar.getTabCount());
 		
 		}

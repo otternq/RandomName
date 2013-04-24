@@ -28,7 +28,6 @@ public class EditGroup  extends SherlockFragmentActivity {
 	protected List<MyList> lists = null;
 	protected List<Item> tempItems = null;
 	protected EditText groupElement = null;
-	String old = null;
 	
 	@Override
 	public void onStart() {
@@ -69,7 +68,6 @@ public class EditGroup  extends SherlockFragmentActivity {
         this.group = databaseCRUD.get_group(groupId);
         Log.v(LOGTAG, "Found group with name and setting text field to: " + group.getName());
         this.groupElement.setText(this.group.getName());
-        old = group.getName();
         
 	}
 	
@@ -108,7 +106,7 @@ public class EditGroup  extends SherlockFragmentActivity {
         	  {
         		  this.group.setName(this.groupElement.getText().toString());
         		  
-        		  Log.v(LOGTAG, "Adding new group with name and ID: " + this.group.getName() + " " + this.group.getID());
+        		  Log.v(LOGTAG, "Updating group with name and ID: " + this.group.getName() + " " + this.group.getID());
         	  
         		  databaseCRUD.update_group(this.group);
         	  
@@ -120,17 +118,27 @@ public class EditGroup  extends SherlockFragmentActivity {
           case R.id.discardButton:
         	  
         	  this.lists = this.databaseCRUD.query_list(group);
-        	  for(MyList l: this.lists)
+        	  if(lists != null)
         	  {
-        		  this.tempItems = this.databaseCRUD.query_item(l);
-        		  for(Item i: this.tempItems)
+        		  for(MyList l: this.lists)
         		  {
-        			  Log.v(LOGTAG, "Deleting item with name and id: " + i.getName() + " " + i.getID());
-                	  this.databaseCRUD.delete_item(i);
-        		  }
+        			  this.tempItems = this.databaseCRUD.query_item(l);
+        			  if(tempItems != null)
+        			  {
+        				  for(Item i: this.tempItems)
+        				  {
+        					  Log.v(LOGTAG, "Deleting item with name and id: " + i.getName() + " " + i.getID());
+        					  this.databaseCRUD.delete_item(i);
+        				  }
+        			  }
+        			  else
+        				  Log.v(LOGTAG, "No items detected");
         		  
-        		  Log.v(LOGTAG, "Deleting list with name and id: " + l.getName() + " " + l.getID());
+        			  Log.v(LOGTAG, "Deleting list with name and id: " + l.getName() + " " + l.getID());
+        		  }
         	  }
+        	  else
+        		  Log.v(LOGTAG, "No lists detected");
         	  
         	  Log.v(LOGTAG, "Deleting group with name and id: " + this.group.getName() + " " + this.group.getID());
         	  this.databaseCRUD.delete_group(this.group);
