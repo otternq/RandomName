@@ -201,10 +201,13 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		List<Group> groups = databaseCRUD.query_group();
 		
-		if (groups.isEmpty()) {
+		if (groups == null) 
+		{
 			Intent i = new Intent(MainActivity.this, AddGroup.class);
 			startActivity(i);
-		} else {
+		} 
+		else 
+		{
 		
 			//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
 	        ListAdapter adapter = new GroupListAdapter(this, groups);
