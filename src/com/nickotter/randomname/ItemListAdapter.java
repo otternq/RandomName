@@ -29,6 +29,10 @@ public class ItemListAdapter extends BaseAdapter {
 	public int getCount() {
 		return this.list.size();
 	}
+	
+	public void removeItem(int position) {
+		this.list.remove(position);
+	}
 
 	@Override
 	public Object getItem(int position) {

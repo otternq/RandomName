@@ -232,7 +232,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 	}//END void onCreate
 	
-	private void loadLists() {
+	public void loadLists() {
 		
 		Log.v(LOGTAG, "loadLists - current group="+ this.currentGroup);
 		

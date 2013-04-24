@@ -45,6 +45,8 @@ TextToSpeech.OnInitListener {
 	private int currentGroup;
 	private int selectedItem;
 	
+	private ItemListAdapter adapter = null;
+	
 	CRUD databaseCRUD = null;
 	
 	List<Item> items = null;
@@ -99,7 +101,7 @@ TextToSpeech.OnInitListener {
 		}
 
 		Log.v(LOGTAG, "\tusing ItemListAdapter to bring List<items> to listview");
-		ListAdapter adapter = new ItemListAdapter(inflater.getContext(), this.items);
+		adapter = new ItemListAdapter(inflater.getContext(), this.items);
 
 		
 		
@@ -175,6 +177,12 @@ TextToSpeech.OnInitListener {
 			Item di = this.databaseCRUD.get_item(selectedItem);
          	Log.v(LOGTAG, "Deleting item with name and id: " + di.getName() + " " + di.getID());
 			this.databaseCRUD.delete_item(di);
+			
+			Log.v(LOGTAG, "selectedItem before launch: " + selectedItem);
+			
+			MainActivity m = (MainActivity) getActivity();
+			m.loadLists();
+			
 		}
 
 		else

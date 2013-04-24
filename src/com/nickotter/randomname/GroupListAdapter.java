@@ -22,19 +22,21 @@ public class GroupListAdapter extends BaseAdapter {
 	
 	protected static final String LOGTAG = null;
 	private List<Group> list = null;
-	private Activity context = null;
+	private MainActivity context = null;
 	
     private static LayoutInflater inflater=null;
+    
+    CRUD databaseCRUD = null;
 
 	/**
 	 * @param args
 	 */
-	public GroupListAdapter(Activity context, List<Group> items) {
+	public GroupListAdapter(MainActivity context, List<Group> items) {
 		this.list = items;
 		this.context = context;
-
 		
 		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 	}
 
 	@Override
@@ -74,7 +76,7 @@ public class GroupListAdapter extends BaseAdapter {
         editImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-            	Log.v(LOGTAG, "Context Menu: Edit Group context selected");
+            	Log.v(LOGTAG, "Side Drawer: Edit Group selected");
     			Intent iegroup = new Intent(context, EditGroup.class);
     			
     			Group item = list.get(position);
@@ -87,6 +89,27 @@ public class GroupListAdapter extends BaseAdapter {
         ImageView deleteImage =(ImageView)vi.findViewById(R.id.row_delete);
         Drawable imageDrawableDelete = this.context.getResources().getDrawable(deleteImageDrawable);
         deleteImage.setImageDrawable(imageDrawableDelete);
+        
+        deleteImage.setOnClickListener(new OnClickListener() {
+        	
+        	@Override
+        	public void onClick(View v) {
+        		Log.v(LOGTAG, "Side Drawer: Delete Group selected");
+        		
+        		Group group = list.get(position);
+        		Log.v(LOGTAG, "deleting group with name: " + group.getName());
+        		
+        		CRUD databaseCRUD = new CRUD(context.getBaseContext());
+        		databaseCRUD.open();
+        		
+        		databaseCRUD.delete_group(group);
+        		context.loadLists();
+        		
+        		databaseCRUD.close();
+        		
+        	}
+        	
+        });
         
         return vi;
 	}
