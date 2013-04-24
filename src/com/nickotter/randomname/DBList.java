@@ -12,8 +12,12 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 import com.google.analytics.tracking.android.EasyTracker;
 
+import android.content.Context;
 //import android.support.v4.app.ListFragment;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -39,6 +43,10 @@ TextToSpeech.OnInitListener {
 
 
 	final String LOGTAG = "DBList";
+	
+	//Shake variables
+	private SensorManager mSensorManager;
+	private ShakeEventListener mSensorListener;
 	
 	private TextToSpeech tts;
 	
@@ -85,6 +93,29 @@ TextToSpeech.OnInitListener {
 		
 		//ListView l = (ListView)findViewbyId(R.id.listView1);
 		
+		//Shake acceleration listeners (value of 0 is not shaking and greater than 2 is shaking device)
+        Log.v(LOGTAG, "Initilization of Shake detection");
+        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        mSensorListener = new ShakeEventListener();   
+
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() 
+        {
+        	public void onShake() 
+        	{
+        		//Randomize function
+        	       Log.v(LOGTAG, "Shook Randomizer");
+        	       
+        	       String shook = "Device was shaken";
+        	       random();
+        	       
+        	}
+        });
+        
+	  //Resume Shake
+	  mSensorManager.registerListener(mSensorListener,
+	        mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+	        SensorManager.SENSOR_DELAY_UI);
+		
 		
 	}//END void onCreate
 	 
@@ -121,6 +152,9 @@ TextToSpeech.OnInitListener {
             tts.stop();
             tts.shutdown();
         }
+        
+        //Pause Shake
+	    mSensorManager.unregisterListener(mSensorListener);
         
         super.onDestroy();
     }//END void onDestroy
@@ -200,6 +234,15 @@ TextToSpeech.OnInitListener {
         super.onCreateOptionsMenu(menu, inflater);
     }
 	
+	public void random() {
+		Random r = new Random();
+		int i1 = r.nextInt(this.items.size());
+		
+		Log.v(LOGTAG, Integer.toString(i1));
+		
+		this.speakOut(this.items.get(i1).getName());
+	}
+	
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
     	
@@ -215,12 +258,7 @@ TextToSpeech.OnInitListener {
 	    	case R.id.menu_random:
     			Log.v(LOGTAG, "onOptionsItemSelected: Clicked Random");
     			
-    			Random r = new Random();
-    			int i1 = r.nextInt(this.items.size());
-    			
-    			Log.v(LOGTAG, Integer.toString(i1));
-    			
-    			this.speakOut(this.items.get(i1).getName());
+    			this.random();
     			
     			break;
 	   

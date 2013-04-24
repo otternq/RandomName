@@ -56,10 +56,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	CRUD databaseCRUD = null;
 	
-	//Shake variables
-	private SensorManager mSensorManager;
-	private ShakeEventListener mSensorListener;
-	
 	int currentGroup = 0;
 	int currentList = 0;
 	
@@ -96,6 +92,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		Log.v(LOGTAG, "Creating dummy DB from onCreate using dummyDB()");
 		dummyDB();
 		
+		
 		ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 		
@@ -125,7 +122,7 @@ public class MainActivity extends SherlockFragmentActivity {
             }
         });
         
-       
+        
         //Exclusion toggle listener]
         Log.v(LOGTAG, "Intitializing the toggle listeners");
         findViewById(R.id.toggleExclusion).setOnClickListener
@@ -187,48 +184,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
         );
         
-        
-        //Shake acceleration listeners (value of 0 is not shaking and greater than 2 is shaking device)
-        Log.v(LOGTAG, "Initilization of Shake detection");
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensorListener = new ShakeEventListener();   
-
-        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() 
-        {
-        	public void onShake() 
-        	{
-        		//Randomize function
-        	       Log.v(LOGTAG, "Shook Randomizer");
-        	       
-        	       //String shook = "Device was shaken";
-        	       //speakOut(shook);
-        	       
-        	}
-        });
-        
-        /*// Create the adapter that will return a fragment for each of the three
- 		// primary sections of the app.
- 		mSectionsPagerAdapter = new SectionsPagerAdapter(
- 			getSupportFragmentManager(), 
- 			getApplicationContext(), 
- 			lists
- 		);
-
- 		// Set up the ViewPager with the sections adapter.
- 		mViewPager = (ViewPager) findViewById(R.id.pager);
- 		mViewPager.setAdapter(mSectionsPagerAdapter);
-
- 		// When swiping between different sections, select the corresponding
- 		// tab. We can also use ActionBar.Tab#select() to do this if we have
- 		// a reference to the Tab.
- 		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
- 			@Override
- 			public void onPageSelected(int position) {
- 				actionBar.setSelectedNavigationItem(position);
- 			}
- 		});*/
-
         this.loadLists();
+        
 		
 	}//END void onCreate
 	
@@ -236,61 +193,70 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		Log.v(LOGTAG, "loadLists - current group="+ this.currentGroup);
 		
-		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
-        ListAdapter adapter = new GroupListAdapter(this, databaseCRUD.query_group());
-       
-        ListView groupList = (ListView)findViewById(R.id.groupListView);
-        groupList.removeAllViewsInLayout();
-        groupList.setAdapter(adapter);
-        
-        //end content to display groups in slider
-        
-        //set up tabs
+		List<Group> groups = databaseCRUD.query_group();
 		
-		// Set up the action bar.
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.removeAllTabs();
-        
-        List<Group> groups = databaseCRUD.query_group();
-        
-        Log.v(LOGTAG, "loadLists - current group name=" + groups.get(this.currentGroup).getName());
-        
-		List<MyList> lists = databaseCRUD.query_list(groups.get(this.currentGroup));
+		if (groups.isEmpty()) {
+			Intent i = new Intent(MainActivity.this, AddGroup.class);
+			startActivity(i);
+		} else {
 		
-		// For each of the lists, add a tab to the action bar.
-		for(MyList list : lists) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
+			//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
+	        ListAdapter adapter = new GroupListAdapter(this, groups);
+	       
+	        ListView groupList = (ListView)findViewById(R.id.groupListView);
+	        groupList.removeAllViewsInLayout();
+	        groupList.setAdapter(adapter);
+	        
+	        //end content to display groups in slider
+	        
+	        //set up tabs
 			
-			Log.v(LOGTAG, "adding tab for:" + list.getName() + " with id=" + list.getID());
+			// Set up the action bar.
+			ActionBar actionBar = getSupportActionBar();
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+			actionBar.removeAllTabs();
+	        
+	        //List<Group> groups = databaseCRUD.query_group();
+	        
+	        Log.v(LOGTAG, "loadLists - current group name=" + groups.get(this.currentGroup).getName());
+	        
+			List<MyList> lists = databaseCRUD.query_list(groups.get(this.currentGroup));
 			
-			
-			Tab tab1 = actionBar.newTab()
-	                .setText(list.getName())
-	                .setTabListener(new TabListener<DBList>(
-	                        this, "Basic", DBList.class));
-			
-			Bundle arguments = new Bundle();
-			
-			List<Item> listItems = databaseCRUD.query_item(list);
-			
-			for (Item tempItem : listItems) {
-				Log.v(LOGTAG, "found entry for itemID="+tempItem.getID());
+			// For each of the lists, add a tab to the action bar.
+			for(MyList list : lists) {
+				// Create a tab with text corresponding to the page title defined by
+				// the adapter. Also specify this Activity object, which implements
+				// the TabListener interface, as the callback (listener) for when
+				// this tab is selected.
+				
+				Log.v(LOGTAG, "adding tab for:" + list.getName() + " with id=" + list.getID());
+				
+				
+				Tab tab1 = actionBar.newTab()
+		                .setText(list.getName())
+		                .setTabListener(new TabListener<DBList>(
+		                        this, "Basic", DBList.class));
+				
+				Bundle arguments = new Bundle();
+				
+				List<Item> listItems = databaseCRUD.query_item(list);
+				
+				for (Item tempItem : listItems) {
+					Log.v(LOGTAG, "found entry for itemID="+tempItem.getID());
+				}
+	
+				arguments.putSerializable("items", (Serializable) listItems);
+			    arguments.putInt("currentGroup", this.currentGroup);	
+				
+				
+				tab1.setTag(arguments);
+			    actionBar.addTab(tab1);
+			    
 			}
-
-			arguments.putSerializable("items", (Serializable) listItems);
-		    arguments.putInt("currentGroup", this.currentGroup);	
 			
-			
-			tab1.setTag(arguments);
-		    actionBar.addTab(tab1);
-		    
-		}
+			Log.v(LOGTAG, "\tcurrent tab count" + actionBar.getTabCount());
 		
-		Log.v(LOGTAG, "\tcurrent tab count" + actionBar.getTabCount());
+		}
 		
 		
 	}
@@ -320,11 +286,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		this.loadLists();
 		
-		//Resume Shake
-		mSensorManager.registerListener(mSensorListener,
-		        mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-		        SensorManager.SENSOR_DELAY_UI);
-		
 		Log.v(LOGTAG, "onResume ofMainactivity sucessful");
 	}
 	
@@ -341,8 +302,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			Log.v(LOGTAG, "\tdatabaseCRUD is null");
 		}
 		
-		//Pause Shake
-	    mSensorManager.unregisterListener(mSensorListener);
+		
 		
 		Log.v(LOGTAG, "onPause of MainActivity sucessful");
 	}
@@ -366,7 +326,10 @@ public class MainActivity extends SherlockFragmentActivity {
         shaker.setChecked(databaseCRUD.query_Shake());
         */
 		
-		
+		List<Group> groupList = databaseCRUD.query_group();
+			
+		Log.v(LOGTAG, "There are no groups");
+	
 		Log.v(LOGTAG, "\tcreating groups start");
 		Group g1 = new Group("CS480");
 		Group g2 = new Group("CS481");
@@ -405,7 +368,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		Log.v(LOGTAG, "createGroups x");
 		
-			
+		
 		
 	}
 
