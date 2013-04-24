@@ -53,6 +53,9 @@ TextToSpeech.OnInitListener {
 	private int currentGroup;
 	private int selectedItem;
 	
+	private int exclusionList;
+	private int exclusionItem;
+	
 	private ItemListAdapter adapter = null;
 	
 	CRUD databaseCRUD = null;
@@ -101,13 +104,10 @@ TextToSpeech.OnInitListener {
         mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() 
         {
         	public void onShake() 
-        	{
-        		//Randomize function
-        	       Log.v(LOGTAG, "Shook Randomizer");
-        	       
-        	       String shook = "Device was shaken";
-        	       random();
-        	       
+        	{    		
+        		Log.v(LOGTAG, "Shake Recieved");
+        	    if(databaseCRUD.query_Shake() == true)
+        	    	randomItem();       
         	}
         });
         
@@ -179,7 +179,7 @@ TextToSpeech.OnInitListener {
 		super.onCreateContextMenu(menu, v, menuInfo);
 			Log.v(LOGTAG, "Creating Context Menu");
 	        //AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-	        menu.setHeaderTitle("Activity Selection Context Menu");
+	        menu.setHeaderTitle("Item Context Menu");
 	        //menu adds work like comment below
 	        //add(int groupId, int itemId, int order, CharSequence title/or title resource)
 	        menu.add(android.view.Menu.NONE, v.getId(), 0, "Edit Item");
@@ -221,8 +221,6 @@ TextToSpeech.OnInitListener {
 
 		else
 			return false;
-		
-		//getActivity().closeContextMenu();
 
 		return true;
 	}
@@ -234,13 +232,79 @@ TextToSpeech.OnInitListener {
         super.onCreateOptionsMenu(menu, inflater);
     }
 	
-	public void random() {
+	public void randomItem() 
+	{
 		Random r = new Random();
-		int i1 = r.nextInt(this.items.size());
+		int i1 = 0;
+
+		if(this.items.size() != 0)
+		{
+			//exclusion on
+			if(databaseCRUD.query_Exclusion() == true)
+			{
+				//protection of singular item
+				if(this.items.size() != 1)
+				{
+					//loop until non-similar is found
+					i1 = r.nextInt(this.items.size());
+					while(exclusionItem == i1)
+					{
+						Log.v(LOGTAG, "exclusion detected: " + exclusionItem + " : " + i1);
+						i1 = r.nextInt(this.items.size());
+					}
+				}
+				//singular item
+				else
+				{
+					i1 = r.nextInt(this.items.size());
+					Log.v(LOGTAG, "Single item detected with id: " + i1);
+				}
+			
+				//new exclusion
+				exclusionItem = i1;
+			}
+			//exclusion off
+			else
+			{
+				i1 = r.nextInt(this.items.size());
+				Log.v(LOGTAG, "Exclusion turned off");
+			}
 		
-		Log.v(LOGTAG, Integer.toString(i1));
+			Log.v(LOGTAG, "Randomed Item id: " + Integer.toString(i1));		
+			if(databaseCRUD.query_Verbal() == true)
+				this.speakOut(this.items.get(i1).getName());
+			else
+				;
+			//possibly flash the chosen item
+		}
 		
-		this.speakOut(this.items.get(i1).getName());
+		//no items found
+		else
+			Log.v(LOGTAG, "No Items found");
+	}
+	
+	public void randomList()
+	{
+		/*
+		Random r = new Random();
+		int l1;
+		
+		if(this.tabs.size() != 1)
+		{
+			l1 = r.nextInt(this.tabs.size());
+			while(exclusionList == l1)
+				l1 = r.nextInt(this.tabs.size());
+		}
+		else
+			l1 = r.nextInt(this.tabs.size());
+		
+		exclusionList = l1;
+		
+		Log.v(LOGTAG, "Randomed List id: " + Integer.toString(l1));
+		SWITCH TO PROPER TAB
+		if(databaseCRUD.query_Verbal() == true);
+			this.speakOut(this.tabs.get(l1).getName());
+		*/
 	}
 	
     @Override
@@ -258,7 +322,7 @@ TextToSpeech.OnInitListener {
 	    	case R.id.menu_random:
     			Log.v(LOGTAG, "onOptionsItemSelected: Clicked Random");
     			
-    			this.random();
+    			this.randomItem();
     			
     			break;
 	   

@@ -121,7 +121,7 @@ public class MainActivity extends SherlockFragmentActivity {
             	loadLists();
             }
         });
-        
+              
         
         //Exclusion toggle listener]
         Log.v(LOGTAG, "Intitializing the toggle listeners");
@@ -139,6 +139,8 @@ public class MainActivity extends SherlockFragmentActivity {
             	};
         	}   
         );
+        ToggleButton tExclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
+        tExclusion.setChecked(databaseCRUD.query_Verbal());
         
         //Verbalizer toggle listener
         findViewById(R.id.toggleVerbalize).setOnClickListener
@@ -155,6 +157,8 @@ public class MainActivity extends SherlockFragmentActivity {
             	};
         	}   
         );
+        ToggleButton tVerbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
+        tVerbal.setChecked(databaseCRUD.query_Verbal());
         
         //Shake randomizer toggle listener
         findViewById(R.id.toggleShaker).setOnClickListener
@@ -171,6 +175,8 @@ public class MainActivity extends SherlockFragmentActivity {
             	};
         	}   
         );
+        ToggleButton tShaker = (ToggleButton) findViewById(R.id.toggleShaker);
+        tShaker.setChecked(databaseCRUD.query_Verbal());
         
         //Group Create Button
         Log.v(LOGTAG, "Enabling Group button listener");
@@ -315,16 +321,13 @@ public class MainActivity extends SherlockFragmentActivity {
 		Log.v(LOGTAG, "Setting up settings defaults");
 		databaseCRUD.initExtraFunctions();
 		Log.v(LOGTAG, "Settings display initialization");
-		/*
-        ToggleButton exclusion = (ToggleButton) findViewById(R.id.toggleExclusion);
-        //----------------------------->>>>> NULL POINTER EXCEPTION WHEN SETTING TOGGLES? <<<<<<--------------------------//
-        Log.v(LOGTAG, "test");
-        exclusion.setChecked(databaseCRUD.query_Exclusion());
-        ToggleButton verbal = (ToggleButton) findViewById(R.id.toggleVerbalize);
-        verbal.setChecked(databaseCRUD.query_Verbal());
-        ToggleButton shaker = (ToggleButton) findViewById(R.id.toggleShaker);
-        shaker.setChecked(databaseCRUD.query_Shake());
-        */
+		
+		
+		//Setup the options to be defaulted on (for now)
+		Log.v(LOGTAG, "Setting defaults of options to true");
+		databaseCRUD.toggle_Exculison();
+		databaseCRUD.toggle_Shake();
+		databaseCRUD.toggle_Verbal();	
 		
 		List<Group> groupList = databaseCRUD.query_group();
 			
