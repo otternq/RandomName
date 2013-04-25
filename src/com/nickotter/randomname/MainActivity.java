@@ -4,6 +4,8 @@ package com.nickotter.randomname;
 import com.navdrawer.SimpleSideDrawer;
 import com.nickotter.randomname.SectionsPagerAdapter;
 import com.nickotter.randomname.crudActivities.AddGroup;
+import com.nickotter.randomname.crudActivities.AddItem;
+import com.nickotter.randomname.crudActivities.AddList;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -56,7 +59,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	CRUD databaseCRUD = null;
 	
-	int currentGroup = 0;
+	int currentGroupArrayIndex = 0;
 	int currentList = 0;
 	
 	@Override
@@ -115,7 +118,7 @@ public class MainActivity extends SherlockFragmentActivity {
         
         groupList.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            	currentGroup = position;
+            	currentGroupArrayIndex = position;
             	settingsNav.toggleDrawer();
             	Log.v(LOGTAG, "\n\n\n\tclicked on group index=" + position);
             	loadLists();
@@ -197,21 +200,36 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	public void loadLists() {
 		
-		Log.v(LOGTAG, "loadLists - current group="+ this.currentGroup);
+		Log.v(LOGTAG, "loadLists - current group="+ this.currentGroupArrayIndex);
+		
+		// Set up the action bar.
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.removeAllTabs();
 		
 		List<Group> groups = databaseCRUD.query_group();
 		
 		if (groups == null) 
 		{
+			
 			Intent i = new Intent(MainActivity.this, AddGroup.class);
 			startActivity(i);
 		} 
 		else 
 		{
-		
+			
+			Toast toast = Toast.makeText(this, "There are " + groups.size() + " groups", Toast.LENGTH_SHORT);
+			toast.show();
+			
+			if (this.currentGroupArrayIndex > groups.size()) {
+				this.currentGroupArrayIndex = 0;
+			}
+			
+			Log.v(LOGTAG, "passing groups list to adapter");
 			//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
 	        ListAdapter adapter = new GroupListAdapter(this, groups);
 	       
+	        Log.v(LOGTAG, "setting adapter");
 	        ListView groupList = (ListView)findViewById(R.id.groupListView);
 	        groupList.removeAllViewsInLayout();
 	        groupList.setAdapter(adapter);
@@ -219,21 +237,17 @@ public class MainActivity extends SherlockFragmentActivity {
 	        //end content to display groups in slider
 	        
 	        //set up tabs
-			
-			// Set up the action bar.
-			ActionBar actionBar = getSupportActionBar();
-			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-			actionBar.removeAllTabs();
 	        
 	        //List<Group> groups = databaseCRUD.query_group();
 	        
-	        Log.v(LOGTAG, "loadLists - current group name=" + groups.get(this.currentGroup).getName());
+	        Log.v(LOGTAG, "loadLists - current group name=" + groups.get(this.currentGroupArrayIndex).getName());
 	        
-			List<MyList> lists = databaseCRUD.query_list(groups.get(this.currentGroup));
+			List<MyList> lists = databaseCRUD.query_list(groups.get(this.currentGroupArrayIndex));
 			
 			// For each of the lists, add a tab to the action bar.
 			if(lists != null)
 			{
+				Log.v(LOGTAG, "loadlist - lists != null");
 				for(MyList list : lists) 
 				{
 				// Create a tab with text corresponding to the page title defined by
@@ -261,7 +275,7 @@ public class MainActivity extends SherlockFragmentActivity {
 						}
 	
 						arguments.putSerializable("items", (Serializable) listItems);
-						arguments.putInt("currentGroup", this.currentGroup);	
+						arguments.putInt("currentGroup", list.getGroupID());	
 				
 				
 						tab1.setTag(arguments);
@@ -270,6 +284,9 @@ public class MainActivity extends SherlockFragmentActivity {
 					else
 					{
 						Log.v(LOGTAG, "No Items detected");
+						//Intent iitem = new Intent(this, AddItem.class);
+			    		//iitem.putExtra("groupId", currentGroup);
+			    		//startActivity(iitem);
 					}
 			    
 				}
@@ -277,6 +294,10 @@ public class MainActivity extends SherlockFragmentActivity {
 			else
 			{
 				Log.v(LOGTAG, "Group contained no lists");
+				//Intent ilist = new Intent(this, AddList.class);
+	    		//ilist.putExtra("groupId", currentGroup);
+	    		//startActivity(ilist);
+				
 			}
 			Log.v(LOGTAG, "\tcurrent tab count" + actionBar.getTabCount());
 		
@@ -346,48 +367,15 @@ public class MainActivity extends SherlockFragmentActivity {
 		databaseCRUD.toggle_Exculison();
 		databaseCRUD.toggle_Shake();
 		databaseCRUD.toggle_Verbal();	
-		
-		List<Group> groupList = databaseCRUD.query_group();
 			
 		Log.v(LOGTAG, "There are no groups");
 	
 		Log.v(LOGTAG, "\tcreating groups start");
-		Group g1 = new Group("CS480");
-		Group g2 = new Group("CS481");
-		Log.v(LOGTAG, "\tcreating groups end");
-		
-		MyList l1 = new MyList(0, g1.getID(), "List 1");
-		MyList l2 = new MyList(0, g1.getID(), "List 2");
-		MyList l3 = new MyList(0, g2.getID(), "List 3");
+		Group g1 = new Group("Default");
 		
 		Log.v(LOGTAG, "Adding Groups");
 		databaseCRUD.add_group(g1);
 		Log.v(LOGTAG, "Group 1 now has id="+ g1.getID());
-		
-		databaseCRUD.add_group(g2);
-		Log.v(LOGTAG, "Group 2 now has id="+ g2.getID());
-		
-		Log.v(LOGTAG, "Adding Lists");
-		databaseCRUD.add_list(g1, l1);
-		databaseCRUD.add_list(g1, l2);
-		databaseCRUD.add_list(g2, l3);
-		
-		Log.v(LOGTAG, "Adding Items");
-		Item i1 = new Item(0, l1.getID(), "List 1 - Item 1");
-		Item i2 = new Item(0, l1.getID(), "List 1 - Item 2");
-		Item i3 = new Item(0, l2.getID(), "List 2 - Item 3");
-		Item i4 = new Item(0, l2.getID(), "List 2 - Item 4");
-		Item i5 = new Item(0, l3.getID(), "List 3 - Item 5");
-		
-		databaseCRUD.add_item(l1, i1);
-		databaseCRUD.add_item(l1, i2);
-		databaseCRUD.add_item(l2, i3);
-		databaseCRUD.add_item(l2, i4);
-		databaseCRUD.add_item(l3, i5);
-		
-		Log.v(LOGTAG, "dummyDB finished");
-		
-		Log.v(LOGTAG, "createGroups x");
 		
 		
 		
