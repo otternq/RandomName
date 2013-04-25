@@ -27,6 +27,10 @@ public class AddList extends SherlockFragmentActivity {
 	protected CRUD databaseCRUD = null;
 	protected List<Group> groups = null;
 	
+	protected int currentGroupIndex = 0;
+	
+	protected int currentGroupDBIndex = 0;
+	
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -56,21 +60,28 @@ public class AddList extends SherlockFragmentActivity {
         this.databaseCRUD.open();
         
         Log.v(LOGTAG, "\tquery for groups");
-        int groupId = getIntent().getIntExtra("groupId",-1);
-        Log.v(LOGTAG, "groupId after getIntent" + groupId);
-        if(groupId == -1)
-        	groupId = 0;
+        this.currentGroupDBIndex = getIntent().getIntExtra("groupId", -1);
+        Log.v(LOGTAG, "groupId after getIntent" + this.currentGroupDBIndex);
         
         this.groups = this.databaseCRUD.query_group();
         
+        if (this.currentGroupDBIndex == -1) {
+        	finish();
+        }
+        
         
         //this needs to be changed to a custom adapter
-        
         Log.v(LOGTAG, "\tinitalizing a group list");
         List<String> tempGroup = new ArrayList<String>();
         
+        int i = 0;
         for (Group group : this.groups){
-        	tempGroup.add(group.getName());
+        	//tempGroup.add(group.getName());
+			if (group.getID() == this.currentGroupDBIndex) {
+				this.currentGroupIndex = i;
+			}
+			tempGroup.add(group.getName());
+			i++;
         }
         
         Log.v(LOGTAG, "\tinitalizing spinner objet from layout");
@@ -81,8 +92,9 @@ public class AddList extends SherlockFragmentActivity {
         
         Log.v(LOGTAG, "\tsetting array adapter");
         spinner.setAdapter(spinnerArrayAdapter);
-               
-        spinner.setSelection(groupId);
+        
+        
+        spinner.setSelection(this.currentGroupIndex);
         Log.v(LOGTAG, "onCreate end");
 	}
 	
@@ -121,22 +133,6 @@ public class AddList extends SherlockFragmentActivity {
         	  //group check + return
         	  Spinner spinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);
         	  int selectedGroup = spinner.getSelectedItemPosition();
-        	  
-        	  /*
-        	  if(group == null)
-        	  {
-        		  Log.v(LOGTAG, "No group entered setting to default");
-        		  Group gdefault = this.databaseCRUD.get_group("default");
-        		  MyList l1 = new MyList(0, gdefault.getID(), listField.getText().toString());
-        		  this.databaseCRUD.add_list(gdefault, l1);
-        	  }
-        	  else 
-        	  {
-        		  Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());
-        		  MyList l1 = new MyList(0, group.getID(), listField.getText().toString());
-        		  databaseCRUD.add_list(group, l1);
-        	  }
-        	  */
         	  
         	  Group group = this.groups.get(selectedGroup);
         	  Log.v(LOGTAG, "A group was selected with name and ID: " + group.getName() + " " + group.getID());

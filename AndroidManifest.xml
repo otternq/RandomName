@@ -66,6 +66,12 @@
             android:screenOrientation="portrait" >
         </activity>
         
+        <activity
+            android:name="com.nickotter.randomname.crudActivities.DeleteGroup"
+            android:label="Delete Group"
+            android:screenOrientation="portrait" >
+        </activity>
+        
         
     </application>
 
