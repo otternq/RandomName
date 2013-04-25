@@ -387,7 +387,7 @@ TextToSpeech.OnInitListener {
 	    		
 	    		Log.v(LOGTAG, "Main menu selection: Clicked Add item");    		
 	    		Intent iitem = new Intent(getActivity(), AddItem.class);
-	    		iitem.putExtra("groupId", currentGroup);
+	    		iitem.putExtra("groupId", this.currentGroup);
 	    		startActivity(iitem);
 	    		
 	    		break;

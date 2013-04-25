@@ -65,8 +65,10 @@ public class AddItem extends SherlockFragmentActivity {
         //pull current group from intent and load spinners of lists based on group name
         int groupId = getIntent().getIntExtra("groupId ",-1);
         Log.v(LOGTAG, "groupId after getIntent" + groupId);
-        if(groupId == -1)
-        	groupId = 0;
+        if(groupId == -1) {
+        	finish();
+        }
+        
         loadListSpinner(groupId);
         
         //load group spinner
