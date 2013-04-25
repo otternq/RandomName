@@ -221,10 +221,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			Toast toast = Toast.makeText(this, "There are " + groups.size() + " groups", Toast.LENGTH_SHORT);
 			toast.show();
 			
-			if (this.currentGroupArrayIndex > groups.size()) {
-				this.currentGroupArrayIndex = 0;
-			}
-			
 			Log.v(LOGTAG, "passing groups list to adapter");
 			//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
 	        ListAdapter adapter = new GroupListAdapter(this, groups);
@@ -328,6 +324,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		//Resume DB
 		databaseCRUD.open();
+		
+		this.currentGroupArrayIndex = 0;
 		
 		this.loadLists();
 		
