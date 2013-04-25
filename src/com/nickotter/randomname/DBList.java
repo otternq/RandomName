@@ -273,12 +273,17 @@ TextToSpeech.OnInitListener {
 		
 			Log.v(LOGTAG, "Randomed Item id: " + Integer.toString(i1));		
 			if(databaseCRUD.query_Verbal() == true) {
+				
 				this.speakOut(this.items.get(i1).getName());
 				
 				Toast toast = Toast.makeText(getActivity(), this.items.get(i1).getName(), Toast.LENGTH_SHORT);
 				toast.show();
 				
 			} else {
+				
+				Toast toast = Toast.makeText(getActivity(), this.items.get(i1).getName(), Toast.LENGTH_SHORT);
+				toast.show();
+				
 			
 			}
 			//possibly flash the chosen item
