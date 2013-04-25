@@ -61,6 +61,10 @@ public class CRUD {
 	}
 	
 	public void add_item(MyList list, Item item){
+		String LOGTAG = this.LOGTAG + " add_item";
+		
+		Log.v(LOGTAG, "adding item: " + item.getName() + " to list: " + list.getName() + " and id=" + list.getID());
+		
 		ContentValues values = new ContentValues();
 		values.put(Sqlite.ITEM_NAME, item.getName());
 		values.put(Sqlite.ITEM_LIST_ID, list.getID());
@@ -81,6 +85,9 @@ public class CRUD {
 		int lastId = (int) database.insert(Sqlite.DATABASE_GROUP, null, values);
 		group.setId(lastId);
 		
+		MyList list = new MyList(0, group.getID(), "Default List");
+		this.add_list(group, list);
+		
 		Log.v(LOGTAG, "\tlast insert id=" + lastId);
 		
 		Log.v(LOGTAG, "add_group function end");
@@ -98,6 +105,9 @@ public class CRUD {
 		int lastId = (int) database.insert(Sqlite.DATABASE_LIST, null, values);
 		
 		list.setId(lastId);
+		
+		Item item = new Item(0, list.getID(), "Default Item");
+		this.add_item(list, item);
 		
 		Log.v(LOGTAG, "add_list function end");
 	}
@@ -207,11 +217,11 @@ public class CRUD {
 		return groups;
 	}
 	
-	public Group get_group(int name){
+	public Group get_group(int groupID){
 		
 		Log.v(LOGTAG, "get_group start");
 		
-		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager WHERE id = ?; ", new String[] { String.valueOf(name+1)});
+		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager WHERE id = ?; ", new String[] { String.valueOf(groupID)});
 		cursor.moveToNext();
 		
 		Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));

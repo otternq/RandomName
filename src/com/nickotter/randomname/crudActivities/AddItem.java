@@ -63,7 +63,7 @@ public class AddItem extends SherlockFragmentActivity {
         this.databaseCRUD.open();     
         
         //pull current group from intent and load spinners of lists based on group name
-        int groupId = getIntent().getIntExtra("groupId",-1);
+        int groupId = getIntent().getIntExtra("groupId ",-1);
         Log.v(LOGTAG, "groupId after getIntent" + groupId);
         if(groupId == -1)
         	groupId = 0;
@@ -129,7 +129,7 @@ public class AddItem extends SherlockFragmentActivity {
 		//query lists based on group
         Log.v(LOGTAG, "\tquery for lists");
 		Group g = this.databaseCRUD.get_group(groupId);
-		Log.v(LOGTAG, "print groupId" + groupId + "\n\t" + g.getName());
+		Log.v(LOGTAG, "print groupId " + groupId + " with name" + g.getName());
 		
         this.lists = this.databaseCRUD.query_list(g);
         
@@ -184,23 +184,7 @@ public class AddItem extends SherlockFragmentActivity {
         	  Spinner spinner = (Spinner)findViewById(R.id.CRUDlistSpinner);
         	  int selectedList = spinner.getSelectedItemPosition();
         	  
-        	  /*Old method (non-spinner)
-        	  EditText listField = (EditText)findViewById(R.id.listName);
-        	  Log.v(LOGTAG, "Retreived list string == " + listField.getText().toString());
-        	  MyList list = databaseCRUD.get_list(listField.getText().toString());
         	  
-        	  if(list == null)
-        	  {
-        		  Log.v(LOGTAG, "No list found throwing error and finishing");
-        		  finish();
-        	  }
-        	  else 
-        	  {
-        		  Log.v(LOGTAG, "A list was selected with name and ID: " + list.getName() + " " + list.getID());
-        		  Item i1 = new Item(0, list.getID(), itemField.getText().toString());
-        		  databaseCRUD.add_item(list, i1);
-        	  }
-        	  */
         	  
         	  MyList list = this.lists.get(selectedList);
         	  Log.v(LOGTAG, "A list was selected with name and ID: " + list.getName() + " " + list.getID());

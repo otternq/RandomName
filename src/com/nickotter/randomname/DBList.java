@@ -28,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.speech.tts.TextToSpeech;
 
 import com.nickotter.randomname.MyList;
@@ -271,10 +272,15 @@ TextToSpeech.OnInitListener {
 			}
 		
 			Log.v(LOGTAG, "Randomed Item id: " + Integer.toString(i1));		
-			if(databaseCRUD.query_Verbal() == true)
+			if(databaseCRUD.query_Verbal() == true) {
 				this.speakOut(this.items.get(i1).getName());
-			else
-				;
+				
+				Toast toast = Toast.makeText(getActivity(), this.items.get(i1).getName(), Toast.LENGTH_SHORT);
+				toast.show();
+				
+			} else {
+			
+			}
 			//possibly flash the chosen item
 		}
 		
@@ -284,6 +290,9 @@ TextToSpeech.OnInitListener {
 			Log.v(LOGTAG, "No Items found");
 			if(databaseCRUD.query_Verbal() == true)
 				this.speakOut("Random selection failed, no items detected");
+	
+				Toast toast = Toast.makeText(getActivity(), "Random selection failed, no items detected", Toast.LENGTH_SHORT);
+				toast.show();
 		}
 	}
 	
@@ -369,12 +378,13 @@ TextToSpeech.OnInitListener {
 	    	case R.id.menu_add_list:
 	    		Log.v(LOGTAG, "Main menu selection: Clicked Add List");
 	    		Intent ilist = new Intent(getActivity(), AddList.class);
-	    		ilist.putExtra("groupId", currentGroup);
-	    		startActivity(ilist);
+	    		ilist.putExtra("groupId", this.currentGroup);
+	    		getActivity().startActivity(ilist);
 	    		
-	    		break;   	
+	    		break;
 	    		
 	    	case R.id.menu_add_item:
+	    		
 	    		Log.v(LOGTAG, "Main menu selection: Clicked Add item");    		
 	    		Intent iitem = new Intent(getActivity(), AddItem.class);
 	    		iitem.putExtra("groupId", currentGroup);

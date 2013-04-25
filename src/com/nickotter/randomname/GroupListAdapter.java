@@ -13,12 +13,15 @@ import android.widget.TextView;
 import android.widget.ImageView;
 
 import java.util.List;
+
+import com.nickotter.randomname.crudActivities.AddItem;
+import com.nickotter.randomname.crudActivities.DeleteGroup;
 import com.nickotter.randomname.crudActivities.EditGroup;
 
 public class GroupListAdapter extends BaseAdapter {
 	
 	protected static final String LOGTAG = null;
-	private List<Group> list = null;
+	private List<Group> groups = null;
 	private MainActivity context = null;
 	
     private static LayoutInflater inflater=null;
@@ -28,8 +31,8 @@ public class GroupListAdapter extends BaseAdapter {
 	/**
 	 * @param args
 	 */
-	public GroupListAdapter(MainActivity context, List<Group> items) {
-		this.list = items;
+	public GroupListAdapter(MainActivity context, List<Group> groups) {
+		this.groups = groups;
 		this.context = context;
 		
 		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -38,17 +41,17 @@ public class GroupListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return this.list.size();
+		return this.groups.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return this.list.get(position);
+		return this.groups.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return this.list.get(position).getID();
+		return this.groups.get(position).getID();
 	}
 
 	@Override
@@ -59,7 +62,7 @@ public class GroupListAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.group_row, null);
         }
 
-        Group item = this.list.get(position);
+        Group item = this.groups.get(position);
         
         TextView text=(TextView)vi.findViewById(R.id.row_name);
         text.setText(item.getName());
@@ -76,9 +79,9 @@ public class GroupListAdapter extends BaseAdapter {
             	Log.v(LOGTAG, "Side Drawer: Edit Group selected");
     			Intent iegroup = new Intent(context, EditGroup.class);
     			
-    			Group item = list.get(position);
+    			Group groupEntry = groups.get(position);
     			
-    			iegroup.putExtra("groupId", item.getID() - 1);
+    			iegroup.putExtra("groupId", groupEntry.getID());
     			context.startActivity(iegroup);        
             }
         });
@@ -91,18 +94,14 @@ public class GroupListAdapter extends BaseAdapter {
         	
         	@Override
         	public void onClick(View v) {
-        		Log.v(LOGTAG, "Side Drawer: Delete Group selected");
+        		String LOGTAG = "GroupListAdapter Side Drawer: Delete Group Selected";
+        		Log.v(LOGTAG, "enter");
         		
-        		Group group = list.get(position);
-        		Log.v(LOGTAG, "deleting group with name: " + group.getName());
+        		Intent dgroup = new Intent(context, DeleteGroup.class);
+	    		dgroup.putExtra("groupId", groups.get(position).getID());
+	    		context.startActivity(dgroup);
         		
-        		CRUD databaseCRUD = new CRUD(context.getBaseContext());
-        		databaseCRUD.open();
-        		
-        		databaseCRUD.delete_group(group);
-        		context.loadLists();
-        		
-        		databaseCRUD.close();
+        		Log.v(LOGTAG, "exit");
         		
         	}
         	
