@@ -218,8 +218,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		else 
 		{
 			
-			Toast toast = Toast.makeText(this, "There are " + groups.size() + " groups", Toast.LENGTH_SHORT);
-			toast.show();
+			//Toast toast = Toast.makeText(this, "There are " + groups.size() + " groups", Toast.LENGTH_SHORT);
+			//toast.show();
 			
 			Log.v(LOGTAG, "passing groups list to adapter");
 			//ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, groups);
@@ -281,7 +281,7 @@ public class MainActivity extends SherlockFragmentActivity {
 					{
 						Log.v(LOGTAG, "No Items detected");
 						//Intent iitem = new Intent(this, AddItem.class);
-			    		//iitem.putExtra("groupId", currentGroup);
+			    		//iitem.putExtra("groupId", list.getGroupID());
 			    		//startActivity(iitem);
 					}
 			    
@@ -363,7 +363,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		//Setup the options to be defaulted on (for now)
 		Log.v(LOGTAG, "Setting defaults of options to true");
 		databaseCRUD.toggle_Exculison();
-		databaseCRUD.toggle_Shake();
+		//default this one off
+		//databaseCRUD.toggle_Shake();
 		databaseCRUD.toggle_Verbal();	
 			
 		Log.v(LOGTAG, "There are no groups");

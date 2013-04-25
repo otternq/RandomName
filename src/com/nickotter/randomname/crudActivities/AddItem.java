@@ -32,6 +32,9 @@ public class AddItem extends SherlockFragmentActivity {
 	protected List<MyList> lists = null;
 	protected List<Group> groups = null;
 	
+	protected int currentGroupIndex = -1;
+
+	
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -67,7 +70,6 @@ public class AddItem extends SherlockFragmentActivity {
         Log.v(LOGTAG, "groupId after getIntent" + groupId);
         if(groupId == -1)
         	groupId = 0;
-        loadListSpinner(groupId);
         
         //load group spinner
         Log.v(LOGTAG, "\tquery for groups");
@@ -76,10 +78,16 @@ public class AddItem extends SherlockFragmentActivity {
         Log.v(LOGTAG, "\tinitalizing a group list");
         List<String> tempGroup = new ArrayList<String>();
         
+        int i = 0;
         for (Group group : this.groups)
         {
+        	if (group.getID() == getIntent().getIntExtra("groupId", -1))
+        		this.currentGroupIndex = i; 
         	tempGroup.add(group.getName());
+        	i++;
         }
+        
+        loadListSpinner(currentGroupIndex);
         
         Log.v(LOGTAG, "\tinitalizing spinner objet from layout");
         Spinner gspinner = (Spinner) findViewById(R.id.CRUDgroupSpinner);    
@@ -128,7 +136,7 @@ public class AddItem extends SherlockFragmentActivity {
 		
 		//query lists based on group
         Log.v(LOGTAG, "\tquery for lists");
-		Group g = this.databaseCRUD.get_group(groupId);
+		Group g = this.databaseCRUD.get_group(groupId+1);
 		Log.v(LOGTAG, "print groupId " + groupId + " with name" + g.getName());
 		
         this.lists = this.databaseCRUD.query_list(g);

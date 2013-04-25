@@ -224,10 +224,21 @@ public class CRUD {
 		Cursor cursor = database.rawQuery("SELECT groupName, id FROM groupManager WHERE id = ?; ", new String[] { String.valueOf(groupID)});
 		cursor.moveToNext();
 		
-		Group g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
+		Group g = null;
 		
-		//The id isn't returned unless this next line is added
-		g.setId(cursor.getInt(cursor.getColumnIndex(Sqlite.GROUP_ID)));
+		Log.v(LOGTAG, "checking that the cursor is not empty");
+		if(cursor.getCount() > 0 )
+		{
+			g = new Group(cursor.getString(cursor.getColumnIndex(Sqlite.GROUP_NAME)));
+		
+			//The id isn't returned unless this next line is added
+			g.setId(cursor.getInt(cursor.getColumnIndex(Sqlite.GROUP_ID)));
+		}
+		else
+		{
+			Log.v(LOGTAG, "\t The cursor did not retrieve items");
+			return null;
+		}
 		
 		Log.v(LOGTAG, "Fetched group with name and id: " + g.getName() + " " + g.getID());
 		Log.v(LOGTAG, "get_group end");
@@ -240,8 +251,20 @@ public class CRUD {
 		Log.v(LOGTAG, "get_list start");
 		Cursor cursor = database.rawQuery("SELECT listName, id, groupID FROM listManager WHERE id = ?; ", new String[] { String.valueOf(listId) });
 		cursor.moveToNext();
-				
-		MyList l = new MyList(cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_ID)), cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME)));
+		
+		MyList l = null;
+		
+		Log.v(LOGTAG, "checking that the cursor is not empty");
+		if(cursor.getCount() > 0 )
+		{
+			l = new MyList(cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_ID)), cursor.getInt(cursor.getColumnIndex(Sqlite.LIST_GROUP_ID)), cursor.getString(cursor.getColumnIndex(Sqlite.LIST_NAME)));
+		}
+		else
+		{
+			Log.v(LOGTAG, "\t The cursor did not retrieve items");
+			return null;
+		}
+		
 		Log.v(LOGTAG, "Fetched List with name, group id, and id: " + l.getName() + " " + l.getGroupID() + " " + l.getID());
 		Log.v(LOGTAG, "get_list end");	
 		
@@ -254,13 +277,22 @@ public class CRUD {
 		Cursor cursor = database.rawQuery("SELECT itemName, id, listID FROM itemManager WHERE id = ?; ", new String[] { String.valueOf(itemId) });
 		cursor.moveToNext();
 		
-		int id = cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_ID));
-		Log.v(LOGTAG, "id: " + id);
-		int listid = cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_LIST_ID));
-		Log.v(LOGTAG, "listid: " + listid);
-		String name = cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME));
-		Log.v(LOGTAG, "Name: " + name);
-		Item i = new Item(id, listid, name);		
+		Item i = null;
+		
+		Log.v(LOGTAG, "checking that the cursor is not empty");
+		if(cursor.getCount() > 0 )
+		{
+			int id = cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_ID));
+			int listid = cursor.getInt(cursor.getColumnIndex(Sqlite.ITEM_LIST_ID));
+			String name = cursor.getString(cursor.getColumnIndex(Sqlite.ITEM_NAME));
+			i = new Item(id, listid, name);	
+		}
+		else
+		{
+			Log.v(LOGTAG, "\t The cursor did not retrieve items");
+			return null;
+		}
+		
 		Log.v(LOGTAG, "Fetched Item with name, list id, and id: " + i.getName() + " " + i.getListId() + " " + i.getID());
 		Log.v(LOGTAG, "get_item end");
 		
