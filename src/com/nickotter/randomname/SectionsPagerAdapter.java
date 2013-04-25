@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
+
+import java.util.List;
 
 import com.nickotter.randomname.DummySectionFragment;
 
@@ -13,12 +16,18 @@ import com.nickotter.randomname.DummySectionFragment;
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
+	
+	String LOGTAG = "SectionsPagerAdapter";
 
 	private Context context = null;
 	
-	public SectionsPagerAdapter(FragmentManager fm, Context c) {
+	public List<MyList> lists = null;
+	
+	public SectionsPagerAdapter(FragmentManager fm, Context c, List<MyList> tempList) {
 		super(fm);
 		this.context = c;
+		
+		this.lists = tempList;
 	}//END Constructor
 
 	@Override
@@ -31,7 +40,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		Bundle args = new Bundle();
 		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 		fragment.setArguments(args);*/
-		
+		Log.v(LOGTAG, "using position: " + position);
 		DBList fragment = new DBList();
 		
 		return fragment;
@@ -40,27 +49,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// Show 3 total pages.
-		return 6;
+		return this.lists.size();
 	}//END int getCount
-
-	@Override
-	public CharSequence getPageTitle(int position) {
-		
-		switch (position) {
-		case 0:
-			return context.getString(R.string.title_section1).toUpperCase();
-		case 1:
-			return context.getString(R.string.title_section2).toUpperCase();
-		case 2:
-			return context.getString(R.string.title_section3).toUpperCase();
-		case 3:
-			return context.getString(R.string.title_section3).toUpperCase();
-		case 4:
-			return context.getString(R.string.title_section3).toUpperCase();
-		case 5:
-			return context.getString(R.string.title_section3).toUpperCase();
-		}
-		return null;
-	}//END CharSequence getPageTitle
 	
 }//END class SectionsPagerAdapter

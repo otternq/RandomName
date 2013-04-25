@@ -26,3 +26,4 @@ Resources
 - [Simple Slide Drawer](https://github.com/adamrocker/simple-side-drawer) - A library that implements YouTube or Google+ style side bar navigation
 - [jUnit Eclipse Tutorial](http://www.vogella.com/articles/JUnit/article.html)
 - [Android Text to Speech Tutorial](http://www.androidhive.info/2012/01/android-text-to-speech-tutorial/)
+- Android Support Grid System - [Stack Overflow discussion on installation](http://stackoverflow.com/questions/12468606/intellij-and-android-support)
